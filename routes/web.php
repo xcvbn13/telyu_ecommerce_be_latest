@@ -1,6 +1,9 @@
 <?php
 
+use App\Http\Middleware\isAdmin;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\HomeController;
 
 /*
 |--------------------------------------------------------------------------
@@ -14,9 +17,16 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    if (Auth::check()){
+        return redirect()->route('home_admin');
+    }else{
+        return redirect()->route('login');
+    }
 });
 
 Auth::routes();
 
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+// admin
+Route::middleware(['is_admin'])->group(function () {
+    Route::get('admin/dashboard', [HomeController::class, 'index'])->name('home_admin');
+});
