@@ -4,6 +4,8 @@ use App\Http\Middleware\isAdmin;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\MerchandiseController;
+use App\Http\Controllers\CategoryMerchandiseController;
 
 /*
 |--------------------------------------------------------------------------
@@ -27,6 +29,11 @@ Route::get('/', function () {
 Auth::routes();
 
 // admin
-Route::middleware(['is_admin'])->group(function () {
+Route::middleware(['is_admin','auth'])->group(function () {
     Route::get('admin/dashboard', [HomeController::class, 'index'])->name('home_admin');
+
+    // merchandise 
+    Route::get('admin/merchandise',[MerchandiseController::class,'index']);
+    Route::get('admin/merchandise/stok',[MerchandiseController::class,'index_stok']);
+    Route::get('admin/merchandise/kategori',[CategoryMerchandiseController::class,'index']);
 });

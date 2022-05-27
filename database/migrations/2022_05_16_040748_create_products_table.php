@@ -18,11 +18,8 @@ class CreateProductsTable extends Migration
             $table->string('product_name');
             $table->string('jumlah_product');
             $table->string('deskripsi_product');
-            $table->string('harga');
+            $table->double('harga');
             $table->string('status_barang');
-            
-            $table->foreignId('id_category');
-            $table->foreign('id_category')->references('id')->on('categorys');
 
             $table->timestamps();
 

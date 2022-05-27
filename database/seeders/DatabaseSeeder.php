@@ -21,21 +21,13 @@ class DatabaseSeeder extends Seeder
         // user type 
         UserType::create([
             'name' => 'Admin',
-            'description' => 'Admin',
+            'description' => 'admin',
         ]);
         UserType::create([
             'name' => 'User',
-            'description' => 'Pengguna Umum',
+            'description' => 'pengguna_umum',
         ]);
         // user 
-        User::create([
-            'name' => 'biasa',
-            'alamat' => 'xxxxxxxxxx',
-            'no_telp' => '000000000',
-            'email' => 'biasa@biasa.com',
-            'password' => bcrypt('password'),
-            'user_type_id' => '2',
-        ]);
         User::create([
             'name' => 'Admin',
             'alamat' => 'xxxxxxxxxx',
@@ -43,6 +35,15 @@ class DatabaseSeeder extends Seeder
             'email' => 'admin@admin.com',
             'password' => bcrypt('password'),
             'user_type_id' => '1',
+        ]);
+
+        User::create([
+            'name' => 'User',
+            'alamat' => 'xxxxxxxxxx',
+            'no_telp' => '000000000',
+            'email' => 'biasa@biasa.com',
+            'password' => bcrypt('password'),
+            'user_type_id' => '2',
         ]);
 
         // status order 
@@ -60,6 +61,9 @@ class DatabaseSeeder extends Seeder
         ]);
         StatusOrder::create([
             'status'=>'Verifikasi Gagal',
+        ]);
+        StatusOrder::create([
+            'status'=>'Selesai',
         ]);
 
     }

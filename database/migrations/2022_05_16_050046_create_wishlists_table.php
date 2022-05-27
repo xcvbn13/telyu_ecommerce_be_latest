@@ -16,11 +16,6 @@ class CreateWishlistsTable extends Migration
         Schema::create('wishlists', function (Blueprint $table) {
             $table->id();
             $table->string('aktif');
-
-            $table->foreignId('id_produk');
-            $table->foreignId('id_user');
-            $table->foreign('id_produk')->references('id')->on('products');
-            $table->foreign('id_user')->references('id')->on('users');
             
             $table->timestamps();
 
