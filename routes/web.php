@@ -4,6 +4,7 @@ use App\Http\Middleware\isAdmin;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\VerifikasiController;
 use App\Http\Controllers\MerchandiseController;
 use App\Http\Controllers\CategoryMerchandiseController;
 
@@ -36,4 +37,10 @@ Route::middleware(['is_admin','auth'])->group(function () {
     Route::get('admin/merchandise',[MerchandiseController::class,'index']);
     Route::get('admin/merchandise/stok',[MerchandiseController::class,'index_stok']);
     Route::get('admin/merchandise/kategori',[CategoryMerchandiseController::class,'index']);
+
+    // orderan 
+    Route::get('admin/order/verfikasi_pembayaran',[VerifikasiController::class,'index']);
+    Route::get('admin/order/pembayaran_terverifikasi',[VerifikasiController::class,'index_terverifikasi']);
+    Route::get('admin/order/verifikasi_gagal',[VerifikasiController::class,'index_verifikasi_gagal']);
+    Route::get('admin/order/pesanan_selesai',[VerifikasiController::class,'index_pesanan_selesai']);
 });

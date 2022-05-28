@@ -14,7 +14,7 @@ class AddPembayaransToOrders extends Migration
     public function up()
     {
         Schema::table('orders', function (Blueprint $table) {
-            $table->foreignId('pembayaran_id');
+            $table->foreignId('pembayaran_id')->nullable();
             $table->foreign('pembayaran_id')->references('id')->on('pembayarans');
         });
     }

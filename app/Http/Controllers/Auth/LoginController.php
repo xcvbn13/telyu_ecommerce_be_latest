@@ -53,9 +53,13 @@ class LoginController extends Controller
 
         $check = $request->only('email', 'password');
 
+
         if(Auth::guard()->attempt($check, $remember_me)){
             if(auth()->user()->user_type_id == 1){
                 return redirect('admin/dashboard');
+            }else{
+                Auth::guard()->logout();
+                return redirect('/login');
             }
         }else{
             $user = User::where('email', request('email'))->first();

@@ -142,8 +142,11 @@
             </div>
 
             <!-- Nav Item - Pages Collapse Menu -->
-            <li class="nav-item">
-                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapsePages"
+            <li class="nav-item 
+            @if (request()->is('admin/order*'))
+                active
+            @endif">
+                <a class="nav-link collapsed " href="#" data-toggle="collapse" data-target="#collapsePages"
                     aria-expanded="true" aria-controls="collapsePages">
                     <i class="fa-solid fa-bag-shopping"></i>
                     <span>Orderan</span>
@@ -151,9 +154,10 @@
                 <div id="collapsePages" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
                     <div class="bg-white py-2 collapse-inner rounded">
                         <h6 class="collapse-header">Orderan Telyu:</h6>
-                        <a class="collapse-item" href="#">Konfirmasi Pesanan</a>
-                        <a class="collapse-item" href="#">Verifikasi Pesanan</a>
-                        <a class="collapse-item" href="#">Pesanan Selesai</a>
+                        <a class="collapse-item {{ (request()->is('admin/order/verfikasi_pembayaran'))?'active':'' }}" href="{{ url('admin/order/verfikasi_pembayaran') }}">Verifikasi Pembayaran</a>
+                        <a class="collapse-item {{ (request()->is('admin/order/pembayaran_terverifikasi'))?'active':'' }}" href="{{ url('admin/order/pembayaran_terverifikasi') }}">Pembayaran Terverifikasi</a>
+                        <a class="collapse-item {{ (request()->is('admin/order/verifikasi_gagal'))?'active':'' }}" href="{{ url('admin/order/verifikasi_gagal') }}">Verifikasi Gagal</a>
+                        <a class="collapse-item {{ (request()->is('admin/order/pesanan_selesai'))?'active':'' }}" href="{{ url('admin/order/pesanan_selesai') }}">Pesanan Selesai</a>
                     </div>
                 </div>
             </li>
