@@ -2,36 +2,22 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Products;
 use Illuminate\Http\Request;
 
-class ProductsController extends Controller
+class UserController extends Controller
 {
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index($id)
     {
-        $products = Products::all();
-
-        if($products->isEmpty()){
-            return response([
-                'message' => 'Product is empty',
-            ], 403);
-        }
+        $review = User::findOrFail($id);
 
         return response([
-            'products' => $products,
-        ], 200);
-    }
-
-    public function product_detail($id){
-        $products = Products::findOrFail($id);
-        
-        return response([
-            'products' => $products,
+            'message' => "Berhasil",
+            'data' => $review,
         ], 200);
     }
 

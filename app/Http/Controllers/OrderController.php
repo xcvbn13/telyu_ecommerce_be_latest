@@ -68,11 +68,11 @@ class OrderController extends Controller
             'no_resi' => $no_resi,
             'jumlah' => $request->jumlah,
             'product_id' => $request->product_id,
-            'user_id' => $request->user_id,
+            'user_id' => auth()->user()->id,
             'status_order_id' => 1
         ]);
 
-        $review = Order::findOrFail($order->id);
+        $review = Order::where('id',$order->id)->with(['user','product','status_order','pembayaran'])->get();
 
         return response([
             'message' => "Berhasil",

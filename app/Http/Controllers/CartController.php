@@ -2,10 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Products;
 use Illuminate\Http\Request;
 
-class ProductsController extends Controller
+class CartController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -14,25 +13,7 @@ class ProductsController extends Controller
      */
     public function index()
     {
-        $products = Products::all();
-
-        if($products->isEmpty()){
-            return response([
-                'message' => 'Product is empty',
-            ], 403);
-        }
-
-        return response([
-            'products' => $products,
-        ], 200);
-    }
-
-    public function product_detail($id){
-        $products = Products::findOrFail($id);
-        
-        return response([
-            'products' => $products,
-        ], 200);
+        //
     }
 
     /**

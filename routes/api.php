@@ -3,8 +3,10 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\UserController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\ProductsController;
+use App\Http\Controllers\WishlistController;
 
 /*
 |--------------------------------------------------------------------------
@@ -36,8 +38,20 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::post('/order/verifikasi_gagal/{id_order}',[OrderController::class,'store_verifikasi_gagal']);
     Route::post('/order/selesai/{id_order}',[OrderController::class,'store_selesai']);
 
+    // user 
+    Route::get('/user/edit/{id_user}',[UserController::class,'index']);
+
     // product 
     Route::get('/products',[ProductsController::class,'index']);
     Route::get('/products/{id}',[ProductsController::class,'product_detail']);
+
+    // wishlist 
+    Route::get('/wishlist',[WishlistController::class,'index']);
+    Route::post('/wishlist',[WishlistController::class,'store']);
+    Route::post('/wishlist/delete/{id}',[WishlistController::class,'destroy']);
+
+    // cart 
+    
+
     Route::post('/logout', [AuthController::class, 'logout']);
 });

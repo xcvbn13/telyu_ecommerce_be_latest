@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Products;
+use App\Models\Wishlist;
 use Illuminate\Http\Request;
 
-class ProductsController extends Controller
+class WishlistController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -14,24 +14,11 @@ class ProductsController extends Controller
      */
     public function index()
     {
-        $products = Products::all();
-
-        if($products->isEmpty()){
-            return response([
-                'message' => 'Product is empty',
-            ], 403);
-        }
+        $wishlist = Wishlist::where('id_user',auth()->user()->id)->get();
 
         return response([
-            'products' => $products,
-        ], 200);
-    }
-
-    public function product_detail($id){
-        $products = Products::findOrFail($id);
-        
-        return response([
-            'products' => $products,
+            'message' => "Berhasil mengambil data wishlist",
+            'data' => $wishlist,
         ], 200);
     }
 
@@ -53,7 +40,17 @@ class ProductsController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $wishlist = Wishlist::create([
+            'id_produk' => $request->id_produk,
+            'id_user' => auth()->user()->id,
+        ]);
+
+        $review = Wishlist::where('id', $wishlist->id)->with(['user','product'])->get();
+
+        return response([
+            'message' => "Berhasil",
+            'data' => $review,
+        ], 200);
     }
 
     /**
@@ -98,6 +95,12 @@ class ProductsController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $wishlist = Wishlist::findOrFail($id);
+
+        $wishlist->delete();
+
+        return response([
+            'message' => "Berhasil Dihapus",
+        ], 200);
     }
 }
