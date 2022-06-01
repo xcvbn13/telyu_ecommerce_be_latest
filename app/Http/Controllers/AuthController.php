@@ -20,28 +20,29 @@ class AuthController extends Controller
 
         $check = $request->only('email', 'password');
 
-        if(!Auth::attempt($check)){
-            return response()
-                ->json(['message' => 'Unauthorized'], 401);
-        }
-    
         $user = User::where('email', request('email'))->first();
 
-        if(!isset($user)){
-            return response([
-                'message' => 'Invalid Email'
-            ],403);
+        if(!Auth::attempt($check)){
+            if(!isset($user)){
+                return response([
+                    'message' => 'Invalid Email'
+                ],401);
+            }
+            if (!Hash::check(request('password'), $user->password)) {
+                return response([
+                    'message' => 'Invalid Password'
+                ],401);
+            }
         }
-        if (!Hash::check(request('password'), $user->password)) {
-            return response([
-                'message' => 'Invalid Password'
-            ],403);
-        }
-
+    
         if(auth()->user()->user_type_id == 2){
             return response([
                 'user' => auth()->user(),
                 'token' => auth()->user()->createToken('secret')->plainTextToken
+            ], 200);
+        }else{
+            return response([
+                'message' => "admin user can't access"
             ], 200);
         }
         
@@ -65,19 +66,19 @@ class AuthController extends Controller
         return response([
             'user' => $user,
             'token' => $user->createToken('secret')->plainTextToken
-        ], 200);
+        ], 201);
     }
 
     public function logout(){
         auth()->user()->tokens()->delete();
         return response([
             'message' => 'Logout success'
-        ]);
+        ],200);
     }
 
     public function user(){
         return response([
             'user' => auth()->user()
-        ]);
+        ],200);
     }
 }

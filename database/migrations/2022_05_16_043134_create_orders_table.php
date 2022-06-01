@@ -16,6 +16,7 @@ class CreateOrdersTable extends Migration
         Schema::create('orders', function (Blueprint $table) {
             $table->id();
             $table->string('no_resi');
+            $table->string('jumlah');
             $table->timestamp('order_date')->useCurrent();
             $table->timestamps();
 

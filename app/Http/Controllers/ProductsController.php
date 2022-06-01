@@ -21,6 +21,14 @@ class ProductsController extends Controller
         ], 200);
     }
 
+    public function product_detail($id){
+        $products = Products::findOrFail($id);
+
+        return response([
+            'products' => $products,
+        ], 200);
+    }
+
     /**
      * Show the form for creating a new resource.
      *
