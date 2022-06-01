@@ -27,15 +27,6 @@ class OrderController extends Controller
         ], 200);
     }
 
-    public function order_detail($idOrder)
-    {
-        $products = Order::findOrFail($idOrder);
-
-        return response([
-            'data' => $products,
-        ], 200);
-    }
-
     /**
      * Show the form for creating a new resource.
      *
@@ -197,9 +188,13 @@ class OrderController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show($idOrder)
     {
-        //
+        $products = Order::findOrFail($idOrder);
+
+        return response([
+            'data' => $products,
+        ], 200);
     }
 
     /**

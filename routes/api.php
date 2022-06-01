@@ -30,7 +30,7 @@ Route::middleware(['auth:sanctum'])->group(function () {
 
     // order 
     Route::get('/order/{id_user}',[OrderController::class,'index']);
-    Route::get('/order/detail/{id_order}',[OrderController::class,'order_detail']);
+    Route::get('/order/detail/{id_order}',[OrderController::class,'show']);
     Route::post('/order',[OrderController::class,'store']);
     Route::post('/order/pembayaran/{id_order}',[OrderController::class,'store_pembayaran']);
     Route::post('/order/dibatalkan/{id_order}',[OrderController::class,'store_dibatalkan']);
