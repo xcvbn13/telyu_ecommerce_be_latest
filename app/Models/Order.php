@@ -15,6 +15,7 @@ class Order extends Model
 
     protected $table = 'orders';
     protected $fillable = ['no_resi','jumlah','product_id','user_id','status_order_id','pembayaran_id'];
+    protected $dates = ['order_date'];
     
     public function user(){
         return $this->belongsTo(User::class,'user_id');

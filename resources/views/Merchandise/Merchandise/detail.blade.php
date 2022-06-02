@@ -26,8 +26,7 @@
 
     <!-- Page Heading -->
     <div class="d-sm-flex align-items-center justify-content-between mb-4">
-        <h1 class="h3 mb-0 text-gray-800">Daftar Merchandise</h1>
-        <a href="#" class="btn btn-primary btn-block col-2">Tambah Merch</a>
+        <h1 class="h3 mb-0 text-gray-800">Detail Product</h1>
     </div>
 
     <!-- Content Row -->
@@ -49,13 +48,13 @@
                         </tr>
                     </thead>
                     <tbody>
-                        @foreach ($product as $item)
+                        @foreach ($collection as $item)
                             <tr>
-                                <td>{{ $item->product_name }}</td>
-                                <td>{{ $item->jumlah_product }}</td>
-                                <td>{{ $item->harga }}</td>
+                                <td>Test test</td>
+                                <td>Test test</td>
+                                <td>Test test</td>
                                 <td>
-                                    <a href="{{ url('admin/merchandise/detail_product',$item->id) }}" class="btn btn-warning btn-circle btn-sm mr-1">
+                                    <a href="#" class="btn btn-warning btn-circle btn-sm mr-1">
                                         <i class="fas fa-info-circle"></i>
                                     </a>
                                     <a href="#" class="btn btn-danger btn-circle btn-sm">

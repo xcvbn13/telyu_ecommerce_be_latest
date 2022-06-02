@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class AddProductsToOrders extends Migration
+class AddOpsikirimsToOrders extends Migration
 {
     /**
      * Run the migrations.
@@ -14,8 +14,8 @@ class AddProductsToOrders extends Migration
     public function up()
     {
         Schema::table('orders', function (Blueprint $table) {
-            $table->foreignId('product_id');
-            $table->foreign('product_id')->references('id')->on('products');
+            $table->foreignId('id_opsikirim');
+            $table->foreign('id_opsikirim')->references('id')->on('opsikirims');
         });
     }
 

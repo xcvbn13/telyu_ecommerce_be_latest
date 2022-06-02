@@ -4,6 +4,7 @@ namespace Database\Seeders;
 
 use App\Models\User;
 use App\Models\UserType;
+use App\Models\Opsikirim;
 use App\Models\StatusOrder;
 use Illuminate\Database\Seeder;
 
@@ -54,6 +55,9 @@ class DatabaseSeeder extends Seeder
             'status'=>'Menunggu Verifikasi',
         ]);
         StatusOrder::create([
+            'status'=>'Terverifikasi',
+        ]);
+        StatusOrder::create([
             'status'=>'Dibatalkan',
         ]);
         StatusOrder::create([
@@ -64,6 +68,15 @@ class DatabaseSeeder extends Seeder
         ]);
         StatusOrder::create([
             'status'=>'Selesai',
+        ]);
+
+        // opsi kirim 
+        Opsikirim::create([
+            'opsi' => 'Pickup'
+        ]);
+
+        Opsikirim::create([
+            'opsi' => 'Kurir'
         ]);
 
     }

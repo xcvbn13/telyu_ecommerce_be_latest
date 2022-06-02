@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Cart;
 use Illuminate\Http\Request;
 
 class CartController extends Controller
@@ -13,7 +14,12 @@ class CartController extends Controller
      */
     public function index()
     {
-        //
+        $cart = Cart::where('id_user',auth()->user()->id)->with(['user','products'])->get();
+
+        return response([
+            'message' => "Berhasil mengambil data cart",
+            'data' => $wishlist,
+        ], 200);
     }
 
     /**
@@ -34,7 +40,18 @@ class CartController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $cart = Cart::create([
+            'jumlah' => $request->jumlah,
+            'id_produk' => $request->id_produk,
+            'id_user' => auth()->user()->id
+        ]);
+
+        $review = Cart::where('id', $cart->id)->with(['user','products'])->get();
+
+        return response([
+            'message' => "Berhasil menambah data cart",
+            'data' => $review,
+        ], 200);
     }
 
     /**
@@ -79,6 +96,11 @@ class CartController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $cart = Cart::findOrFail($id);
+        $cart->delete();
+        
+        return response([
+            'message' => "Berhasil menghapus data cart"
+        ], 200);
     }
 }

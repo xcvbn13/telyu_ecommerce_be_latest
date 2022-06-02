@@ -14,7 +14,7 @@ class WishlistController extends Controller
      */
     public function index()
     {
-        $wishlist = Wishlist::where('id_user',auth()->user()->id)->get();
+        $wishlist = Wishlist::where('id_user',auth()->user()->id)->with(['product','user'])->get();
 
         return response([
             'message' => "Berhasil mengambil data wishlist",

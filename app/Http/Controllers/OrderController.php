@@ -18,9 +18,9 @@ class OrderController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index($idUser)
+    public function index()
     {
-        $products = Order::where('user_id',$idUser)->get();
+        $products = Order::where('user_id',auth()->user()->id)->get();
 
         return response([
             'data' => $products,
@@ -83,8 +83,11 @@ class OrderController extends Controller
         return $uniqid;
     }
     public function checkUniqueId($uniqid) {
-        $check = Order::where('no_resi','LIKE','%'.$uniqid.'%')->exists();
-        return $check;
+        $check = Order::where('no_resi','LIKE','%'.$uniqid.'%')->get();
+        if($check->count() > 0){
+            return true;
+        }
+        return false;
     }
 
     //  order -> status -> 2 
@@ -106,7 +109,7 @@ class OrderController extends Controller
         $products->jumlah_product = $products->jumlah_product - $updateOrder->jumlah;
         $products->save();
 
-        $review = Order::findOrFail($id);
+        $review = Order::where('id',$order->id)->with(['user','product','status_order','pembayaran'])->get();
 
         return response([
             'message' => "Berhasil",
@@ -122,7 +125,7 @@ class OrderController extends Controller
         $updateOrder->status_order_id = 3;
         $updateOrder->save();
 
-        $review = Order::findOrFail($id);
+        $review = Order::where('id',$order->id)->with(['user','product','status_order','pembayaran'])->get();
 
         return response([
             'message' => "Berhasil",
@@ -138,7 +141,7 @@ class OrderController extends Controller
         $updateOrder->status_order_id = 4;
         $updateOrder->save();
 
-        $review = Order::findOrFail($id);
+        $review = Order::where('id',$order->id)->with(['user','product','status_order','pembayaran'])->get();
 
         return response([
             'message' => "Berhasil",
@@ -158,7 +161,7 @@ class OrderController extends Controller
         $products->jumlah_product = $products->jumlah_product + $updateOrder->jumlah;
         $products->save();
 
-        $review = Order::findOrFail($id);
+        $review = Order::where('id',$order->id)->with(['user','product','status_order','pembayaran'])->get();
 
         return response([
             'message' => "Berhasil",
@@ -174,7 +177,7 @@ class OrderController extends Controller
         $updateOrder->status_order_id = 6;
         $updateOrder->save();
 
-        $review = Order::findOrFail($id);
+        $review = Order::where('id',$order->id)->with(['user','product','status_order','pembayaran'])->get();
 
         return response([
             'message' => "Berhasil",

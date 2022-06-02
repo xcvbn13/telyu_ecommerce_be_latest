@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Category;
 use Illuminate\Http\Request;
 
 class CategoryMerchandiseController extends Controller
@@ -13,7 +14,9 @@ class CategoryMerchandiseController extends Controller
      */
     public function index()
     {
-        return view('Merchandise.Kategori.index');
+        $category = Category::orderBy('name_category', 'asc')->get();
+
+        return view('Merchandise.Kategori.index',compact('category'));
     }
 
     /**
@@ -34,7 +37,17 @@ class CategoryMerchandiseController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $catcheck = Category::where('name_category','like','%'.$request->kategori.'%')->get();
+
+        if($catcheck->count() > 0){
+            return 'warning';
+        }
+
+        $category = Category::create([
+            'name_category' => $request->kategori
+        ]);
+
+        return 'success';
     }
 
     /**
@@ -56,7 +69,9 @@ class CategoryMerchandiseController extends Controller
      */
     public function edit($id)
     {
-        //
+        $category = Category::findOrFail($id);
+        
+        return $category;
     }
 
     /**
@@ -68,7 +83,17 @@ class CategoryMerchandiseController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $category = Category::findOrFail($id);
+
+        $catcheck = Category::where('name_category',$request->kategori)->get();
+        if($catcheck->count() > 0){
+            return 'warning';
+        }
+
+        $category->name_category = $request->kategori;
+        $category->save();
+
+        return 'success';
     }
 
     /**
@@ -79,6 +104,9 @@ class CategoryMerchandiseController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $category = Category::findOrFail($id);
+        $category->delete();
+
+        return 'success';
     }
 }

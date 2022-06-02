@@ -35,8 +35,14 @@ Route::middleware(['is_admin','auth'])->group(function () {
 
     // merchandise 
     Route::get('admin/merchandise',[MerchandiseController::class,'index']);
+    Route::get('admin/merchandise/detail_product/{id}',[MerchandiseController::class,'show']);
     Route::get('admin/merchandise/stok',[MerchandiseController::class,'index_stok']);
+
     Route::get('admin/merchandise/kategori',[CategoryMerchandiseController::class,'index']);
+    Route::post('admin/merchandise/kategori/create',[CategoryMerchandiseController::class,'store']);
+    Route::get('admin/merchandise/kategori/edit/{id}',[CategoryMerchandiseController::class,'edit'])->name('edit_kateogri');
+    Route::put('admin/merchandise/kategori/update/{id}',[CategoryMerchandiseController::class,'update'])->name('update_kategori');
+    Route::delete('admin/merchandise/kategori/delete/{id}',[CategoryMerchandiseController::class,'destroy'])->name('delete_kategori');
 
     // orderan 
     Route::get('admin/order/verfikasi_pembayaran',[VerifikasiController::class,'index']);

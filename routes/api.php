@@ -3,6 +3,7 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\CartController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\ProductsController;
@@ -29,7 +30,7 @@ Route::post('/register',[AuthController::class, 'register']);
 Route::middleware(['auth:sanctum'])->group(function () {
 
     // order 
-    Route::get('/order/{id_user}',[OrderController::class,'index']);
+    Route::get('/order',[OrderController::class,'index']);
     Route::get('/order/detail/{id_order}',[OrderController::class,'show']);
     Route::post('/order',[OrderController::class,'store']);
     Route::post('/order/pembayaran/{id_order}',[OrderController::class,'store_pembayaran']);
@@ -51,7 +52,9 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::post('/wishlist/delete/{id}',[WishlistController::class,'destroy']);
 
     // cart 
-    
+    Route::get('/cart',[CartController::class,'index']);
+    Route::post('/cart',[CartController::class,'store']);
+    Route::post('/cart/delete/{id}',[CartController::class,'destroy']);
 
     Route::post('/logout', [AuthController::class, 'logout']);
 });

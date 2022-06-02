@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Products;
 use Illuminate\Http\Request;
 
 class MerchandiseController extends Controller
@@ -13,7 +14,13 @@ class MerchandiseController extends Controller
      */
     public function index()
     {
-        return view('Merchandise.Merchandise.index');
+        $product = Products::all();
+
+        $data = [
+            'product' => $product,
+        ];
+
+        return view('Merchandise.Merchandise.index',$data);
     }
     public function index_stok()
     {
@@ -49,7 +56,13 @@ class MerchandiseController extends Controller
      */
     public function show($id)
     {
-        //
+        $product = Products::findOrFail($id);
+
+        $data = [
+            'product' => $product,
+        ];
+
+        return view('Merchandise.Merchandise.detail',$data);
     }
 
     /**

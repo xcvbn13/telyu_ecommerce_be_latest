@@ -93,7 +93,7 @@
                             <td>Test test</td>
                             <td>Test test</td>
                             <td>Test test</td>
-                            <td><span class="badge badge-pill badge-warning p-2">Menunggu Verifikasi</span></td>
+                            <td><span class="badge badge-pill badge-success p-2">Berhasil</span></td>
                             <td>
                                 <a href="#" class="btn btn-warning btn-circle btn-sm" data-toggle="modal" data-target="#detailVerifikasi">
                                     <i class="fas fa-info-circle"></i>
@@ -104,7 +104,7 @@
                             <td>Test test</td>
                             <td>Test test</td>
                             <td>Test test</td>
-                            <td><span class="badge badge-pill badge-danger p-2">Verifikasi Gagal</span></td>
+                            <td><span class="badge badge-pill badge-success p-2">Berhasil</span></td>
                             <td>
                                 <a href="#" class="btn btn-warning btn-circle btn-sm" data-toggle="modal" data-target="#detailVerifikasi">
                                     <i class="fas fa-info-circle"></i>

@@ -40,7 +40,7 @@
                         <div class="col mr-2">
                             <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
                                 Pesanan</div>
-                            <div class="h5 mb-0 font-weight-bold text-gray-800">15000 pcs</div>
+                            <div class="h5 mb-0 font-weight-bold text-gray-800">{{ $countOrder }}</div>
                         </div>
                         <div class="col-auto">
                             <i class="fa-solid fa-bag-shopping fa-2x text-gray-300"></i>
@@ -59,7 +59,7 @@
                         <div class="col mr-2">
                             <div class="text-xs font-weight-bold text-success text-uppercase mb-1">
                                 Verifikasi Pembayaran</div>
-                            <div class="h5 mb-0 font-weight-bold text-gray-800">6969</div>
+                            <div class="h5 mb-0 font-weight-bold text-gray-800">{{ $countVerifikasi }}</div>
                         </div>
                         <div class="col-auto">
                             {{-- <i class="fa-solid fa-list-radio fa-2x text-gray-300"></i> --}}
@@ -81,7 +81,7 @@
                             </div>
                             <div class="row no-gutters align-items-center">
                                 <div class="col-auto">
-                                    <div class="h5 mb-0 mr-3 font-weight-bold text-gray-800">12312</div>
+                                    <div class="h5 mb-0 mr-3 font-weight-bold text-gray-800">{{ $countTerverifikasi }}</div>
                                 </div>
                             </div>
                         </div>
@@ -104,7 +104,7 @@
                             </div>
                             <div class="row no-gutters align-items-center">
                                 <div class="col-auto">
-                                    <div class="h5 mb-0 mr-3 font-weight-bold text-gray-800">12312</div>
+                                    <div class="h5 mb-0 mr-3 font-weight-bold text-gray-800">{{ $countSelesai }}</div>
                                 </div>
                             </div>
                         </div>
@@ -138,76 +138,19 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr>
-                            <td>Test test</td>
-                            <td>Test test</td>
-                            <td>Test test</td>
-                            <td>Test test</td>
-                            <td>
-                                <a href="#" class="btn btn-warning btn-circle btn-sm mr-1">
-                                    <i class="fas fa-info-circle"></i>
-                                </a>
-                                <a href="#" class="btn btn-danger btn-circle btn-sm">
-                                    <i class="fas fa-trash"></i>
-                                </a>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>Test test</td>
-                            <td>Test test</td>
-                            <td>Test test</td>
-                            <td>Test test</td>
-                            <td>
-                                <a href="#" class="btn btn-warning btn-circle btn-sm mr-1">
-                                    <i class="fas fa-info-circle"></i>
-                                </a>
-                                <a href="#" class="btn btn-danger btn-circle btn-sm">
-                                    <i class="fas fa-trash"></i>
-                                </a>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>Test test</td>
-                            <td>Test test</td>
-                            <td>Test test</td>
-                            <td>Test test</td>
-                            <td>
-                                <a href="#" class="btn btn-warning btn-circle btn-sm mr-1">
-                                    <i class="fas fa-info-circle"></i>
-                                </a>
-                                <a href="#" class="btn btn-danger btn-circle btn-sm">
-                                    <i class="fas fa-trash"></i>
-                                </a>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>Test test</td>
-                            <td>Test test</td>
-                            <td>Test test</td>
-                            <td>Test test</td>
-                            <td>
-                                <a href="#" class="btn btn-warning btn-circle btn-sm mr-1">
-                                    <i class="fas fa-info-circle"></i>
-                                </a>
-                                <a href="#" class="btn btn-danger btn-circle btn-sm">
-                                    <i class="fas fa-trash"></i>
-                                </a>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>Test test</td>
-                            <td>Test test</td>
-                            <td>Test test</td>
-                            <td>Test test</td>
-                            <td>
-                                <a href="#" class="btn btn-warning btn-circle btn-sm mr-1">
-                                    <i class="fas fa-info-circle"></i>
-                                </a>
-                                <a href="#" class="btn btn-danger btn-circle btn-sm">
-                                    <i class="fas fa-trash"></i>
-                                </a>
-                            </td>
-                        </tr>
+                        @foreach ($order as $item)
+                            <tr>
+                                <td>{{ $item->user->name }}</td>
+                                <td>{{ $item->order_date->format('d-m-Y') }}</td>
+                                <td>{{ $item->product->product_name }}</td>
+                                <td>{{ $item->status_order->status }}</td>
+                                <td>
+                                    <a href="#" class="btn btn-warning btn-circle btn-sm mr-1">
+                                        <i class="fas fa-info-circle"></i>
+                                    </a>
+                                </td>
+                            </tr>
+                        @endforeach
                     </tbody>
                 </table>
             </div>
