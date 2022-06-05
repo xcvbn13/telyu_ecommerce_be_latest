@@ -24,7 +24,7 @@ class HomeController extends Controller
      */
     public function index()
     {
-        $order = Order::with(['user','product','status_order'])->get();
+        $order = Order::with(['cart','status_order'])->get();
         $countOrder = Order::where('status_order_id',1)->count();
         $countVerifikasi = Order::where('status_order_id',2)->count();
         $countTerverifikasi = Order::where('status_order_id',3)->count();

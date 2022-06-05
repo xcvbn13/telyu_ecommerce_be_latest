@@ -132,17 +132,15 @@
                         <tr>
                             <th>Name</th>
                             <th>Tanggal</th>
-                            <th>Pesanan</th>
                             <th>Status</th>
-                            <th style="padding-left: 1.7rem">Aksi</th>
+                            <th>Aksi</th>
                         </tr>
                     </thead>
                     <tbody>
                         @foreach ($order as $item)
                             <tr>
-                                <td>{{ $item->user->name }}</td>
+                                <td>{{ $item->cart->user->name }}</td>
                                 <td>{{ $item->order_date->format('d-m-Y') }}</td>
-                                <td>{{ $item->product->product_name }}</td>
                                 <td>{{ $item->status_order->status }}</td>
                                 <td>
                                     <a href="#" class="btn btn-warning btn-circle btn-sm mr-1">

@@ -33,16 +33,16 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::get('/order',[OrderController::class,'index']);
     Route::get('/order/detail/{id_order}',[OrderController::class,'show']);
     Route::post('/order',[OrderController::class,'store']);
-    Route::post('/order/pembayaran/{id_order}',[OrderController::class,'store_pembayaran']);
-    Route::post('/order/dibatalkan/{id_order}',[OrderController::class,'store_dibatalkan']);
-    Route::post('/order/waktu_habis/{id_order}',[OrderController::class,'store_waktu_habis']);
+    Route::post('/order/pembayaran',[OrderController::class,'store_pembayaran']);
+    Route::post('/order/dibatalkan',[OrderController::class,'store_dibatalkan']);
+    Route::post('/order/waktu_habis',[OrderController::class,'store_waktu_habis']);
     Route::post('/order/verifikasi_gagal/{id_order}',[OrderController::class,'store_verifikasi_gagal']);
     Route::post('/order/selesai/{id_order}',[OrderController::class,'store_selesai']);
 
-    // user 
+    // user page
     Route::get('/user/edit/{id_user}',[UserController::class,'index']);
 
-    // product 
+    // product page
     Route::get('/products',[ProductsController::class,'index']);
     Route::get('/products/{id}',[ProductsController::class,'product_detail']);
 
@@ -51,10 +51,12 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::post('/wishlist',[WishlistController::class,'store']);
     Route::post('/wishlist/delete/{id}',[WishlistController::class,'destroy']);
 
-    // cart 
+    // payment page
+    Route::get('/payment',[OrderController::class,'payment']);
+
+    // cart page
     Route::get('/cart',[CartController::class,'index']);
-    Route::post('/cart',[CartController::class,'store']);
-    Route::post('/cart/delete/{id}',[CartController::class,'destroy']);
+    Route::post('/cart/store',[CartController::class,'store']);
 
     Route::post('/logout', [AuthController::class, 'logout']);
 });

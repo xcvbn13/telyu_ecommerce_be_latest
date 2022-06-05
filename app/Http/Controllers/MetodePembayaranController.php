@@ -2,11 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Category;
-use App\Models\Products;
+use App\Models\Order;
 use Illuminate\Http\Request;
+use App\Models\MetodePembayaran;
 
-class CategoryMerchandiseController extends Controller
+class MetodePembayaranController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -15,9 +15,20 @@ class CategoryMerchandiseController extends Controller
      */
     public function index()
     {
-        $category = Category::orderBy('name_category', 'asc')->get();
+        $metodepembayaran = MetodePembayaran::all();
 
-        return view('Merchandise.Kategori.index',compact('category'));
+        $data = ['metodepembayaran'=>$metodepembayaran];
+        return view('MetodePembayaran.index',$data);
+    }
+
+    public function index_informasi()
+    {
+        $metodepembayaran = MetodePembayaran::with(['order'])->get();
+
+        $data = [
+            'metodepembayaran'=>$metodepembayaran
+        ];
+        return view('MetodePembayaran.detail',$data);
     }
 
     /**
@@ -27,7 +38,7 @@ class CategoryMerchandiseController extends Controller
      */
     public function create()
     {
-        //
+        
     }
 
     /**
@@ -38,8 +49,9 @@ class CategoryMerchandiseController extends Controller
      */
     public function store(Request $request)
     {
-        $category = Category::create([
-            'name_category' => $request->kategori
+        $metodepembayaran = MetodePembayaran::create([
+            'metode' => $request->metode_pembayaran,
+            'no_rek' => $request->no_rek
         ]);
 
         return 'success';
@@ -64,9 +76,9 @@ class CategoryMerchandiseController extends Controller
      */
     public function edit($id)
     {
-        $category = Category::findOrFail($id);
+        $metodepembayaran = MetodePembayaran::findOrFail($id);
         
-        return $category;
+        return $metodepembayaran;
     }
 
     /**
@@ -78,11 +90,11 @@ class CategoryMerchandiseController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $category = Category::findOrFail($id);
-
-        $category->name_category = $request->kategori;
-        $category->save();
-
+        $update = MetodePembayaran::findOrFail($id);
+        $update->metode = $request->metode_pembayaran;
+        $update->no_rek = $request->no_rek;
+        $update->save();
+        
         return 'success';
     }
 
@@ -94,14 +106,13 @@ class CategoryMerchandiseController extends Controller
      */
     public function destroy($id)
     {
-        $cekCategory = Products::where('id_category',$id)->count();
-
-        if($cekCategory > 0){
+        $transaksi = Order::where('id_metode_pembayaran',$id)->count();
+        if($transaksi > 0){
             return 'warning';
         }
 
-        $category = Category::findOrFail($id);
-        $category->delete();
+        $metodepembayaran = MetodePembayaran::findOrFail($id);
+        $metodepembayaran->delete();
 
         return 'success';
     }

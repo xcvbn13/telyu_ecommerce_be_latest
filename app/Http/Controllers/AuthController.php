@@ -1,12 +1,13 @@
 <?php
 
 namespace App\Http\Controllers;
-use Illuminate\Support\Facades\Auth;
+use App\Models\Cart;
 use App\Models\User;
 // use Auth;
-use Laravel\Sanctum\NewAccessToken;
-use Illuminate\Support\Facades\Hash;
 use Illuminate\Http\Request;
+use Laravel\Sanctum\NewAccessToken;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 
 class AuthController extends Controller
 {
@@ -63,8 +64,17 @@ class AuthController extends Controller
             'user_type_id' => 2,
         ]);
 
+        $check = $request->only('email', 'password');
+
+        Auth::attempt($check);
+
+        $cart = Cart::create([
+            'id_user' => auth()->user()->id
+        ]);
+
         return response([
             'user' => $user,
+            'cart' => $cart,
             'token' => $user->createToken('secret')->plainTextToken
         ], 201);
     }

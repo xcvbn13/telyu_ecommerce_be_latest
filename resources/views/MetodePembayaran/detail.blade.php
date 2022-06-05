@@ -26,8 +26,8 @@
 
     <!-- Page Heading -->
     <div class="d-sm-flex align-items-center justify-content-between mb-4">
-        <h1 class="h3 mb-0 text-gray-800">Daftar Merchandise</h1>
-        <a href="{{ url('admin/merchandise/product/create') }}" class="btn btn-primary btn-block col-2">Tambah Merch</a>
+        <h1 class="h3 mb-0 text-gray-800">Informasi Metode Pembayaran</h1>
+        <!-- Button trigger modal -->
     </div>
 
     <!-- Content Row -->
@@ -35,30 +35,22 @@
     <!-- DataTales Example -->
     <div class="card shadow mb-4">
         <div class="card-header py-3">
-            <h6 class="m-0 font-weight-bold text-primary">Merchandise</h6>
+            <h6 class="m-0 font-weight-bold text-primary">Informasi Metode Pembayaran</h6>
         </div>
         <div class="card-body">
             <div class="table-responsive">
                 <table class="table" id="dataTable" width="100%" cellspacing="0">
                     <thead>
                         <tr>
-                            <th>Nama Barang</th>
-                            <th>Stok</th>
-                            <th>Harga</th>
-                            <th>Aksi</th>
+                            <th>Metode Pembayaran</th>
+                            <th>Order</th>
                         </tr>
                     </thead>
                     <tbody>
-                        @foreach ($product as $item)
+                        @foreach ($metodepembayaran as $item)
                             <tr>
-                                <td>{{ $item->product_name }}</td>
-                                <td>{{ $item->jumlah_product }}</td>
-                                <td>{{ $item->harga }}</td>
-                                <td>
-                                    <a href="{{ url('admin/merchandise/detail_product',$item->id) }}" class="btn btn-warning btn-circle btn-sm mr-1">
-                                        <i class="fas fa-info-circle"></i>
-                                    </a>
-                                </td>
+                                <td>{{ $item->metode }}</td>
+                                <td>{{ $item->order->count() }}</td>
                             </tr>
                         @endforeach
                     </tbody>
@@ -70,7 +62,6 @@
 </div>
 <!-- /.container-fluid -->
 @endsection
-
 @section('cssstyle')
     <!-- Custom styles for this page -->
     <link href="{{ asset('/assets/vendor/datatables/dataTables.bootstrap4.min.css') }}" rel="stylesheet">

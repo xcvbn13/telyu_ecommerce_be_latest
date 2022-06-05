@@ -2,8 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Category;
 use App\Models\Products;
 use Illuminate\Http\Request;
+
+use RealRashid\SweetAlert\Facades\Alert;
 
 class MerchandiseController extends Controller
 {
@@ -14,7 +17,15 @@ class MerchandiseController extends Controller
      */
     public function index()
     {
-        $product = Products::all();
+        $cekCategory = Category::all()->count();
+
+        if($cekCategory < 1){
+            Alert::warning('Kategori Kosong', 'Tambahkan Kategori Terlebih Dahulu');
+
+            return redirect('admin/dashboard');
+        }
+
+        $product = Products::where('jumlah_product','>',0)->get();
 
         $data = [
             'product' => $product,
@@ -24,7 +35,9 @@ class MerchandiseController extends Controller
     }
     public function index_stok()
     {
-        return view('Merchandise.Stok.index');
+        $product = Products::where('jumlah_product','=',0)->get();
+
+        return view('Merchandise.Stok.index',compact('product'));
     }
 
     /**
@@ -34,7 +47,9 @@ class MerchandiseController extends Controller
      */
     public function create()
     {
-        //
+        $category = Category::all();
+
+        return view('Merchandise.Merchandise.form',compact('category'));
     }
 
     /**
@@ -45,7 +60,17 @@ class MerchandiseController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $merchandise = Products::create([
+            'product_name' => $request->product_name,
+            'jumlah_product' => $request->jumlah_produk,
+            'deskripsi_product' => $request->product_description,
+            'harga' => $request->harga_produk,
+            'id_category' => $request->kategori
+        ]);
+
+        Alert::success('Berhasil', 'Produk Berhasil Ditambahkan');
+
+        return redirect('admin/merchandise/product');
     }
 
     /**
@@ -73,7 +98,17 @@ class MerchandiseController extends Controller
      */
     public function edit($id)
     {
-        //
+        $product = Products::findOrFail($id);
+        $category = Category::all();
+
+        return view('Merchandise.Merchandise.edit',compact('product','category'));
+    }
+
+    public function edit_stok($id)
+    {
+        $product = Products::findOrFail($id);
+
+        return $product;
     }
 
     /**
@@ -85,7 +120,28 @@ class MerchandiseController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $product = Products::findOrFail($id);
+        $product->product_name = $request->product_name;
+        $product->jumlah_product = $request->jumlah_produk;
+        $product->deskripsi_product = $request->product_description;
+        $product->harga = $request->harga_produk;
+        $product->id_category = $request->kategori;
+
+        $product->save();
+
+        Alert::success('Berhasil', 'Produk Berhasil Diubah');
+
+        return redirect('admin/merchandise/detail_product/'.$id);
+    }
+
+    public function update_stok(Request $request, $id)
+    {
+        $product = Products::findOrFail($id);
+        $product->jumlah_product = $request->stok_product;
+
+        $product->save();
+
+        return 'success';
     }
 
     /**

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Order;
 use Illuminate\Http\Request;
 
 class VerifikasiController extends Controller
@@ -13,8 +14,12 @@ class VerifikasiController extends Controller
      */
     public function index()
     {
-        return view('Orderan.VerifikasiPembayaran.index');
+        $order = Order::where('status_order_id',2)->get();
+
+        return view('Orderan.VerifikasiPembayaran.index',compact('order'));
     }
+
+
     public function index_terverifikasi()
     {
         return view('Orderan.PembayaranTerverifikasi.index');

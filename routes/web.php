@@ -6,6 +6,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\VerifikasiController;
 use App\Http\Controllers\MerchandiseController;
+use App\Http\Controllers\MetodePembayaranController;
 use App\Http\Controllers\CategoryMerchandiseController;
 
 /*
@@ -34,9 +35,16 @@ Route::middleware(['is_admin','auth'])->group(function () {
     Route::get('admin/dashboard', [HomeController::class, 'index'])->name('home_admin');
 
     // merchandise 
-    Route::get('admin/merchandise',[MerchandiseController::class,'index']);
+    Route::get('admin/merchandise/product',[MerchandiseController::class,'index']);
+    Route::get('admin/merchandise/product/create',[MerchandiseController::class,'create']);
+    Route::post('admin/merchandise/product/store',[MerchandiseController::class,'store']);
     Route::get('admin/merchandise/detail_product/{id}',[MerchandiseController::class,'show']);
+    Route::get('admin/merchandise/product/edit/{id}',[MerchandiseController::class,'edit']);
+    Route::PUT('admin/merchandise/product/update/{id}',[MerchandiseController::class,'update']);
+
     Route::get('admin/merchandise/stok',[MerchandiseController::class,'index_stok']);
+    Route::get('admin/merchandise/stok/edit/{id}',[MerchandiseController::class,'edit_stok']);
+    Route::put('admin/merchandise/stok/tambah/{id}',[MerchandiseController::class,'update_stok']);
 
     Route::get('admin/merchandise/kategori',[CategoryMerchandiseController::class,'index']);
     Route::post('admin/merchandise/kategori/create',[CategoryMerchandiseController::class,'store']);
@@ -49,4 +57,13 @@ Route::middleware(['is_admin','auth'])->group(function () {
     Route::get('admin/order/pembayaran_terverifikasi',[VerifikasiController::class,'index_terverifikasi']);
     Route::get('admin/order/verifikasi_gagal',[VerifikasiController::class,'index_verifikasi_gagal']);
     Route::get('admin/order/pesanan_selesai',[VerifikasiController::class,'index_pesanan_selesai']);
+
+    // metode pembayaran 
+    Route::get('admin/metode_pembayaran',[MetodePembayaranController::class,'index']);
+    Route::post('admin/metode_pembayaran/create',[MetodePembayaranController::class,'store']);
+    Route::get('admin/metode_pembayaran/edit/{id}',[MetodePembayaranController::class,'edit']);
+    Route::put('admin/metode_pembayaran/update/{id}',[MetodePembayaranController::class,'update']);
+    Route::delete('admin/metode_pembayaran/delete/{id}',[MetodePembayaranController::class,'destroy']);
+
+    Route::get('admin/metode_pembayaran/informasi',[MetodePembayaranController::class,'index_informasi']);
 });

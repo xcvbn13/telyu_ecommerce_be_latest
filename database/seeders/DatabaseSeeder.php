@@ -3,9 +3,12 @@
 namespace Database\Seeders;
 
 use App\Models\User;
+use App\Models\Category;
+use App\Models\Products;
 use App\Models\UserType;
 use App\Models\Opsikirim;
 use App\Models\StatusOrder;
+use App\Models\StatusCartItem;
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
@@ -38,15 +41,6 @@ class DatabaseSeeder extends Seeder
             'user_type_id' => '1',
         ]);
 
-        User::create([
-            'name' => 'User',
-            'alamat' => 'xxxxxxxxxx',
-            'no_telp' => '000000000',
-            'email' => 'biasa@biasa.com',
-            'password' => bcrypt('password'),
-            'user_type_id' => '2',
-        ]);
-
         // status order 
         StatusOrder::create([
             'status'=>'Menunggu Pembayaran',
@@ -77,6 +71,15 @@ class DatabaseSeeder extends Seeder
 
         Opsikirim::create([
             'opsi' => 'Kurir'
+        ]);
+
+        // status cart item 
+        StatusCartItem::create([
+            'status' => 'Aktif'
+        ]);
+
+        StatusCartItem::create([
+            'status' => 'Nonaktif'
         ]);
 
     }

@@ -126,7 +126,7 @@
                 <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
                     <div class="bg-white py-2 collapse-inner rounded">
                         <h6 class="collapse-header">Merchandise Telyu:</h6>
-                        <a class="collapse-item {{ (request()->is('admin/merchandise'))?'active':'' }}" href="{{ url('admin/merchandise') }}">Daftar Merchandise</a>
+                        <a class="collapse-item {{ (request()->is('admin/merchandise/product*'))?'active':'' }}" href="{{ url('admin/merchandise/product') }}">Daftar Merchandise</a>
                         <a class="collapse-item {{ (request()->is('admin/merchandise/stok'))?'active':'' }}" href="{{ url('admin/merchandise/stok') }}">Stok Kosong</a>
                         <a class="collapse-item {{ (request()->is('admin/merchandise/kategori'))?'active':'' }}" href="{{ url('admin/merchandise/kategori') }}">Kategori Merchandise</a>
                     </div>
@@ -163,6 +163,33 @@
             </li>
 
             <!-- Divider -->
+            <hr class="sidebar-divider">
+
+            <!-- Heading -->
+            <div class="sidebar-heading">
+                Metode Pembayaran
+            </div>
+
+            <!-- Nav Item - Pages Collapse Menu -->
+            <li class="nav-item 
+            @if (request()->is('admin/metode_pembayaran*'))
+                active
+            @endif">
+                <a class="nav-link collapsed " href="#" data-toggle="collapse" data-target="#metodePembayaran"
+                    aria-expanded="true" aria-controls="collapsePages">
+                    <i class="fa-solid fa-rupiah-sign"></i>
+                    <span>Metode Pembayaran</span>
+                </a>
+                <div id="metodePembayaran" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
+                    <div class="bg-white py-2 collapse-inner rounded">
+                        <h6 class="collapse-header">Metode Pembayaran:</h6>
+                        <a class="collapse-item {{ (request()->is('admin/metode_pembayaran'))?'active':'' }}" href="{{ url('admin/metode_pembayaran') }}">Metode Pembayaran</a>
+                        <a class="collapse-item {{ (request()->is('admin/metode_pembayaran/informasi'))?'active':'' }}" href="{{ url('admin/metode_pembayaran/informasi') }}">Informasi</a>
+                    </div>
+                </div>
+            </li>
+
+            <!-- Divider -->
             <hr class="sidebar-divider d-none d-md-block">
 
             <!-- Sidebar Toggler (Sidebar) -->
@@ -186,20 +213,6 @@
                     <button id="sidebarToggleTop" class="btn btn-link d-md-none rounded-circle mr-3">
                         <i class="fa fa-bars"></i>
                     </button>
-
-                    <!-- Topbar Search -->
-                    <form
-                        class="d-none d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100 navbar-search">
-                        <div class="input-group">
-                            <input type="text" class="form-control bg-light border-0 small" placeholder="Search for..."
-                                aria-label="Search" aria-describedby="basic-addon2">
-                            <div class="input-group-append">
-                                <button class="btn btn-primary" type="button">
-                                    <i class="fas fa-search fa-sm"></i>
-                                </button>
-                            </div>
-                        </div>
-                    </form>
 
                     <!-- Topbar Navbar -->
                     <ul class="navbar-nav ml-auto">

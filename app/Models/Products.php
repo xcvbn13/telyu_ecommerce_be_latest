@@ -4,6 +4,7 @@ namespace App\Models;
 
 use App\Models\Cart;
 use App\Models\Order;
+use App\Models\CartItem;
 use App\Models\Category;
 use App\Models\Wishlist;
 use Illuminate\Database\Eloquent\Model;
@@ -28,7 +29,7 @@ class Products extends Model
         return $this->hasMany(Wishlist::class);
     }
 
-    public function carts(){
-        return $this->hasMany(Cart::class);
+    public function cart_item(){
+        return $this->hasOne(CartItem::class,'id_produk');
     }
 }

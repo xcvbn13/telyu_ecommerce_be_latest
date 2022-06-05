@@ -26,17 +26,17 @@
 
     <!-- Page Heading -->
     <div class="d-sm-flex align-items-center justify-content-between mb-4">
-        <h1 class="h3 mb-0 text-gray-800">Kategori Merchandise</h1>
+        <h1 class="h3 mb-0 text-gray-800">Metode Pembayaran</h1>
         <!-- Button trigger modal -->
-        <button type="button" class="btn btn-primary btn-block col-2" data-toggle="modal" data-target="#tambah_kategori">
-            Tambah Kategori
+        <button type="button" class="btn btn-primary btn-block col-2" data-toggle="modal" data-target="#inlineForm">
+            Tambah Metode
         </button>
     </div>
 
     <!-- Content Row -->
 
     <!-- Modal -->
-    <div class="modal fade text-left" id="tambah_kategori" tabindex="-1" role="dialog" aria-labelledby="myModalLabel33" aria-hidden="true">
+    <div class="modal fade text-left" id="inlineForm" tabindex="-1" role="dialog" aria-labelledby="myModalLabel33" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered" role="document">
             <div class="modal-content">
                 <div class="modal-header">
@@ -45,24 +45,28 @@
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
-                <form id="formtambahkategori">
+                <form id="form_create">
                     @csrf
                     <div class="modal-body">
-                        <label>Kategori</label>
+                        <label>Metode Pembayaran</label>
                         <div class="form-group">
-                            <input type="text" name="kategori" id="kategori" placeholder="Kategori" class="form-control" />
+                            <input type="text" id="metode_pembayaran" name="metode_pembayaran" placeholder="Metode Pembayaran" class="form-control" />
+                        </div>
+                        <label>No Rekening</label>
+                        <div class="form-group">
+                            <input type="text" id="no_rek" name="no_rek" placeholder="No Rekening" class="form-control" />
                         </div>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" id="kategori_tambah" class="btn btn-primary" data-dismiss="modal">Simpan Kategori</button>
+                        <button type="button" id="metode_tambah" class="btn btn-primary" data-dismiss="modal">Simpan Kategori</button>
                     </div>
                 </form>
             </div>
         </div>
     </div>
 
-    <!-- Modal Edit Kategori -->
-    <div class="modal fade text-left" id="editKategori" tabindex="-1" role="dialog" aria-labelledby="myModalLabel33" aria-hidden="true">
+    <!-- Modal Edit Metode -->
+    <div class="modal fade text-left" id="editMetode" tabindex="-1" role="dialog" aria-labelledby="myModalLabel33" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered" role="document">
             <div class="modal-content">
                 <div class="modal-header">
@@ -71,17 +75,21 @@
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
-                <form id="form_edit_kategori">
+                <form id="form_edit">
                     @csrf
-                    <input type="hidden" id="kategori_id">
+                    <input type="hidden" id="metode_id">
                     <div class="modal-body">
-                        <label>Kategori</label>
+                        <label>Metode Pembayaran</label>
                         <div class="form-group">
-                            <input type="text" id="edit_kategori" name="kategori" placeholder="Kategori" class="form-control" />
+                            <input type="text" id="edit_metode_pembayaran" name="metode_pembayaran" placeholder="Metode Pembayaran" class="form-control" />
+                        </div>
+                        <label>No Rekening</label>
+                        <div class="form-group">
+                            <input type="text" id="edit_no_rek" name="no_rek" placeholder="No Rekening" class="form-control" />
                         </div>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" id="kategori_simpan" class="btn btn-primary" data-dismiss="modal">Simpan Kategori</button>
+                        <button type="button" id="metode_simpan" class="btn btn-primary" data-dismiss="modal">Simpan Kategori</button>
                     </div>
                 </form>
             </div>
@@ -91,26 +99,29 @@
     <!-- DataTales Example -->
     <div class="card shadow mb-4">
         <div class="card-header py-3">
-            <h6 class="m-0 font-weight-bold text-primary">Kategori Merchandise</h6>
+            <h6 class="m-0 font-weight-bold text-primary">Metode pembayaran</h6>
         </div>
         <div class="card-body">
             <div class="table-responsive">
                 <table class="table" id="dataTable" width="100%" cellspacing="0">
                     <thead>
                         <tr>
-                            <th>Kategori Barang</th>
+                            <th>Metode Pembayaran</th>
+                            <th>No Rekening</th>
                             <th style="padding-left: 1.7rem">Aksi</th>
                         </tr>
                     </thead>
                     <tbody>
-                        @foreach ($category as $item)
+                        @foreach ($metodepembayaran as $item)
                             <tr>
-                                <td>{{ $item->name_category }}</td>
+                                <td>{{ $item->metode }}</td>
+                                <td>{{ $item->no_rek }}</td>
                                 <td>
-                                    <button href="#" class="btn btn-success btn-circle btn-sm mr-1" data-id="{{ $item->id }}" onclick="edit_kategori($(this))">
+                                    <button href="#" class="btn btn-success btn-circle btn-sm mr-1" 
+                                    data-id="{{ $item->id }}" onclick="edit_metode($(this))">
                                         <i class="fa-solid fa-pen-to-square"></i>
                                     </button>
-                                    <button href="#" class="btn btn-danger btn-circle btn-sm" data-id="{{ $item->id }}" onclick="delete_kategori($(this))">
+                                    <button href="#" class="btn btn-danger btn-circle btn-sm" data-id="{{ $item->id }}" onclick="delete_metode($(this))">
                                         <i class="fas fa-trash"></i>
                                     </button>
                             </tr>
@@ -140,22 +151,22 @@
     <script src="{{ asset('assets/js/demo/datatables-demo.js') }}"></script>
 
     <script>
-        
-        // tambah kategori 
-        $('#kategori_tambah').click(function() {
-            let data = $("#formtambahkategori").serialize()
-            console.log(data)
 
-            var url = "{{ url('admin/merchandise/kategori/create') }}";
-            console.log(url)
+        $('#metode_tambah').click(function() {
+            let data = $("#form_create").serialize()
+            console.log(data);
+
+            var url = "{{ url('admin/metode_pembayaran/create') }}";
+            console.log(url);
 
             $.ajax({
                 type: "POST",
                 url: url,
                 data: data,
                 success: function(results) {
-                    console.log(results)
+                    console.log(results);
                     if (results === 'success') {
+                        modalhide(),
                         Swal.fire(
                                 'Success!',
                                 'Kategori Ditambahkan',
@@ -170,9 +181,9 @@
         })
 
         // edit kategori 
-        function edit_kategori(e) {
+        function edit_metode(e) {
             let id = e.attr('data-id')
-            var url = `{{ url('admin/merchandise/kategori/edit', 'id') }}`;
+            var url = `{{ url('admin/metode_pembayaran/edit', 'id') }}`;
             url = url.replace('id', id);
 
             $.ajax({
@@ -180,22 +191,23 @@
                 url: url,
                 success: function(results) {
                     console.log(results)
-                    $('#editKategori').modal('show')
-                    $('#kategori_id').val(results.id)
-                    $('#edit_kategori').val(results.name_category)
+                    $('#editMetode').modal('show')
+                    $('#metode_id').val(results.id)
+                    $('#edit_metode_pembayaran').val(results.metode)
+                    $('#edit_no_rek').val(results.no_rek)
                 }
             });
         }
 
         function modalhide(){
-            $('#editKategori').modal('hide');
+            $('#editMetode').modal('hide');
         }
 
-        $('#kategori_simpan').click(function() {
-            let data = $("#form_edit_kategori").serialize()
-            let id = $('#kategori_id').val();
+        $('#metode_simpan').click(function() {
+            let data = $("#form_edit").serialize()
+            let id = $('#metode_id').val();
 
-            let url = `{{ url('admin/merchandise/kategori/update', 'id') }}`;
+            let url = `{{ url('admin/metode_pembayaran/update', 'id') }}`;
             url = url.replace('id', id);
 
             $.ajax({
@@ -207,12 +219,20 @@
                     if (results === 'success') {
                         Swal.fire(
                                 'Success!',
-                                'Kategori Berhasil Diubah',
+                                'Metode Pembayaran Diubah',
                                 'success'
                             ),
                             setTimeout(function() { // wait for 5 secs(2)
                                 location.reload(); // then reload the page.(3)
                             }, 1000);
+                    }else{
+                        Swal.fire(
+                                'Warning!',
+                                'Metode Pembayaran Telah Ada',
+                                'warning'
+                            ),
+                            $('#metode_pembayaran').val('')
+                            $('#no_rek').val('')
                     }
                 }
             });
@@ -220,9 +240,9 @@
 
         // delete kategori 
 
-        function delete_kategori(e) {
+        function delete_metode(e) {
             let id = e.attr('data-id')
-            var url = `{{ url('admin/merchandise/kategori/delete', 'id') }}`;
+            var url = `{{ url('admin/metode_pembayaran/delete', 'id') }}`;
             url = url.replace('id', id);
             var token = $("meta[name='csrf-token']").attr("content");
 
@@ -253,12 +273,12 @@
                                     setTimeout(function() { // wait for 5 secs(2)
                                         location.reload(); // then reload the page.(3)
                                     }, 1000);
-                            }else{
+                            } else {
                                 Swal.fire(
-                                        'Gagal!',
-                                        'Ada Produk Yang Menggunakan Kategori Ini.',
-                                        'warning'
-                                    )
+                                    'Gagal!',
+                                    'Data Gagal Dihapus, Ada Transaksi Yang Menggunakan Data Ini.',
+                                    'error'
+                                )
                             }
                         }
                     });

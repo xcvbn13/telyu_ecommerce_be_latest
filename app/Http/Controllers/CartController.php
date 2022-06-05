@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\Cart;
+use App\Models\CartItem;
+use App\Models\Opsikirim;
 use Illuminate\Http\Request;
 
 class CartController extends Controller
@@ -14,11 +16,13 @@ class CartController extends Controller
      */
     public function index()
     {
-        $cart = Cart::where('id_user',auth()->user()->id)->with(['user','products'])->get();
+        $cart = Cart::where('id_user',auth()->user()->id)->with(['user','cart_item' => function($q){
+            $q->where('id_status_cart_items',1);
+        }])->get();
 
         return response([
             'message' => "Berhasil mengambil data cart",
-            'data' => $wishlist,
+            'data' => $cart,
         ], 200);
     }
 
@@ -40,13 +44,17 @@ class CartController extends Controller
      */
     public function store(Request $request)
     {
-        $cart = Cart::create([
-            'jumlah' => $request->jumlah,
+
+        $cart = Cart::where('id_user',auth()->user()->id)->first();
+
+        $cartItem = CartItem::create([
+            'jumlah_barang' => $request->jumlah_barang,
             'id_produk' => $request->id_produk,
-            'id_user' => auth()->user()->id
+            'id_cart' => $cart->id,
+            'id_status_cart_items' => 1
         ]);
 
-        $review = Cart::where('id', $cart->id)->with(['user','products'])->get();
+        $review = Cart::where('id', $cart->id)->with(['user','cart_item'])->get();
 
         return response([
             'message' => "Berhasil menambah data cart",
