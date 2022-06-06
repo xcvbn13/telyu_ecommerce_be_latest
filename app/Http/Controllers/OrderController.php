@@ -31,7 +31,7 @@ class OrderController extends Controller
             $order = Order::where('id_cart',$value['id'])->first();
             $review[] = [$order];
         }
-        
+
         return response([
             'data' => $review,
         ], 200);
@@ -43,7 +43,7 @@ class OrderController extends Controller
 
         $metode_pembayaran = MetodePembayaran::all();
 
-        $user = User::where('id',auth()->user()->id)->first();
+        $user = User::where('id',auth()->user()->id)->pluck('alamat');
 
         $data = [
             'opsiKirim' => $opsiKirim,
@@ -148,8 +148,19 @@ class OrderController extends Controller
 
     public function store_pembayaran(Request $request,$id){
 
+        $request->validate([
+            'pembayaran' => 'required|file|image|mimes:jpeg,png,jpg|max:5000',
+        ]);
+
+        $file = $request->file('pembayaran');
+ 
+		$nama_file = time()."_".$file->getClientOriginalName();
+ 
+		$tujuan_upload = 'data_img_pembayaran';
+		$file->move($tujuan_upload,$nama_file);
+
         $pembayaran = Pembayaran::create([
-            'bukti_pembayaran' => $request->pembayaran,
+            'bukti_pembayaran' => $nama_file,
         ]);
 
         $idPembayaran = $pembayaran->id;

@@ -75,7 +75,6 @@ class AuthController extends Controller
 
         return response([
             'user' => $user,
-            'cart' => $cart,
             'token' => $user->createToken('secret')->plainTextToken
         ], 201);
     }

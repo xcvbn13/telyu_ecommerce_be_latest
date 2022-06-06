@@ -54,6 +54,7 @@ Route::middleware(['is_admin','auth'])->group(function () {
 
     // orderan 
     Route::get('admin/order/verfikasi_pembayaran',[VerifikasiController::class,'index']);
+    Route::get('admin/order/verfikasi_pembayaran/detail/{id}',[VerifikasiController::class,'index_verfikasi']);
     Route::get('admin/order/pembayaran_terverifikasi',[VerifikasiController::class,'index_terverifikasi']);
     Route::get('admin/order/verifikasi_gagal',[VerifikasiController::class,'index_verifikasi_gagal']);
     Route::get('admin/order/pesanan_selesai',[VerifikasiController::class,'index_pesanan_selesai']);

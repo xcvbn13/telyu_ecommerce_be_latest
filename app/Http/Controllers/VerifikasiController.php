@@ -19,6 +19,12 @@ class VerifikasiController extends Controller
         return view('Orderan.VerifikasiPembayaran.index',compact('order'));
     }
 
+    public function index_verfikasi($id)
+    {
+        $order_verifikasi = Order::where('id',$id)->where('status_order_id',2)->with(['metodepembayaran','pembayaran'])->first();
+
+        return $order_verifikasi;
+    }
 
     public function index_terverifikasi()
     {
