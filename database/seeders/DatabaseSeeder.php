@@ -7,8 +7,8 @@ use App\Models\Category;
 use App\Models\Products;
 use App\Models\UserType;
 use App\Models\Opsikirim;
+use App\Models\StatusCart;
 use App\Models\StatusOrder;
-use App\Models\StatusCartItem;
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
@@ -74,11 +74,11 @@ class DatabaseSeeder extends Seeder
         ]);
 
         // status cart item 
-        StatusCartItem::create([
+        StatusCart::create([
             'status' => 'Aktif'
         ]);
 
-        StatusCartItem::create([
+        StatusCart::create([
             'status' => 'Nonaktif'
         ]);
 

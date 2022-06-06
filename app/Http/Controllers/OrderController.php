@@ -24,11 +24,16 @@ class OrderController extends Controller
      */
     public function index()
     {
-        $cart = Cart::where('id_user',auth()->user()->id)->first();
-        $products = Order::where('id_cart',$cart->id)->with(['cart','opsikirim','metodepembayaran','status_order'])->get();
+        $cart = Cart::where('id_user',auth()->user()->id)->where('id_status_cart',2)->get();
+        $review = array();
 
+        foreach ($cart as $key => $value) {
+            $order = Order::where('id_cart',$value['id'])->first();
+            $review[] = [$order];
+        }
+        
         return response([
-            'data' => $products,
+            'data' => $review,
         ], 200);
     }
 
@@ -81,7 +86,7 @@ class OrderController extends Controller
         $no_resi = 'INV/'.$date.'/'.$uniqid;
 
         // sum total harga 
-        $cart = Cart::where('id_user',auth()->user()->id)->first();
+        $cart = Cart::where('id_user',auth()->user()->id)->where('id_status_cart',1)->first();
         $cartItem = CartItem::where('id_cart',$cart->id)->get();
         $jumlah_harga = 0;
 
@@ -103,10 +108,14 @@ class OrderController extends Controller
             'id_metode_pembayaran' => $request->metode_pembayaran
         ]);
 
-        // non aktif cart after order 
-        foreach ($cartItem as $key => $item) {
-            CartItem::where('id', $item['id'])->update(['id_status_cart_items'=>2]);
-        }
+        // non aktif cart 
+        $cart->id_status_cart = 2;
+        $cart->save();
+
+        $cartCreate = Cart::create([
+            'id_user' => auth()->user()->id,
+            'id_status_cart' => 1
+        ]);
 
         $review = Order::where('id',$order->id)->with(['status_order','cart','opsikirim','metodepembayaran'])->get();
 
@@ -137,7 +146,7 @@ class OrderController extends Controller
 
     //  order -> status -> 2 
 
-    public function store_pembayaran(Request $request){
+    public function store_pembayaran(Request $request,$id){
 
         $pembayaran = Pembayaran::create([
             'bukti_pembayaran' => $request->pembayaran,
@@ -145,15 +154,15 @@ class OrderController extends Controller
 
         $idPembayaran = $pembayaran->id;
 
-        $cart = Cart::where('id_user',auth()->user()->id)->first();
+        $cart = Cart::where('id_user',auth()->user()->id)->where('id_status_cart',1)->first();
 
-        $updateOrder = Order::where('id_cart',$cart->id)->first();
+        $updateOrder = Order::findOrFail($id);
         $updateOrder->status_order_id = 2;
         $updateOrder->pembayaran_id = $idPembayaran;
         $updateOrder->save();
 
         // pengurangan jumlah produk 
-        $cart = Cart::where('id_user',auth()->user()->id)->first();
+        $cart = Cart::where('id_user',auth()->user()->id)->where('id_status_cart',1)->first();
         $cartItem = CartItem::where('id_cart',$cart->id)->get();
         $jumlah_barang = 0;
 
@@ -164,8 +173,6 @@ class OrderController extends Controller
             $product->jumlah_product = $product->jumlah_product - $jumlah_barang->jumlah_barang;
             $product->save();
         }
-
-
 
         $review = Order::where('id',$updateOrder->id)->with(['status_order','cart','opsikirim','metodepembayaran','pembayaran'])->get();
 
@@ -179,8 +186,7 @@ class OrderController extends Controller
 
     public function store_dibatalkan(Request $request,$id){
 
-        $cart = Cart::where('id_user',auth()->user()->id)->first();
-        $updateOrder = Order::where('id',$id)->where('id_cart',$cart->id)->first();
+        $updateOrder = Order::where('id',$id)->first();
 
         $updateOrder->status_order_id = 4;
         $updateOrder->save();
@@ -197,8 +203,7 @@ class OrderController extends Controller
 
     public function store_waktu_habis(Request $request,$id){
 
-        $cart = Cart::where('id_user',auth()->user()->id)->first();
-        $updateOrder = Order::where('id',$id)->where('id_cart',$cart->id)->first();
+        $updateOrder = Order::where('id',$id)->first();
 
         $updateOrder->status_order_id = 5;
         $updateOrder->save();
@@ -220,7 +225,8 @@ class OrderController extends Controller
         $updateOrder->save();
 
         // penambahan jumlah produk 
-        $cart = Cart::where('id_user',auth()->user()->id)->first();
+
+        $cart = Cart::where('id',$updateOrder->id_cart)->first();
         $cartItem = CartItem::where('id_cart',$cart->id)->get();
         $jumlah_barang = 0;
 
@@ -266,9 +272,7 @@ class OrderController extends Controller
      */
     public function show($id)
     {
-        $cart = Cart::where('id_user',auth()->user()->id)->first();
-
-        $review = Order::where('id',$id)->where('id_cart',$cart->id)->with(['status_order','cart','opsikirim','metodepembayaran','pembayaran'])->get();
+        $review = Order::where('id',$id)->with(['status_order','cart','opsikirim','metodepembayaran','pembayaran'])->get();
 
         return response([
             'data' => $review,

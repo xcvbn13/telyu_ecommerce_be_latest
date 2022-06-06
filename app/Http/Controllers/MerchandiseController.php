@@ -22,7 +22,7 @@ class MerchandiseController extends Controller
         if($cekCategory < 1){
             Alert::warning('Kategori Kosong', 'Tambahkan Kategori Terlebih Dahulu');
 
-            return redirect('admin/dashboard');
+            return redirect('admin/merchandise/kategori');
         }
 
         $product = Products::where('jumlah_product','>',0)->get();

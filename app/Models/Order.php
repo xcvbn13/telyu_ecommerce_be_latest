@@ -17,6 +17,7 @@ class Order extends Model
     protected $table = 'orders';
     protected $fillable = ['no_resi','jumlah_harga','alamat','status_order_id','pembayaran_id','id_cart','id_opsikirim','id_metode_pembayaran'];
     protected $dates = ['order_date'];
+    protected $with = ['status_order'];
     
     public function cart(){
         return $this->belongsTo(Cart::class,'id_cart');

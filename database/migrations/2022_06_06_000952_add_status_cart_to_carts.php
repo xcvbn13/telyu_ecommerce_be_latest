@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class AddStatusCartToCartItems extends Migration
+class AddStatusCartToCarts extends Migration
 {
     /**
      * Run the migrations.
@@ -13,9 +13,9 @@ class AddStatusCartToCartItems extends Migration
      */
     public function up()
     {
-        Schema::table('cart_items', function (Blueprint $table) {
-            $table->foreignId('id_status_cart_items');
-            $table->foreign('id_status_cart_items')->references('id')->on('status_cart_items');
+        Schema::table('carts', function (Blueprint $table) {
+            $table->foreignId('id_status_cart');
+            $table->foreign('id_status_cart')->references('id')->on('status_carts');
         });
     }
 
@@ -26,7 +26,7 @@ class AddStatusCartToCartItems extends Migration
      */
     public function down()
     {
-        Schema::table('cart_items', function (Blueprint $table) {
+        Schema::table('carts', function (Blueprint $table) {
             //
         });
     }

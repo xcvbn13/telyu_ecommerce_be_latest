@@ -33,9 +33,9 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::get('/order',[OrderController::class,'index']);
     Route::get('/order/detail/{id_order}',[OrderController::class,'show']);
     Route::post('/order',[OrderController::class,'store']);
-    Route::post('/order/pembayaran',[OrderController::class,'store_pembayaran']);
-    Route::post('/order/dibatalkan',[OrderController::class,'store_dibatalkan']);
-    Route::post('/order/waktu_habis',[OrderController::class,'store_waktu_habis']);
+    Route::post('/order/pembayaran/{id_order}',[OrderController::class,'store_pembayaran']);
+    Route::post('/order/dibatalkan/{id_order}',[OrderController::class,'store_dibatalkan']);
+    Route::post('/order/waktu_habis/{id_order}',[OrderController::class,'store_waktu_habis']);
     Route::post('/order/verifikasi_gagal/{id_order}',[OrderController::class,'store_verifikasi_gagal']);
     Route::post('/order/selesai/{id_order}',[OrderController::class,'store_selesai']);
 

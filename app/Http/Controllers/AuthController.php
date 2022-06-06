@@ -69,7 +69,8 @@ class AuthController extends Controller
         Auth::attempt($check);
 
         $cart = Cart::create([
-            'id_user' => auth()->user()->id
+            'id_user' => auth()->user()->id,
+            'id_status_cart' => 1,
         ]);
 
         return response([
