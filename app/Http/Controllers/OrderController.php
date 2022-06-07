@@ -195,7 +195,7 @@ class OrderController extends Controller
 
     // order -> status -> 4
 
-    public function store_dibatalkan(Request $request,$id){
+    public function store_dibatalkan($id){
 
         $updateOrder = Order::where('id',$id)->first();
 
@@ -212,7 +212,7 @@ class OrderController extends Controller
 
     // order -> status -> 5
 
-    public function store_waktu_habis(Request $request,$id){
+    public function store_waktu_habis($id){
 
         $updateOrder = Order::where('id',$id)->first();
 
@@ -227,37 +227,7 @@ class OrderController extends Controller
         ], 200);
     }
 
-    // order -> status -> 6
-    // untuk admin 
-    public function store_verifikasi_gagal(Request $request, $id){
-
-        $updateOrder = Order::findOrFail($id);
-        $updateOrder->status_order_id = 6;
-        $updateOrder->save();
-
-        // penambahan jumlah produk 
-
-        $cart = Cart::where('id',$updateOrder->id_cart)->first();
-        $cartItem = CartItem::where('id_cart',$cart->id)->get();
-        $jumlah_barang = 0;
-
-        foreach ($cartItem as $key => $item) {
-            $product = Products::where('id', $item['id_produk'])->first();
-            $jumlah_barang = CartItem::where('id_produk',$product->id)->first();
-
-            $product->jumlah_product = $product->jumlah_product + $jumlah_barang->jumlah_barang;
-            $product->save();
-        }
-
-
-
-        $review = Order::where('id',$updateOrder->id)->with(['status_order','cart','opsikirim','metodepembayaran','pembayaran'])->get();
-
-        return response([
-            'message' => "Berhasil",
-            'data' => $review,
-        ], 200);
-    }
+    
 
     // order -> status -> 7
 

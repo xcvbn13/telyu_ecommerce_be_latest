@@ -43,6 +43,7 @@
                 </div>
                 <form action="#">
                     <div class="modal-body">
+                        <input type="hidden" id="id_pembayaran" name="id_pembayaran">
                         <label>Harga</label>
                         <div class="form-group">
                             <input type="text" id="harga" class="form-control" readonly/>
@@ -57,8 +58,8 @@
                         </div>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-danger" data-dismiss="modal">Gagal</button>
-                        <button type="button" class="btn btn-primary" data-dismiss="modal">Berhasil</button>
+                        <button type="button" id="button_gagal_verifikasi" class="btn btn-danger" data-dismiss="modal">Gagal</button>
+                        <button type="button" id="button_berhasil_verifikasi" class="btn btn-primary" data-dismiss="modal">Berhasil</button>
                     </div>
                 </form>
             </div>
@@ -112,6 +113,8 @@
 
 
 @section('script')
+    {{-- sweetalert  --}}
+    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <!-- Page level plugins -->
     <script src="{{ asset('assets/vendor/datatables/jquery.dataTables.min.js') }}"></script>
     <script src="{{ asset('assets/vendor/datatables/dataTables.bootstrap4.min.js') }}"></script>
@@ -130,8 +133,9 @@
                 type: "GET",
                 url: url,
                 success: function(results) {
-                    
+                    console.log(results)
                     $('#detailVerifikasi').modal('show')
+                    $('#id_pembayaran').val(results.id)
                     $('#harga').val(results.jumlah_harga)
                     $('#metode').val(results.metodepembayaran.metode + " - " + results.metodepembayaran.no_rek)
                     $("#imgPembayaran").attr("src", "/data_img_pembayaran/" + results.pembayaran.bukti_pembayaran);
@@ -142,5 +146,88 @@
         function modalhide(){
             $('#detailVerifikasi').modal('hide');
         }
+
+        // edit kategori 
+        $('#button_gagal_verifikasi').click(function() {
+            let id = $('#id_pembayaran').val()
+            var url = `{{ url('admin/order/verifikasi_gagal','id') }}`;
+            url = url.replace('id', id);
+            var token = $("meta[name='csrf-token']").attr("content");
+
+            Swal.fire({
+                title: 'Apa Kamu Yakin?',
+                text: "Kamu tidak bisa mengubah data ini!",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Oke'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    $.ajax({
+                        type: "POST",
+                        url: url,
+                        data: {
+                            "_token": token
+                        },
+                        success: function(results) {
+                            console.log(results);
+                            if (results === 'success') {
+                                Swal.fire(
+                                        'Berhasil!',
+                                        'Pembayaran Tidak Sah',
+                                        'success'
+                                    ),
+                                    setTimeout(function() { // wait for 5 secs(2)
+                                        location.reload(); // then reload the page.(3)
+                                    }, 1000);
+                            }
+                        }
+                    });
+
+                }
+            })
+        })
+
+        $('#button_berhasil_verifikasi').click(function() {
+            let id = $('#id_pembayaran').val()
+            var url = `{{ url('admin/order/pembayaran_terverifikasi','id') }}`;
+            url = url.replace('id', id);
+            var token = $("meta[name='csrf-token']").attr("content");
+
+            Swal.fire({
+                title: 'Apa Kamu Yakin?',
+                text: "Kamu tidak bisa mengubah data ini!",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Oke'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    $.ajax({
+                        type: "POST",
+                        url: url,
+                        data: {
+                            "_token": token
+                        },
+                        success: function(results) {
+                            console.log(results);
+                            if (results === 'success') {
+                                Swal.fire(
+                                        'Berhasil!',
+                                        'Pembayaran Sah',
+                                        'success'
+                                    ),
+                                    setTimeout(function() { // wait for 5 secs(2)
+                                        location.reload(); // then reload the page.(3)
+                                    }, 1000);
+                            }
+                        }
+                    });
+
+                }
+            })
+        })
     </script>
 @endsection

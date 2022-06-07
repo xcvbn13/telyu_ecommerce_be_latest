@@ -31,6 +31,36 @@
 
     <!-- Content Row -->
 
+    <!-- Modal Edit Kategori -->
+    <div class="modal fade text-left" id="detailVerifikasiGagal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel33" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title" id="myModalLabel33">Detail Verifikasi</h4>
+                    <button type="button" class="close" onclick="modalhide()" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <form action="#">
+                    <div class="modal-body">
+                        <label>Harga</label>
+                        <div class="form-group">
+                            <input type="text" id="harga" class="form-control" readonly/>
+                        </div>
+                        <label>Metode Pembayaran</label>
+                        <div class="form-group">
+                            <input type="text" id="metode" class="form-control" readonly/>
+                        </div>
+                        <label>Bukti Pembayaran</label>
+                        <div class="form-group">
+                            <img class="img-thumbnail" id="imgPembayaran" alt="bukti_pembayaran">
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
     <!-- DataTales Example -->
     <div class="card shadow mb-4">
         <div class="card-header py-3">
@@ -42,75 +72,25 @@
                     <thead>
                         <tr>
                             <th>Name</th>
-                            <th>Pesanan</th>
-                            <th>Jumlah</th>
+                            <th>Harga</th>
                             <th>Status</th>
                             <th>Aksi</th>
                         </tr>
                     </thead>
                     <tbody>
+                        @foreach ($order as $item)
                         <tr>
-                            <td>Test test</td>
-                            <td>Test test</td>
-                            <td>Test test</td>
-                            <td><span class="badge badge-pill badge-danger p-2">Verifikasi Gagal</span></td>
+                            <td>{{ $item->cart->user->name }}</td>
+                            <td>{{ $item->jumlah_harga }}</td>
+                            <td><span class="badge badge-pill badge-danger p-2">{{ $item->status_order->status }}</span></td>
                             <td>
-                                <a href="#" class="btn btn-warning btn-circle btn-sm" data-toggle="modal" data-target="#detailVerifikasi">
-                                    <i class="fas fa-info-circle"></i>
-                                </a>
-                                <!-- Modal Edit Kategori -->
-                                <div class="modal fade text-left" id="detailVerifikasi" tabindex="-1" role="dialog" aria-labelledby="myModalLabel33" aria-hidden="true">
-                                    <div class="modal-dialog modal-dialog-centered" role="document">
-                                        <div class="modal-content">
-                                            <div class="modal-header">
-                                                <h4 class="modal-title" id="myModalLabel33">Detail Verifikasi</h4>
-                                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                                    <span aria-hidden="true">&times;</span>
-                                                </button>
-                                            </div>
-                                            <form action="#">
-                                                <div class="modal-body">
-                                                    <label>Harga</label>
-                                                    <div class="form-group">
-                                                        <input type="text" placeholder="Rp.1500000" class="form-control" readonly/>
-                                                    </div>
-                                                    <label>Bukti Pembayaran</label>
-                                                    <div class="form-group">
-                                                        <img class="img-thumbnail" src="https://awsimages.detik.net.id/community/media/visual/2017/12/06/92551b36-5964-45cc-80a4-2992461dae4a_43.jpeg?w=700&q=90" alt="bukti_pembayaran">
-                                                    </div>
-                                                </div>
-                                                <div class="modal-footer">
-                                                    <button type="button" class="btn btn-danger" data-dismiss="modal">Gagal</button>
-                                                    <button type="button" class="btn btn-primary" data-dismiss="modal">Berhasil</button>
-                                                </div>
-                                            </form>
-                                        </div>
-                                    </div>
-                                </div>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>Test test</td>
-                            <td>Test test</td>
-                            <td>Test test</td>
-                            <td><span class="badge badge-pill badge-danger p-2">Verifikasi Gagal</span></td>
-                            <td>
-                                <a href="#" class="btn btn-warning btn-circle btn-sm" data-toggle="modal" data-target="#detailVerifikasi">
+                                <a href="#" class="btn btn-warning btn-circle btn-sm"
+                                data-id="{{ $item->id }}" onclick="show($(this))">
                                     <i class="fas fa-info-circle"></i>
                                 </a>
                             </td>
                         </tr>
-                        <tr>
-                            <td>Test test</td>
-                            <td>Test test</td>
-                            <td>Test test</td>
-                            <td><span class="badge badge-pill badge-danger p-2">Verifikasi Gagal</span></td>
-                            <td>
-                                <a href="#" class="btn btn-warning btn-circle btn-sm" data-toggle="modal" data-target="#detailVerifikasi">
-                                    <i class="fas fa-info-circle"></i>
-                                </a>
-                            </td>
-                        </tr>
+                        @endforeach
                     </tbody>
                 </table>
             </div>
@@ -134,4 +114,30 @@
 
     <!-- Page level custom scripts -->
     <script src="{{ asset('assets/js/demo/datatables-demo.js') }}"></script>
+
+    <script>
+        // edit kategori 
+        function show(e) {
+            let id = e.attr('data-id')
+            var url = `{{ url('admin/order/verfikasi_gagal/detail','id') }}`;
+            url = url.replace('id', id);
+
+            $.ajax({
+                type: "GET",
+                url: url,
+                success: function(results) {
+                    console.log(results)
+                    $('#detailVerifikasiGagal').modal('show')
+                    $('#id_pembayaran').val(results.id)
+                    $('#harga').val(results.jumlah_harga)
+                    $('#metode').val(results.metodepembayaran.metode + " - " + results.metodepembayaran.no_rek)
+                    $("#imgPembayaran").attr("src", "/data_img_pembayaran/" + results.pembayaran.bukti_pembayaran);
+                }
+            });
+        }
+
+        function modalhide(){
+            $('#detailVerifikasiGagal').modal('hide');
+        }
+    </script>
 @endsection

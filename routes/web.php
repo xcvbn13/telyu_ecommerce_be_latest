@@ -52,12 +52,20 @@ Route::middleware(['is_admin','auth'])->group(function () {
     Route::put('admin/merchandise/kategori/update/{id}',[CategoryMerchandiseController::class,'update'])->name('update_kategori');
     Route::delete('admin/merchandise/kategori/delete/{id}',[CategoryMerchandiseController::class,'destroy'])->name('delete_kategori');
 
-    // orderan 
+    // orderan => menunggu verifikasi 
     Route::get('admin/order/verfikasi_pembayaran',[VerifikasiController::class,'index']);
     Route::get('admin/order/verfikasi_pembayaran/detail/{id}',[VerifikasiController::class,'index_verfikasi']);
+    // -> terverifikasi  
     Route::get('admin/order/pembayaran_terverifikasi',[VerifikasiController::class,'index_terverifikasi']);
+    Route::get('admin/order/pembayaran_terverifikasi/detail/{id}',[VerifikasiController::class,'index_terverfikasi_detail']);
+    Route::post('admin/order/pembayaran_terverifikasi/{id}',[VerifikasiController::class,'store_verifikasi_berhasil']);
+    // ->verifikasi gagal
     Route::get('admin/order/verifikasi_gagal',[VerifikasiController::class,'index_verifikasi_gagal']);
+    Route::get('admin/order/verfikasi_gagal/detail/{id}',[VerifikasiController::class,'index_verfikasi_gagal_detail']);
+    Route::post('admin/order/verifikasi_gagal/{id}',[VerifikasiController::class,'store_verifikasi_gagal']);
+    // -> order selesai
     Route::get('admin/order/pesanan_selesai',[VerifikasiController::class,'index_pesanan_selesai']);
+    Route::get('admin/order/pesanan_selesai/detail/{id}',[VerifikasiController::class,'index_pesanan_selesai_detail']);
 
     // metode pembayaran 
     Route::get('admin/metode_pembayaran',[MetodePembayaranController::class,'index']);
