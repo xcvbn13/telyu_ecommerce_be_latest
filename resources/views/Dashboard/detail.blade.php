@@ -26,21 +26,27 @@
 
     <!-- Page Heading -->
     <div class="d-sm-flex align-items-center justify-content-between mb-4">
-        <h1 class="h3 mb-0 text-gray-800">Dashboard</h1>
+        <h1 class="h3 text-gray-800">Detail Pesanan Customer</h1>
+        <div class="breadcrumb">
+            <a href="{{ url('admin/dashboard') }}">
+                <i class="fa-solid fa-arrow-left-long"></i>
+            </a>
+        </div>
     </div>
-
+    
     <!-- Content Row -->
     <div class="row">
 
         <!-- Earnings (Monthly) Card Example -->
-        <div class="col-xl-3 col-md-6 mb-4">
+        <div class="col">
             <div class="card border-left-primary shadow h-100 py-2">
                 <div class="card-body">
                     <div class="row no-gutters align-items-center">
                         <div class="col mr-2">
                             <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
-                                Pesanan</div>
-                            <div class="h5 mb-0 font-weight-bold text-gray-800">15000 pcs</div>
+                                Nama Customer
+                            </div>
+                            <div class="h5 mb-0 font-weight-bold text-gray-800">{{ $order->cart->user->name }}</div>
                         </div>
                         <div class="col-auto">
                             <i class="fa-solid fa-bag-shopping fa-2x text-gray-300"></i>
@@ -52,18 +58,18 @@
         </div>
 
         <!-- Earnings (Monthly) Card Example -->
-        <div class="col-xl-3 col-md-6 mb-4">
+        <div class="col">
             <div class="card border-left-success shadow h-100 py-2">
                 <div class="card-body">
                     <div class="row no-gutters align-items-center">
                         <div class="col mr-2">
                             <div class="text-xs font-weight-bold text-success text-uppercase mb-1">
-                                Verifikasi Pembayaran</div>
-                            <div class="h5 mb-0 font-weight-bold text-gray-800">6969</div>
+                                Status Pesanan
+                            </div>
+                            <div class="h5 mb-0 font-weight-bold text-gray-800">{{ $order->status_order->status }}</div>
                         </div>
                         <div class="col-auto">
-                            {{-- <i class="fa-solid fa-list-radio fa-2x text-gray-300"></i> --}}
-                            <i class="fa-solid fa-dollar-sign fa-2x text-gray-300"></i>
+                            <i class="fa-solid fa-boxes-stacked fa-2x text-gray-300"></i>
                             
                         </div>
                     </div>
@@ -72,47 +78,57 @@
         </div>
 
         <!-- Earnings (Monthly) Card Example -->
-        <div class="col-xl-3 col-md-6 mb-4">
+        <div class="col">
             <div class="card border-left-info shadow h-100 py-2">
                 <div class="card-body">
                     <div class="row no-gutters align-items-center">
                         <div class="col mr-2">
-                            <div class="text-xs font-weight-bold text-info text-uppercase mb-1">Terverifikasi
+                            <div class="text-xs font-weight-bold text-info text-uppercase mb-1">
+                                Harga Total
                             </div>
                             <div class="row no-gutters align-items-center">
                                 <div class="col-auto">
-                                    <div class="h5 mb-0 mr-3 font-weight-bold text-gray-800">12312</div>
+                                    <div class="h5 mb-0 mr-3 font-weight-bold text-gray-800">Rp {{ $order->jumlah_harga }} </div>
                                 </div>
                             </div>
                         </div>
                         <div class="col-auto">
-                            {{-- <i class="fas fa-clipboard-list fa-2x text-gray-300"></i> --}}
-                            <i class="fa-solid fa-list-check fa-2x text-gray-300"></i>
+                            <i class="fa-solid fa-rupiah-sign fa-2x text-gray-300"></i>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
 
-        <!-- Earnings (Monthly) Card Example -->
-        <div class="col-xl-3 col-md-6 mb-4">
-            <div class="card border-left-info shadow h-100 py-2">
+    </div>
+
+    <!-- Content Row -->
+    <!-- Content Row -->
+    <div class="row mt-4">
+        <!-- Donut Chart -->
+        <div class="col-xl-7 col-lg-5">
+            <div class="card shadow mb-4">
+                <!-- Card Header - Dropdown -->
+                <div class="card-header py-3">
+                    <h6 class="m-0 font-weight-bold text-primary">Alamat</h6>
+                </div>
+                <!-- Card Body -->
                 <div class="card-body">
-                    <div class="row no-gutters align-items-center">
-                        <div class="col mr-2">
-                            <div class="text-xs font-weight-bold text-info text-uppercase mb-1">Selesai
-                            </div>
-                            <div class="row no-gutters align-items-center">
-                                <div class="col-auto">
-                                    <div class="h5 mb-0 mr-3 font-weight-bold text-gray-800">12312</div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-auto">
-                            {{-- <i class="fas fa-clipboard-list fa-2x text-gray-300"></i> --}}
-                            <i class="fa-solid fa-circle-check fa-2x text-gray-300"></i>
-                        </div>
-                    </div>
+                    <div class="mb-0 mr-3 font-weight-bold text-gray-800"> {{ $order->alamat }} </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Donut Chart -->
+        <div class="col col-lg-5">
+            <div class="card shadow mb-4">
+                <!-- Card Header - Dropdown -->
+                <div class="card-header py-3">
+                    <h6 class="m-0 font-weight-bold text-primary">Opsi Kirim</h6>
+                </div>
+                <!-- Card Body -->
+                <div class="card-body">
+                    <div class="mb-0 mr-3 font-weight-bold text-gray-800"> {{ $order->opsikirim->opsi }} </div>
                 </div>
             </div>
         </div>
@@ -130,84 +146,19 @@
                 <table class="table" id="dataTable" width="100%" cellspacing="0">
                     <thead>
                         <tr>
-                            <th>Name</th>
-                            <th>Tanggal</th>
-                            <th>Pesanan</th>
-                            <th>Status</th>
-                            <th style="padding-left: 1.7rem">Aksi</th>
+                            <th>Nama Produk</th>
+                            <th>Harga</th>
+                            <th>Qty</th>
                         </tr>
                     </thead>
                     <tbody>
+                       @foreach ($product as $item)
                         <tr>
-                            <td>Test test</td>
-                            <td>Test test</td>
-                            <td>Test test</td>
-                            <td>Test test</td>
-                            <td>
-                                <a href="#" class="btn btn-warning btn-circle btn-sm mr-1">
-                                    <i class="fas fa-info-circle"></i>
-                                </a>
-                                <a href="#" class="btn btn-danger btn-circle btn-sm">
-                                    <i class="fas fa-trash"></i>
-                                </a>
-                            </td>
+                            <td> {{ $item->produk->product_name }} </td>
+                            <td> Rp {{ $item->produk->harga }}</td>
+                            <td> {{ $item->jumlah_barang }} </td>
                         </tr>
-                        <tr>
-                            <td>Test test</td>
-                            <td>Test test</td>
-                            <td>Test test</td>
-                            <td>Test test</td>
-                            <td>
-                                <a href="#" class="btn btn-warning btn-circle btn-sm mr-1">
-                                    <i class="fas fa-info-circle"></i>
-                                </a>
-                                <a href="#" class="btn btn-danger btn-circle btn-sm">
-                                    <i class="fas fa-trash"></i>
-                                </a>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>Test test</td>
-                            <td>Test test</td>
-                            <td>Test test</td>
-                            <td>Test test</td>
-                            <td>
-                                <a href="#" class="btn btn-warning btn-circle btn-sm mr-1">
-                                    <i class="fas fa-info-circle"></i>
-                                </a>
-                                <a href="#" class="btn btn-danger btn-circle btn-sm">
-                                    <i class="fas fa-trash"></i>
-                                </a>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>Test test</td>
-                            <td>Test test</td>
-                            <td>Test test</td>
-                            <td>Test test</td>
-                            <td>
-                                <a href="#" class="btn btn-warning btn-circle btn-sm mr-1">
-                                    <i class="fas fa-info-circle"></i>
-                                </a>
-                                <a href="#" class="btn btn-danger btn-circle btn-sm">
-                                    <i class="fas fa-trash"></i>
-                                </a>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>Test test</td>
-                            <td>Test test</td>
-                            <td>Test test</td>
-                            <td>Test test</td>
-                            <td>
-                                <a href="#" class="btn btn-warning btn-circle btn-sm mr-1">
-                                    <i class="fas fa-info-circle"></i>
-                                </a>
-                                <a href="#" class="btn btn-danger btn-circle btn-sm">
-                                    <i class="fas fa-trash"></i>
-                                </a>
-                            </td>
-                        </tr>
+                       @endforeach
                     </tbody>
                 </table>
             </div>

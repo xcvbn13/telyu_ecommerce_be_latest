@@ -143,7 +143,7 @@
                                 <td>{{ $item->order_date->format('d-m-Y') }}</td>
                                 <td>{{ $item->status_order->status }}</td>
                                 <td>
-                                    <a href="#" class="btn btn-warning btn-circle btn-sm mr-1">
+                                    <a href="{{ url('admin/dashboard/detail',$item->id) }}" class="btn btn-warning btn-circle btn-sm mr-1">
                                         <i class="fas fa-info-circle"></i>
                                     </a>
                                 </td>

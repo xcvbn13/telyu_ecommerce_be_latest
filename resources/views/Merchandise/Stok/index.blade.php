@@ -47,7 +47,7 @@
                     <div class="modal-body">
                         <label>Stok Barang</label>
                         <div class="form-group">
-                            <input type="text" id="stok_product" name="stok_product" placeholder="Stok Produk" class="form-control" />
+                            <input type="text" id="stok_product" name="stok_product" placeholder="0" class="form-control" />
                         </div>
                     </div>
                     <div class="modal-footer">
@@ -95,10 +95,22 @@
 <!-- /.container-fluid -->
 @endsection
 
+@section('cssstyle')
+    <!-- Custom styles for this page -->
+    <link href="{{ asset('/assets/vendor/datatables/dataTables.bootstrap4.min.css') }}" rel="stylesheet">
+@endsection
+
 @section('script')
 
     {{-- sweetalert  --}}
     <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+    <!-- Page level plugins -->
+    <script src="{{ asset('assets/vendor/datatables/jquery.dataTables.min.js') }}"></script>
+    <script src="{{ asset('assets/vendor/datatables/dataTables.bootstrap4.min.js') }}"></script>
+
+    <!-- Page level custom scripts -->
+    <script src="{{ asset('assets/js/demo/datatables-demo.js') }}"></script>
 
     <script>
         // edit kategori 
@@ -115,7 +127,6 @@
                     console.log(results);
                     $('#editStok').modal('show')
                     $('#produk_id').val(results.id)
-                    $('#stok_product').val(results.jumlah_product)
                 }
             });
         }

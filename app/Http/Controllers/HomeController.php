@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Order;
+use App\Models\CartItem;
 use Illuminate\Http\Request;
 
 class HomeController extends Controller
@@ -40,5 +41,20 @@ class HomeController extends Controller
         ];
 
         return view('Dashboard.home',$data);
+    }
+
+    public function index_detail($id)
+    {
+        $order = Order::where('id',$id)->with(['cart','status_order'])->first();
+
+        $cartId = Order::where('id',$id)->pluck('id_cart');
+        $product = CartItem::where('id_cart',$cartId)->get();
+        // dd($cartId);
+        $data = [
+            'order' => $order,
+            'product' => $product,
+        ];
+
+        return view('Dashboard.detail',$data);
     }
 }

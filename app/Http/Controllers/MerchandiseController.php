@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Category;
 use App\Models\Products;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
 
 use RealRashid\SweetAlert\Facades\Alert;
 
@@ -60,6 +61,19 @@ class MerchandiseController extends Controller
      */
     public function store(Request $request)
     {
+        $validator = Validator::make($request->all(), [
+            'product_name'=> 'required|string',
+            'jumlah_produk'=> 'required|numeric',
+            'product_description'=> 'required|string',
+            'harga_produk'=> 'required|numeric',
+            'kategori'=> 'required',
+        ]);
+
+        if ($validator->fails()) {
+            Alert::error('Fail!', 'Periksa Data Yang Diinputkan Kembali');
+            return redirect()->back()->withInput();
+        }
+
         $merchandise = Products::create([
             'product_name' => $request->product_name,
             'jumlah_product' => $request->jumlah_produk,
@@ -69,7 +83,7 @@ class MerchandiseController extends Controller
         ]);
 
         Alert::success('Berhasil', 'Produk Berhasil Ditambahkan');
-
+        
         return redirect('admin/merchandise/product');
     }
 

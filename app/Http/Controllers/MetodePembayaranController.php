@@ -49,6 +49,11 @@ class MetodePembayaranController extends Controller
      */
     public function store(Request $request)
     {
+        $request->validate([
+            'metode_pembayaran'=> 'required|string',
+            'no_rek'=> 'required|numeric',
+        ]);
+
         $metodepembayaran = MetodePembayaran::create([
             'metode' => $request->metode_pembayaran,
             'no_rek' => $request->no_rek

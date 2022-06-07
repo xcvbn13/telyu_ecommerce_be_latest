@@ -38,6 +38,10 @@ class CategoryMerchandiseController extends Controller
      */
     public function store(Request $request)
     {
+        $request->validate([
+            'kategori'=> 'required|string',
+        ]);
+
         $category = Category::create([
             'name_category' => $request->kategori
         ]);

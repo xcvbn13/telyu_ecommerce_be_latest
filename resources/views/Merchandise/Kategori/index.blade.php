@@ -77,7 +77,7 @@
                     <div class="modal-body">
                         <label>Kategori</label>
                         <div class="form-group">
-                            <input type="text" id="edit_kategori" name="kategori" placeholder="Kategori" class="form-control" />
+                            <input type="text" id="edit_kategori" name="kategori" placeholder="Kategori" class="form-control" required/>
                         </div>
                     </div>
                     <div class="modal-footer">

@@ -47,27 +47,27 @@
                     <div class="col">
                         <div class="form-group">
                             <label for="product_name">Nama Produk</label>
-                            <input type="text" class="form-control" id="product_name" name="product_name" placeholder="Nama Produk">
+                            <input type="text" class="form-control @error('product_name') is-invalid @enderror" id="product_name" name="product_name" value="{{ old('product_name') }}" placeholder="Nama Produk">
                         </div>
                     </div>
                     <div class="col-4">
                         <div class="form-group">
                             <label for="jumlah_produk">Jumlah Produk</label>
-                            <input type="text" class="form-control" id="jumlah_produk" name="jumlah_produk" placeholder="Jumlah Produk">
+                            <input type="text" class="form-control @error('jumlah_produk') is-invalid @enderror" id="jumlah_produk" name="jumlah_produk" value="{{ old('jumlah_produk') }}" placeholder="Jumlah Produk">
                         </div>
                     </div>
                 </div>
                 <div class="form-group">
                     <label for="product_description">Deskripsi Produk</label>
-                    <textarea class="form-control" id="product_description" name="product_description" rows="3"></textarea>
+                    <textarea class="form-control @error('product_description') is-invalid @enderror" id="product_description" name="product_description" rows="3">{{ old('product_description') }}</textarea>
                 </div>
                 <div class="form-group">
                     <label for="harga_produk">Harga Produk</label>
-                    <input type="text" class="form-control" id="harga_produk" name="harga_produk" placeholder="Harga Produk">
+                    <input type="text" class="form-control @error('harga_produk') is-invalid @enderror" id="harga_produk" name="harga_produk" value="{{ old('harga_produk') }}" placeholder="Harga Produk">
                 </div>
                 <div class="form-group">
                     <label for="kategori">Kategori Produk</label>
-                    <select class="form-control" name="kategori" id="kategori" aria-label="Default select example">
+                    <select class="form-control @error('kategori') is-invalid @enderror" name="kategori" id="kategori" aria-label="Default select example">
                         <option selected>Pilih Kategori Produk</option>
                         @foreach ($category as $item)
                             <option value="{{ $item->id }}">{{ $item->name_category }}</option>

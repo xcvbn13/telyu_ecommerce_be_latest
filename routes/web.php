@@ -33,6 +33,7 @@ Auth::routes();
 // admin
 Route::middleware(['is_admin','auth'])->group(function () {
     Route::get('admin/dashboard', [HomeController::class, 'index'])->name('home_admin');
+    Route::get('admin/dashboard/detail/{id}', [HomeController::class, 'index_detail']);
 
     // merchandise 
     Route::get('admin/merchandise/product',[MerchandiseController::class,'index']);

@@ -96,6 +96,8 @@
         </div>
     </div>
 
+    
+
     <!-- DataTales Example -->
     <div class="card shadow mb-4">
         <div class="card-header py-3">
@@ -166,7 +168,6 @@
                 success: function(results) {
                     console.log(results);
                     if (results === 'success') {
-                        modalhide(),
                         Swal.fire(
                                 'Success!',
                                 'Kategori Ditambahkan',
@@ -176,6 +177,15 @@
                                 location.reload(); // then reload the page.(3)
                             }, 1000);
                     }
+                },
+                error: function () {
+                    Swal.fire(
+                        'Fail!',
+                        'Periksa Kembali Data Yang Diinput',
+                        'error'
+                    ),
+                    $('#metode_pembayaran').val('')
+                    $('#no_rek').val('')
                 }
             });
         })

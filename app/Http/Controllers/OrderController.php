@@ -165,16 +165,14 @@ class OrderController extends Controller
 
         $idPembayaran = $pembayaran->id;
 
-        $cart = Cart::where('id_user',auth()->user()->id)->where('id_status_cart',1)->first();
-
         $updateOrder = Order::findOrFail($id);
         $updateOrder->status_order_id = 2;
         $updateOrder->pembayaran_id = $idPembayaran;
         $updateOrder->save();
 
         // pengurangan jumlah produk 
-        $cart = Cart::where('id_user',auth()->user()->id)->where('id_status_cart',1)->first();
-        $cartItem = CartItem::where('id_cart',$cart->id)->get();
+        $idCart = Order::findOrFail($id)->pluck('id_cart');
+        $cartItem = CartItem::where('id_cart',$idCart)->get();
         $jumlah_barang = 0;
 
         foreach ($cartItem as $key => $item) {
