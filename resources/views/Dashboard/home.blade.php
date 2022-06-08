@@ -141,7 +141,17 @@
                             <tr>
                                 <td>{{ $item->cart->user->name }}</td>
                                 <td>{{ $item->order_date->format('d-m-Y') }}</td>
-                                <td>{{ $item->status_order->status }}</td>
+                                <td><span class="
+                                    @if ($item->status_order_id == 3)
+                                    badge badge-pill badge-success p-2
+                                    @elseif ($item->status_order_id == 2)
+                                    badge badge-pill badge-warning p-2
+                                    @elseif ($item->status_order_id == 6)
+                                    badge badge-pill badge-danger p-2
+                                    @elseif ($item->status_order_id == 7)
+                                    badge badge-pill badge-info p-2
+                                    @endif
+                                    ">{{ $item->status_order->status }}</span></td>
                                 <td>
                                     <a href="{{ url('admin/dashboard/detail',$item->id) }}" class="btn btn-warning btn-circle btn-sm mr-1">
                                         <i class="fas fa-info-circle"></i>
