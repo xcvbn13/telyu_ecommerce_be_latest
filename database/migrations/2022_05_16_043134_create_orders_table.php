@@ -17,7 +17,7 @@ class CreateOrdersTable extends Migration
             $table->id();
             $table->string('no_resi');
             $table->string('jumlah_harga');
-            $table->string('alamat');
+            $table->text('alamat');
             $table->timestamp('order_date')->useCurrent();
             $table->timestamps();
 

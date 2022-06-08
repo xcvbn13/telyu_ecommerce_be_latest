@@ -150,6 +150,8 @@
                                     badge badge-pill badge-danger p-2
                                     @elseif ($item->status_order_id == 7)
                                     badge badge-pill badge-info p-2
+                                    @elseif ($item->status_order_id == 1)
+                                    badge badge-pill badge-secondary p-2
                                     @endif
                                     ">{{ $item->status_order->status }}</span></td>
                                 <td>
@@ -180,5 +182,13 @@
     <script src="{{ asset('assets/vendor/datatables/dataTables.bootstrap4.min.js') }}"></script>
 
     <!-- Page level custom scripts -->
-    <script src="{{ asset('assets/js/demo/datatables-demo.js') }}"></script>
+    {{-- <script src="{{ asset('assets/js/demo/datatables-demo.js') }}"></script> --}}
+
+    <script>
+        $(document).ready(function() {
+            $('#dataTable').DataTable( {
+                order: [[ 1, 'desc' ]]
+            } );
+        } );
+    </script>
 @endsection

@@ -29,6 +29,7 @@
         <h1 class="h3 mb-0 text-gray-800">Detail Product</h1>
         <a href="{{ url('admin/merchandise/product/edit',$product->id) }}" class="btn btn-primary btn-block col-2">Edit Produk</a>
     </div>
+    
 
     <!-- Content Row -->
     <div class="row">
@@ -81,7 +82,7 @@
                             </div>
                             <div class="row no-gutters align-items-center">
                                 <div class="col-auto">
-                                    <div class="h5 mb-0 mr-3 font-weight-bold text-gray-800">{{ $product->harga }}</div>
+                                    <div class="h5 mb-0 mr-3 font-weight-bold text-gray-800">Rp {{ $product->harga }}</div>
                                 </div>
                             </div>
                         </div>
@@ -127,10 +128,10 @@
         </div>
     </div>
 
-    <div class="d-sm-flex align-items-end flex-column mb-4">
+    <div class="d-sm-flex align-items-start flex-column mb-4">
         <div class="breadcrumb">
             <a href="{{ url('admin/merchandise/product') }}">
-                <i class="fa-solid fa-arrow-left-long"></i>  Kembali
+                <i class="fa-solid fa-arrow-left-long"></i>
             </a>
         </div>
     </div>

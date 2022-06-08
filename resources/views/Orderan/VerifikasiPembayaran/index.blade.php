@@ -79,7 +79,7 @@
                             <th>Name</th>
                             <th>Harga</th>
                             <th>Status</th>
-                            <th>Aksi</th>
+                            <th style="padding-left: 1.7rem">Aksi</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -89,8 +89,11 @@
                             <td>{{ $item->jumlah_harga }}</td>
                             <td><span class="badge badge-pill badge-warning p-2">{{ $item->status_order->status }}</span></td>
                             <td>
-                                <a href="#" class="btn btn-warning btn-circle btn-sm" 
+                                <a href="#" class="btn btn-success btn-circle btn-sm" 
                                 data-id="{{ $item->id }}" onclick="show($(this))">
+                                    <i class="fa-solid fa-pen-to-square"></i>
+                                </a>
+                                <a href="{{ url('admin/dashboard/detail',$item->id) }}" class="btn btn-warning btn-circle btn-sm">
                                     <i class="fas fa-info-circle"></i>
                                 </a>
                             </td>

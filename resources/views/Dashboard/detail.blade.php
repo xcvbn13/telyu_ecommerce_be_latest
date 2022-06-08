@@ -28,7 +28,7 @@
     <div class="d-sm-flex align-items-center justify-content-between mb-4">
         <h1 class="h3 text-gray-800">Detail Pesanan Customer</h1>
         <div class="breadcrumb">
-            <a href="{{ url('admin/dashboard') }}">
+            <a href="{{ url()->previous() }}">
                 <i class="fa-solid fa-arrow-left-long"></i>
             </a>
         </div>
@@ -44,9 +44,10 @@
                     <div class="row no-gutters align-items-center">
                         <div class="col mr-2">
                             <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
-                                Nama Customer
+                                Customer
                             </div>
                             <div class="h5 mb-0 font-weight-bold text-gray-800">{{ $order->cart->user->name }}</div>
+                            <div class="font-italic text-uppercase text-gray-800" style="font-size: 10pt">{{ $order->no_resi }}</div>
                         </div>
                         <div class="col-auto">
                             <i class="fa-solid fa-bag-shopping fa-2x text-gray-300"></i>
@@ -106,7 +107,7 @@
     <!-- Content Row -->
     <div class="row mt-4">
         <!-- Donut Chart -->
-        <div class="col-xl-7 col-lg-5">
+        <div class="col-6">
             <div class="card shadow mb-4">
                 <!-- Card Header - Dropdown -->
                 <div class="card-header py-3">
@@ -120,7 +121,7 @@
         </div>
 
         <!-- Donut Chart -->
-        <div class="col col-lg-5">
+        <div class="col">
             <div class="card shadow mb-4">
                 <!-- Card Header - Dropdown -->
                 <div class="card-header py-3">
@@ -132,6 +133,7 @@
                 </div>
             </div>
         </div>
+
     </div>
 
     <!-- Content Row -->

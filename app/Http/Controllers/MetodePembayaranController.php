@@ -23,7 +23,9 @@ class MetodePembayaranController extends Controller
 
     public function index_informasi()
     {
-        $metodepembayaran = MetodePembayaran::with(['order'])->get();
+        $metodepembayaran = MetodePembayaran::with(['order' => function($query) {
+            $query->where('status_order_id', 1)->orWhere('status_order_id', 2)->orWhere('status_order_id', 3);
+        }])->get();
 
         $data = [
             'metodepembayaran'=>$metodepembayaran
@@ -56,7 +58,8 @@ class MetodePembayaranController extends Controller
 
         $metodepembayaran = MetodePembayaran::create([
             'metode' => $request->metode_pembayaran,
-            'no_rek' => $request->no_rek
+            'no_rek' => $request->no_rek,
+            'id_status_metode' => 1
         ]);
 
         return 'success';

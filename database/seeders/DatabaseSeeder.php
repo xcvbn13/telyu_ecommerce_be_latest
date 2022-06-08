@@ -10,6 +10,7 @@ use App\Models\Opsikirim;
 use App\Models\StatusCart;
 use App\Models\StatusOrder;
 use Illuminate\Database\Seeder;
+use App\Models\StatusMetodePembayaran;
 
 class DatabaseSeeder extends Seeder
 {
@@ -79,6 +80,14 @@ class DatabaseSeeder extends Seeder
         ]);
 
         StatusCart::create([
+            'status' => 'Nonaktif'
+        ]);
+
+        StatusMetodePembayaran::create([
+            'status' => 'Aktif'
+        ]);
+
+        StatusMetodePembayaran::create([
             'status' => 'Nonaktif'
         ]);
 
