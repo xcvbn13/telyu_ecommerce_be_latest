@@ -60,6 +60,7 @@ Route::middleware(['is_admin','auth'])->group(function () {
     Route::get('admin/order/pembayaran_terverifikasi',[VerifikasiController::class,'index_terverifikasi']);
     Route::get('admin/order/pembayaran_terverifikasi/detail/{id}',[VerifikasiController::class,'index_terverfikasi_detail']);
     Route::post('admin/order/pembayaran_terverifikasi/{id}',[VerifikasiController::class,'store_verifikasi_berhasil']);
+    Route::put('admin/order/pembayaran_terverifikasi/selesai/{id}',[VerifikasiController::class,'store_order_selesai']);
     // ->verifikasi gagal
     Route::get('admin/order/verifikasi_gagal',[VerifikasiController::class,'index_verifikasi_gagal']);
     Route::get('admin/order/verfikasi_gagal/detail/{id}',[VerifikasiController::class,'index_verfikasi_gagal_detail']);

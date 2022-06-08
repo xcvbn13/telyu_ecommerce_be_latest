@@ -49,7 +49,7 @@ Route::middleware(['auth:sanctum'])->group(function () {
     // wishlist 
     Route::get('/wishlist',[WishlistController::class,'index']);
     Route::post('/wishlist',[WishlistController::class,'store']);
-    Route::post('/wishlist/delete/{id}',[WishlistController::class,'destroy']);
+    Route::delete('/wishlist/delete/{id}',[WishlistController::class,'destroy']);
 
     // payment page
     Route::get('/payment',[OrderController::class,'payment']);

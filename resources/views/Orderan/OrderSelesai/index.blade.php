@@ -82,7 +82,7 @@
                         <tr>
                             <td>{{ $item->cart->user->name }}</td>
                             <td>{{ $item->jumlah_harga }}</td>
-                            <td><span class="badge badge-pill badge-success p-2">{{ $item->status_order->status }}</span></td>
+                            <td><span class="badge badge-pill badge-info p-2">{{ $item->status_order->status }}</span></td>
                             <td>
                                 <a href="#" class="btn btn-warning btn-circle btn-sm"
                                 data-id="{{ $item->id }}" onclick="show($(this))">

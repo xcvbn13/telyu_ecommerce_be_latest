@@ -36,24 +36,30 @@
         <div class="modal-dialog modal-dialog-centered" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h4 class="modal-title" id="myModalLabel33">Detail Verifikasi</h4>
+                    <h4 class="modal-title" id="myModalLabel33">Detail Pesanan</h4>
                     <button type="button" class="close" onclick="modalhide()" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
                 <form action="#">
+                    @csrf
+                    @method('PUT')
                     <div class="modal-body">
-                        <label>Harga</label>
+                        <input type="hidden" id="id_order">
+                        <label>Nama Customer</label>
                         <div class="form-group">
-                            <input type="text" id="harga" class="form-control" readonly/>
+                            <input type="text" id="nama_customer" class="form-control" readonly/>
                         </div>
-                        <label>Metode Pembayaran</label>
+                        <label>No Resi</label>
                         <div class="form-group">
-                            <input type="text" id="metode" class="form-control" readonly/>
+                            <input type="text" id="no_resi" class="form-control" readonly/>
                         </div>
-                        <label>Bukti Pembayaran</label>
+                        <label>Opsi Kirim</label>
                         <div class="form-group">
-                            <img class="img-thumbnail" id="imgPembayaran" alt="bukti_pembayaran">
+                            <input type="text" id="opsi_kirim" class="form-control" readonly/>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" id="button_order_selesai" class="btn btn-primary" data-dismiss="modal">Order Selesai</button>
                         </div>
                     </div>
                 </form>
@@ -108,6 +114,8 @@
 
 
 @section('script')
+    {{-- sweetalert  --}}
+    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <!-- Page level plugins -->
     <script src="{{ asset('assets/vendor/datatables/jquery.dataTables.min.js') }}"></script>
     <script src="{{ asset('assets/vendor/datatables/dataTables.bootstrap4.min.js') }}"></script>
@@ -128,10 +136,10 @@
                 success: function(results) {
                     console.log(results)
                     $('#detailTerverifikasi').modal('show')
-                    $('#id_pembayaran').val(results.id)
-                    $('#harga').val(results.jumlah_harga)
-                    $('#metode').val(results.metodepembayaran.metode + " - " + results.metodepembayaran.no_rek)
-                    $("#imgPembayaran").attr("src", "/data_img_pembayaran/" + results.pembayaran.bukti_pembayaran);
+                    $('#id_order').val(results.id)
+                    $('#nama_customer').val(results.cart.user.name)
+                    $('#no_resi').val(results.no_resi)
+                    $("#opsi_kirim").val(results.opsikirim.opsi);
                 }
             });
         }
@@ -139,5 +147,46 @@
         function modalhide(){
             $('#detailTerverifikasi').modal('hide');
         }
+
+        $('#button_order_selesai').click(function() {
+            let id = $('#id_order').val()
+            var url = `{{ url('admin/order/pembayaran_terverifikasi/selesai','id') }}`;
+            url = url.replace('id', id);
+            var token = $("meta[name='csrf-token']").attr("content");
+
+            Swal.fire({
+                title: 'Apa Kamu Yakin?',
+                text: "Kamu tidak bisa mengubah data ini!",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Oke'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    $.ajax({
+                        type: "PUT",
+                        url: url,
+                        data: {
+                            "_token": token
+                        },
+                        success: function(results) {
+                            console.log(results);
+                            if (results === 'success') {
+                                Swal.fire(
+                                        'Berhasil!',
+                                        'Order Selesai',
+                                        'success'
+                                    ),
+                                    setTimeout(function() { // wait for 5 secs(2)
+                                        location.reload(); // then reload the page.(3)
+                                    }, 1000);
+                            }
+                        }
+                    });
+
+                }
+            })
+        })
     </script>
 @endsection

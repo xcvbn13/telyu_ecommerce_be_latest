@@ -42,7 +42,7 @@ class VerifikasiController extends Controller
 
     public function index_terverfikasi_detail($id)
     {
-        $order_verifikasi = Order::where('id',$id)->where('status_order_id',3)->with(['metodepembayaran','pembayaran'])->first();
+        $order_verifikasi = Order::where('id',$id)->with(['metodepembayaran','pembayaran','cart','opsikirim'])->first();
 
         return $order_verifikasi;
     }
@@ -127,6 +127,15 @@ class VerifikasiController extends Controller
 
         $updateOrder = Order::findOrFail($id);
         $updateOrder->status_order_id = 3;
+        $updateOrder->save();
+
+        return 'success';
+    }
+
+    public function store_order_selesai($id){
+
+        $updateOrder = Order::findOrFail($id);
+        $updateOrder->status_order_id = 7;
         $updateOrder->save();
 
         return 'success';
