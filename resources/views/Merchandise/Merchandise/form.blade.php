@@ -41,7 +41,7 @@
             <h6 class="m-0 font-weight-bold text-primary">Form Tambah Merchandise</h6>
         </div>
         <div class="card-body">
-            <form action="{{ url('admin/merchandise/product/store') }}" id="form_create" method="POST">
+            <form action="{{ url('admin/merchandise/product/store') }}" id="form_create" method="POST" enctype="multipart/form-data">
                 @csrf
                 <div class="row">
                     <div class="col">
@@ -54,6 +54,18 @@
                         <div class="form-group">
                             <label for="jumlah_produk">Jumlah Produk</label>
                             <input type="text" class="form-control @error('jumlah_produk') is-invalid @enderror" id="jumlah_produk" name="jumlah_produk" value="{{ old('jumlah_produk') }}" placeholder="Jumlah Produk">
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="product_description">Gambar Produk</label>
+                    <div class="input-group mb-3">
+                        <div class="input-group-prepend">
+                          <span class="input-group-text" id="inputGroupFileAddon01">Upload</span>
+                        </div>
+                        <div class="custom-file">
+                          <input type="file" class="custom-file-input @error('gambar_product') is-invalid @enderror" name="gambar_product" id="inputGroupFile01" accept=".jpg,.jpeg,.png" aria-describedby="inputGroupFileAddon01">
+                          <label id="file_name" class="custom-file-label" for="inputGroupFile01">Choose file</label>
                         </div>
                     </div>
                 </div>
@@ -96,4 +108,13 @@
 
     <!-- Page level custom scripts -->
     <script src="{{ asset('assets/js/demo/datatables-demo.js') }}"></script>
+    <script>
+        $('#inputGroupFile01').on('change',function(e){
+                //get the file name
+                // var fileName = $(this).val().replace('C:\\fakepath\\', " ");
+                var fileName = e.target.files[0].name;
+                //replace the "Choose a file" label
+                $(this).next('#file_name').html(fileName);
+            })
+    </script>
 @endsection

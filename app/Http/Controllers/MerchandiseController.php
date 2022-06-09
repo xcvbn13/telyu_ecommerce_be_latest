@@ -5,9 +5,11 @@ namespace App\Http\Controllers;
 use App\Models\Category;
 use App\Models\Products;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\File;
 
+use Illuminate\Support\Facades\Storage;
 use RealRashid\SweetAlert\Facades\Alert;
+use Illuminate\Support\Facades\Validator;
 
 class MerchandiseController extends Controller
 {
@@ -63,6 +65,7 @@ class MerchandiseController extends Controller
     {
         $validator = Validator::make($request->all(), [
             'product_name'=> 'required|string',
+            'gambar_product' => 'required',
             'jumlah_produk'=> 'required|numeric',
             'product_description'=> 'required|string',
             'harga_produk'=> 'required|numeric',
@@ -72,10 +75,21 @@ class MerchandiseController extends Controller
         if ($validator->fails()) {
             Alert::error('Fail!', 'Periksa Data Yang Diinputkan Kembali');
             return redirect()->back()->withInput();
+            // return response([
+            //     'error' => $request->gambar_product
+            // ]);
         }
+
+        $file = $request->file('gambar_product');
+ 
+		$nama_file = time()."_".$file->getClientOriginalName();
+ 
+		$tujuan_upload = 'img_produk';
+		$file->move($tujuan_upload,$nama_file);
 
         $merchandise = Products::create([
             'product_name' => $request->product_name,
+            'gambar_product' => $nama_file,
             'jumlah_product' => $request->jumlah_produk,
             'deskripsi_product' => $request->product_description,
             'harga' => $request->harga_produk,
@@ -134,9 +148,37 @@ class MerchandiseController extends Controller
      */
     public function update(Request $request, $id)
     {
+
+        $validator = Validator::make($request->all(), [
+            'product_name'=> 'required|string',
+            'gambar_product' => 'required',
+            'jumlah_produk'=> 'required|numeric',
+            'product_description'=> 'required|string',
+            'harga_produk'=> 'required|numeric',
+            'kategori'=> 'required',
+        ]);
+
+        if ($validator->fails()) {
+            Alert::error('Fail!', 'Periksa Data Yang Diinputkan Kembali');
+            return redirect()->back()->withInput();
+        }
+
+        $gambar = Products::findOrFail($id)->pluck('gambar_product');
+        // Storage::delete('img_produk/'.$gambar);
+        File::delete(public_path('img_produk/'.$gambar));
+
+
+        $file = $request->file('gambar_product');
+ 
+		$nama_file = time()."_".$file->getClientOriginalName();
+ 
+		$tujuan_upload = 'img_produk';
+		$file->move($tujuan_upload,$nama_file);
+
         $product = Products::findOrFail($id);
         $product->product_name = $request->product_name;
         $product->jumlah_product = $request->jumlah_produk;
+        $product->gambar_product = $nama_file;
         $product->deskripsi_product = $request->product_description;
         $product->harga = $request->harga_produk;
         $product->id_category = $request->kategori;

@@ -15,7 +15,7 @@ class Products extends Model
     use HasFactory;
 
     protected $table = 'products';
-    protected $fillable = ['product_name','jumlah_product','deskripsi_product','harga','id_category'];
+    protected $fillable = ['product_name','gambar_product','jumlah_product','deskripsi_product','harga','id_category'];
 
     public function category(){
         return $this->belongsTo(Category::class,'id_category');

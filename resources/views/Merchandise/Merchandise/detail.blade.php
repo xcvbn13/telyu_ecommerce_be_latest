@@ -24,10 +24,39 @@
 <!-- Begin Page Content -->
 <div class="container-fluid">
 
+    <!-- Modal -->
+    <div class="modal fade text-left" id="lihatGambarModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel33" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title" id="myModalLabel33">Gambar Produk</h4>
+                    <button type="button" class="close" onclick="modalclose()" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <form id="form_detail" enctype="multipart/form-data">
+                    @csrf
+                    <div class="modal-body">
+                        <div class="form-group align-item-center">
+                            <img class="rounded img-thumbnail mx-auto d-block" src="{{ url('/img_produk/'.$product->gambar_product) }}" id="gambarProduk" alt="gambar_produk">
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
     <!-- Page Heading -->
     <div class="d-sm-flex align-items-center justify-content-between mb-4">
         <h1 class="h3 mb-0 text-gray-800">Detail Product</h1>
-        <a href="{{ url('admin/merchandise/product/edit',$product->id) }}" class="btn btn-primary btn-block col-2">Edit Produk</a>
+        <div class="d-flex">
+            <div class="pr-3">
+                <button href="#" id="lihatGambar" class="btn btn-outline-secondary btn-block">Lihat Gambar</button>
+            </div>
+            <div>
+                <a href="{{ url('admin/merchandise/product/edit',$product->id) }}" class="btn btn-primary btn-block">Edit Produk</a>
+            </div>
+        </div>
     </div>
     
 
@@ -152,4 +181,16 @@
 
     <!-- Page level custom scripts -->
     <script src="{{ asset('assets/js/demo/datatables-demo.js') }}"></script>
+
+    <script>
+        $('#lihatGambar').click(function(){
+            $('#lihatGambarModal').modal('show')
+            var gambar = $('#gambarProduk').val()
+            console.log(gambar);
+        });
+
+        function modalclose(){
+            $('#lihatGambarModal').modal('hide');
+        }
+    </script>
 @endsection
