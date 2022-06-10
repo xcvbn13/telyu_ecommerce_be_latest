@@ -163,10 +163,12 @@ class MerchandiseController extends Controller
             return redirect()->back()->withInput();
         }
 
-        $gambar = Products::findOrFail($id)->pluck('gambar_product');
-        // Storage::delete('img_produk/'.$gambar);
-        File::delete(public_path('img_produk/'.$gambar));
+        $gambar = Products::findOrFail($id)->pluck('gambar_product')->first();
 
+        if(\File::exists(public_path('img_produk/'.$gambar))){
+            \File::delete(public_path('img_produk/'.$gambar));
+         
+        }
 
         $file = $request->file('gambar_product');
  
