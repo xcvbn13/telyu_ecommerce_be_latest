@@ -43,14 +43,26 @@
                     <thead>
                         <tr>
                             <th>Metode Pembayaran</th>
+                            <th>No Rekening</th>
                             <th>Order</th>
+                            <th>Status</th>
                         </tr>
                     </thead>
                     <tbody>
                         @foreach ($metodepembayaran as $item)
                             <tr>
                                 <td>{{ $item->metode }}</td>
+                                <td>{{ $item->no_rek }}</td>
                                 <td>{{ $item->order->count() }}</td>
+                                <td>
+                                    <span class="
+                                    @if ($item->id_status_metode == 1)
+                                    badge badge-pill badge-success p-2
+                                    @elseif ($item->id_status_metode == 2)
+                                    badge badge-pill badge-danger p-2
+                                    @endif
+                                    ">{{ $item->status_metode->status }}</span>
+                                </td>
                             </tr>
                         @endforeach
                     </tbody>

@@ -92,23 +92,16 @@ class OrderController extends Controller
 
         foreach ($cartItem as $key => $item) {
             $product = Products::where('id', $item['id_produk'])->first();
+            if ($item->jumlah_barang > $product->jumlah_product){
+                return response([
+                    'message' => "Stok $product->product_name Kurang Banyak",
+                ], 400 );
+                break;
+            }
             $jumlah_barang = CartItem::where('id_produk',$product->id)->first();
             $hargaperproduk = $product->harga * $jumlah_barang->jumlah_barang;
 
             $jumlah_harga = $jumlah_harga + $hargaperproduk;
-        }
-
-        // pengurangan jumlah produk 
-        $idCart = Order::findOrFail($id)->pluck('id_cart');
-        $cartItem = CartItem::where('id_cart',$idCart)->get();
-        $jumlah_barang = 0;
-
-        foreach ($cartItem as $key => $item) {
-            $product = Products::where('id', $item['id_produk'])->first();
-            $jumlah_barang = CartItem::where('id_produk',$product->id)->first();
-
-            $product->jumlah_product = $product->jumlah_product - $jumlah_barang->jumlah_barang;
-            $product->save();
         }
 
         $order = Order::create([
@@ -120,6 +113,19 @@ class OrderController extends Controller
             'id_opsikirim' => $request->opsikirim,
             'id_metode_pembayaran' => $request->metode_pembayaran
         ]);
+
+        // pengurangan jumlah produk 
+        $idCart = Order::findOrFail($order->id)->pluck('id_cart');
+        $cartItem = CartItem::where('id_cart',$idCart)->get();
+        $jumlah_barang = 0;
+
+        foreach ($cartItem as $key => $item) {
+            $product = Products::where('id', $item['id_produk'])->first();
+            $jumlah_barang = CartItem::where('id_produk',$product->id)->first();
+
+            $product->jumlah_product = $product->jumlah_product - $jumlah_barang->jumlah_barang;
+            $product->save();
+        }
 
         // non aktif cart 
         $cart->id_status_cart = 2;

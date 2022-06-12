@@ -39,7 +39,7 @@ Route::middleware(['is_admin','auth'])->group(function () {
     Route::get('admin/merchandise/product',[MerchandiseController::class,'index']);
     Route::get('admin/merchandise/product/create',[MerchandiseController::class,'create']);
     Route::post('admin/merchandise/product/store',[MerchandiseController::class,'store']);
-    Route::get('admin/merchandise/detail_product/{id}',[MerchandiseController::class,'show']);
+    Route::get('admin/merchandise/product/detail_product/{id}',[MerchandiseController::class,'show']);
     Route::get('admin/merchandise/product/edit/{id}',[MerchandiseController::class,'edit']);
     Route::PUT('admin/merchandise/product/update/{id}',[MerchandiseController::class,'update']);
 

@@ -80,14 +80,17 @@
                     <tbody>
                         @foreach ($order as $item)
                         <tr>
-                            <td>{{ $item->cart->user->name }}</td>
-                            <td>{{ $item->jumlah_harga }}</td>
-                            <td><span class="badge badge-pill badge-info p-2">{{ $item->status_order->status }}</span></td>
                             <td>
-                                <a href="#" class="btn btn-success btn-circle btn-sm"
-                                data-id="{{ $item->id }}" onclick="show($(this))">
-                                    <i class="fa-solid fa-pen-to-square"></i>
-                                </a>
+                                <div class="font-weight-bold text-uppercase">
+                                    {{ $item->cart->user->name }}    
+                                </div>
+                                <div class="font-italic" style="font-size: 11pt">
+                                    {{ $item->no_resi }}    
+                                </div>
+                            </td>
+                            <td class="align-middle">{{ $item->jumlah_harga }}</td>
+                            <td class="align-middle"><span class="badge badge-pill badge-info p-2">{{ $item->status_order->status }}</span></td>
+                            <td class="align-middle">
                                 <a href="{{ url('admin/dashboard/detail',$item->id) }}" class="btn btn-warning btn-circle btn-sm">
                                     <i class="fas fa-info-circle"></i>
                                 </a>
@@ -119,25 +122,6 @@
     <script src="{{ asset('assets/js/demo/datatables-demo.js') }}"></script>
 
     <script>
-        // edit kategori 
-        function show(e) {
-            let id = e.attr('data-id')
-            var url = `{{ url('admin/order/pesanan_selesai/detail','id') }}`;
-            url = url.replace('id', id);
-
-            $.ajax({
-                type: "GET",
-                url: url,
-                success: function(results) {
-                    console.log(results)
-                    $('#detailOrderSelesai').modal('show')
-                    $('#id_pembayaran').val(results.id)
-                    $('#harga').val(results.jumlah_harga)
-                    $('#metode').val(results.metodepembayaran.metode + " - " + results.metodepembayaran.no_rek)
-                    $("#imgPembayaran").attr("src", "/data_img_pembayaran/" + results.pembayaran.bukti_pembayaran);
-                }
-            });
-        }
 
         function modalhide(){
             $('#detailOrderSelesai').modal('hide');

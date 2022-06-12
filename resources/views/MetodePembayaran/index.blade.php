@@ -209,6 +209,35 @@
             });
         }
 
+        // Get the input field
+        var input = document.getElementById("editMetode");
+
+        // Execute a function when the user presses a key on the keyboard
+        input.addEventListener("keypress", function(event) {
+        // If the user presses the "Enter" key on the keyboard
+        if (event.key === "Enter") {
+            // Cancel the default action, if needed
+            event.preventDefault();
+            // Trigger the button element with a click
+            document.getElementById("metode_simpan").click();
+        }
+        });
+
+        // Get the input field
+        var input = document.getElementById("inlineForm");
+
+        // Execute a function when the user presses a key on the keyboard
+        input.addEventListener("keypress", function(event) {
+        // If the user presses the "Enter" key on the keyboard
+        if (event.key === "Enter") {
+            // Cancel the default action, if needed
+            event.preventDefault();
+            // Trigger the button element with a click
+            document.getElementById("metode_tambah").click();
+        }
+        });
+        
+
         function modalhide(){
             $('#editMetode').modal('hide');
         }

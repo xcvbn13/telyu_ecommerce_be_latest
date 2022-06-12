@@ -28,7 +28,7 @@
     <div class="d-sm-flex align-items-center justify-content-between mb-4">
         <h1 class="h3 mb-0 text-gray-800">Edit Produk</h1>
         <div class="breadcrumb">
-            <a href="{{ url('admin/merchandise/detail_product',$product->id) }}">
+            <a href="{{ url('admin/merchandise/product/detail_product',$product->id) }}">
                 <i class="fa-solid fa-arrow-left-long"></i>
             </a>
         </div>
@@ -109,7 +109,6 @@
     <!-- Page level custom scripts -->
     <script src="{{ asset('assets/js/demo/datatables-demo.js') }}"></script>
     <script>
-        $('#inputGroupFile01').on('')
 
         $('#inputGroupFile01').on('change',function(e){
                 //get the file name

@@ -55,7 +55,7 @@
                                 <td>{{ $item->jumlah_product }}</td>
                                 <td>Rp {{ $item->harga }}</td>
                                 <td>
-                                    <a href="{{ url('admin/merchandise/detail_product',$item->id) }}" class="btn btn-warning btn-circle btn-sm mr-1">
+                                    <a href="{{ url('admin/merchandise/product/detail_product',$item->id) }}" class="btn btn-warning btn-circle btn-sm mr-1">
                                         <i class="fas fa-info-circle"></i>
                                     </a>
                                 </td>

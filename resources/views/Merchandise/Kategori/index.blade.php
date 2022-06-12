@@ -140,6 +140,20 @@
     <script src="{{ asset('assets/js/demo/datatables-demo.js') }}"></script>
 
     <script>
+
+        // Get the input field
+        var input = document.getElementById("tambah_kategori");
+
+        // Execute a function when the user presses a key on the keyboard
+        input.addEventListener("keypress", function(event) {
+        // If the user presses the "Enter" key on the keyboard
+        if (event.key === "Enter") {
+            // Cancel the default action, if needed
+            event.preventDefault();
+            // Trigger the button element with a click
+            document.getElementById("kategori_tambah").click();
+        }
+        });
         
         // tambah kategori 
         $('#kategori_tambah').click(function() {

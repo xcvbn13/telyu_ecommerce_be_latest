@@ -80,10 +80,17 @@
                     <tbody>
                         @foreach ($order as $item)
                         <tr>
-                            <td>{{ $item->cart->user->name }}</td>
-                            <td>{{ $item->jumlah_harga }}</td>
-                            <td><span class="badge badge-pill badge-danger p-2">{{ $item->status_order->status }}</span></td>
                             <td>
+                                <div class="font-weight-bold text-uppercase">
+                                    {{ $item->cart->user->name }}    
+                                </div>
+                                <div class="font-italic" style="font-size: 11pt">
+                                    {{ $item->no_resi }}    
+                                </div>
+                            </td>
+                            <td class="align-middle">{{ $item->jumlah_harga }}</td>
+                            <td class="align-middle"><span class="badge badge-pill badge-danger p-2">{{ $item->status_order->status }}</span></td>
+                            <td class="align-middle">
                                 <a href="#" class="btn btn-success btn-circle btn-sm"
                                 data-id="{{ $item->id }}" onclick="show($(this))">
                                     <i class="fa-solid fa-pen-to-square"></i>

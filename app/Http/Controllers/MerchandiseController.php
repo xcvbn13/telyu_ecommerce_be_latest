@@ -148,10 +148,8 @@ class MerchandiseController extends Controller
      */
     public function update(Request $request, $id)
     {
-
         $validator = Validator::make($request->all(), [
             'product_name'=> 'required|string',
-            'gambar_product' => 'required',
             'jumlah_produk'=> 'required|numeric',
             'product_description'=> 'required|string',
             'harga_produk'=> 'required|numeric',
@@ -163,33 +161,39 @@ class MerchandiseController extends Controller
             return redirect()->back()->withInput();
         }
 
-        $gambar = Products::findOrFail($id)->pluck('gambar_product')->first();
-
-        if(\File::exists(public_path('img_produk/'.$gambar))){
-            \File::delete(public_path('img_produk/'.$gambar));
-         
-        }
-
-        $file = $request->file('gambar_product');
- 
-		$nama_file = time()."_".$file->getClientOriginalName();
- 
-		$tujuan_upload = 'img_produk';
-		$file->move($tujuan_upload,$nama_file);
+        
 
         $product = Products::findOrFail($id);
         $product->product_name = $request->product_name;
         $product->jumlah_product = $request->jumlah_produk;
-        $product->gambar_product = $nama_file;
         $product->deskripsi_product = $request->product_description;
         $product->harga = $request->harga_produk;
         $product->id_category = $request->kategori;
 
+        if ($request->gambar_product != null){
+            $file = $request->file('gambar_product');
+    
+            $nama_file = time()."_".$file->getClientOriginalName();
+    
+            $tujuan_upload = 'img_produk';
+            $file->move($tujuan_upload,$nama_file);
+
+            $product->gambar_product = $nama_file;   
+            
+            $gambar = Products::findOrFail($id)->pluck('gambar_product')->first();
+
+            if(\File::exists(public_path('img_produk/'.$gambar))){
+                \File::delete(public_path('img_produk/'.$gambar));
+            
+            }
+            
+        }
+        
         $product->save();
 
         Alert::success('Berhasil', 'Produk Berhasil Diubah');
 
-        return redirect('admin/merchandise/detail_product/'.$id);
+        return redirect('admin/merchandise/product/detail_product/'.$id);
     }
 
     public function update_stok(Request $request, $id)

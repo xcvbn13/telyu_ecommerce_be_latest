@@ -116,5 +116,7 @@
                 //replace the "Choose a file" label
                 $(this).next('#file_name').html(fileName);
             })
+
+        
     </script>
 @endsection

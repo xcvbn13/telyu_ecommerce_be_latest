@@ -139,9 +139,16 @@
                     <tbody>
                         @foreach ($order as $item)
                             <tr>
-                                <td>{{ $item->cart->user->name }}</td>
-                                <td>{{ $item->order_date->format('d-m-Y') }}</td>
-                                <td><span class="
+                                <td>
+                                    <div class="font-weight-bold text-uppercase">
+                                        {{ $item->cart->user->name }}    
+                                    </div>
+                                    <div class="font-italic" style="font-size: 11pt">
+                                        {{ $item->no_resi }}    
+                                    </div>
+                                </td>
+                                <td class="align-middle">{{ $item->order_date->format('d-m-Y') }}</td>
+                                <td class="align-middle"><span class="
                                     @if ($item->status_order_id == 3)
                                     badge badge-pill badge-success p-2
                                     @elseif ($item->status_order_id == 2)
@@ -154,7 +161,7 @@
                                     badge badge-pill badge-secondary p-2
                                     @endif
                                     ">{{ $item->status_order->status }}</span></td>
-                                <td>
+                                <td class="align-middle">
                                     <a href="{{ url('admin/dashboard/detail',$item->id) }}" class="btn btn-warning btn-circle btn-sm mr-1">
                                         <i class="fas fa-info-circle"></i>
                                     </a>

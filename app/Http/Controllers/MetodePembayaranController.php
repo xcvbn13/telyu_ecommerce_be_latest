@@ -15,7 +15,7 @@ class MetodePembayaranController extends Controller
      */
     public function index()
     {
-        $metodepembayaran = MetodePembayaran::all();
+        $metodepembayaran = MetodePembayaran::where('id_status_metode',1)->get();
 
         $data = ['metodepembayaran'=>$metodepembayaran];
         return view('MetodePembayaran.index',$data);
@@ -25,7 +25,7 @@ class MetodePembayaranController extends Controller
     {
         $metodepembayaran = MetodePembayaran::with(['order' => function($query) {
             $query->where('status_order_id', 1)->orWhere('status_order_id', 2)->orWhere('status_order_id', 3);
-        }])->get();
+        },'status_metode'])->get();
 
         $data = [
             'metodepembayaran'=>$metodepembayaran
@@ -114,13 +114,9 @@ class MetodePembayaranController extends Controller
      */
     public function destroy($id)
     {
-        $transaksi = Order::where('id_metode_pembayaran',$id)->count();
-        if($transaksi > 0){
-            return 'warning';
-        }
-
         $metodepembayaran = MetodePembayaran::findOrFail($id);
-        $metodepembayaran->delete();
+        $metodepembayaran->id_status_metode = 2;
+        $metodepembayaran->save();
 
         return 'success';
     }

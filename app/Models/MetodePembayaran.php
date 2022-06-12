@@ -2,8 +2,9 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
+use App\Models\StatusMetodePembayaran;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class MetodePembayaran extends Model
 {
@@ -14,5 +15,9 @@ class MetodePembayaran extends Model
 
     public function order(){
         return $this->hasMany(Order::class,'id_metode_pembayaran');
+    }
+
+    public function status_metode(){
+        return $this->belongsTo(StatusMetodePembayaran::class,'id_status_metode');
     }
 }
