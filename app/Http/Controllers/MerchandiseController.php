@@ -65,7 +65,7 @@ class MerchandiseController extends Controller
     {
         $validator = Validator::make($request->all(), [
             'product_name'=> 'required|string',
-            'gambar_product' => 'required',
+            'gambar_product' => 'required|image:jpg, jpeg, png',
             'jumlah_produk'=> 'required|numeric',
             'product_description'=> 'required|string',
             'harga_produk'=> 'required|numeric',
@@ -150,6 +150,7 @@ class MerchandiseController extends Controller
     {
         $validator = Validator::make($request->all(), [
             'product_name'=> 'required|string',
+            'gambar_product'=> 'image:jpg, jpeg, png',
             'jumlah_produk'=> 'required|numeric',
             'product_description'=> 'required|string',
             'harga_produk'=> 'required|numeric',
@@ -161,7 +162,6 @@ class MerchandiseController extends Controller
             return redirect()->back()->withInput();
         }
 
-        
 
         $product = Products::findOrFail($id);
         $product->product_name = $request->product_name;
@@ -171,8 +171,9 @@ class MerchandiseController extends Controller
         $product->id_category = $request->kategori;
 
         if ($request->gambar_product != null){
+            
             $file = $request->file('gambar_product');
-    
+            
             $nama_file = time()."_".$file->getClientOriginalName();
     
             $tujuan_upload = 'img_produk';
