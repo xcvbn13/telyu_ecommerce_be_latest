@@ -116,6 +116,10 @@
     <link href="{{ asset('/assets/vendor/datatables/dataTables.bootstrap4.min.css') }}" rel="stylesheet">
 @endsection
 
+@section('title')
+    Verikasi Gagal
+@endsection
+
 
 @section('script')
     <!-- Page level plugins -->

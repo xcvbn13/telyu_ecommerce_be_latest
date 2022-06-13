@@ -171,6 +171,10 @@
 <!-- /.container-fluid -->
 @endsection
 
+@section('title')
+    Detail Pesanan
+@endsection
+
 @section('cssstyle')
     <!-- Custom styles for this page -->
     <link href="{{ asset('/assets/vendor/datatables/dataTables.bootstrap4.min.css') }}" rel="stylesheet">
