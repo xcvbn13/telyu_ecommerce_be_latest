@@ -41,7 +41,7 @@ class OrderController extends Controller
         
         $opsiKirim = Opsikirim::all();
 
-        $metode_pembayaran = MetodePembayaran::all();
+        $metode_pembayaran = MetodePembayaran::where('id_status_metode',1)->get();
 
         $user = User::where('id',auth()->user()->id)->pluck('alamat');
 
