@@ -72,7 +72,7 @@
                     <thead>
                         <tr>
                             <th>Name</th>
-                            <th>Harga</th>
+                            <th>Tanggal</th>
                             <th>Status</th>
                             <th>Aksi</th>
                         </tr>
@@ -88,7 +88,7 @@
                                     {{ $item->no_resi }}    
                                 </div>
                             </td>
-                            <td class="align-middle">{{ $item->jumlah_harga }}</td>
+                            <td class="align-middle">{{ $item->updated_at->format('d-m-Y H:i') }}</td>
                             <td class="align-middle"><span class="badge badge-pill badge-info p-2">{{ $item->status_order->status }}</span></td>
                             <td class="align-middle">
                                 <a href="{{ url('admin/dashboard/detail',$item->id) }}" class="btn btn-warning btn-circle btn-sm">
