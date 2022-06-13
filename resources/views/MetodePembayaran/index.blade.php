@@ -170,7 +170,7 @@
                     if (results === 'success') {
                         Swal.fire(
                                 'Success!',
-                                'Kategori Ditambahkan',
+                                'Metode Pembayaran Ditambahkan',
                                 'success'
                             ),
                             setTimeout(function() { // wait for 5 secs(2)
