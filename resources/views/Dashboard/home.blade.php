@@ -147,7 +147,7 @@
                                         {{ $item->no_resi }}    
                                     </div>
                                 </td>
-                                <td class="align-middle">{{ $item->order_date->format('d-m-Y H:i') }}</td>
+                                <td class="align-middle">{{ $item->created_at->format('d-m-Y H:i') }}</td>
                                 <td class="align-middle"><span class="
                                     @if ($item->status_order_id == 3)
                                     badge badge-pill badge-success p-2
