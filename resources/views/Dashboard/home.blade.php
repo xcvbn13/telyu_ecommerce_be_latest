@@ -194,7 +194,8 @@
     <script>
         $(document).ready(function() {
             $('#dataTable').DataTable( {
-                order: [[ 2, 'desc' ]]
+                order: [[ 1, 'desc' ]]
+                columnDefs : [{"targets":1, "type":"date-id"}]
             } );
         } );
     </script>
