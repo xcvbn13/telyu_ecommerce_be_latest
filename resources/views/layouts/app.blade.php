@@ -16,7 +16,7 @@
     <script src="https://kit.fontawesome.com/9ab8981530.js" crossorigin="anonymous"></script>
 
     <!-- add icon link -->
-    <link rel = "icon" href ="{{ asset('assets/img/logo_title.svg') }}" type = "image/png">
+    <link rel = "icon" href ="{{ asset('assets/img/logo_title.svg') }}">
 
     <link
         href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
