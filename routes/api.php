@@ -40,7 +40,8 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::post('/order/selesai/{id_order}',[OrderController::class,'store_selesai']);
 
     // user page
-    Route::get('/user/edit/{id_user}',[UserController::class,'index']);
+    Route::get('/user',[UserController::class,'index']);
+    Route::put('/user/edit',[UserController::class,'update']);
 
     // product page
     Route::get('/products',[ProductsController::class,'index']);

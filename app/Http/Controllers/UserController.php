@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\User;
 use Illuminate\Http\Request;
 
 class UserController extends Controller
@@ -11,8 +12,9 @@ class UserController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index($id)
+    public function index()
     {
+        $id = auth()->user()->id;
         $review = User::findOrFail($id);
 
         return response([
@@ -71,9 +73,14 @@ class UserController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request)
     {
-        //
+        $user = User::findOrFail(auth()->user()->id);
+        $user->update($request->all());
+        return response([
+            'message' => "Berhasil",
+            'data' => $user,
+        ], 200);
     }
 
     /**
