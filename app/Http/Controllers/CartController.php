@@ -101,7 +101,7 @@ class CartController extends Controller
      */
     public function destroy($id)
     {
-        $cart = Cart::findOrFail($id);
+        $cart = CartItem::findOrFail($id);
         $cart->delete();
         
         return response([
