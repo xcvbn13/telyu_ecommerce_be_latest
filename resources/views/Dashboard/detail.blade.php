@@ -133,6 +133,20 @@
                 </div>
             </div>
         </div>
+        
+        <!-- Donut Chart -->
+        <div class="col">
+            <div class="card shadow mb-4">
+                <!-- Card Header - Dropdown -->
+                <div class="card-header py-3">
+                    <h6 class="m-0 font-weight-bold text-primary">No Telpon</h6>
+                </div>
+                <!-- Card Body -->
+                <div class="card-body">
+                    <div class="mb-0 mr-3 font-weight-bold text-gray-800"> {{ $order->cart->user->no_telp }} </div>
+                </div>
+            </div>
+        </div>
 
     </div>
 
