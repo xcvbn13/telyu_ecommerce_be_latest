@@ -75,12 +75,28 @@ class UserController extends Controller
      */
     public function update(Request $request)
     {
+        $request->validate([
+            'name' => 'required',
+            'email' => 'required|email|unique:users,email',
+            'password' => 'required',
+            'alamat' => 'required',
+            'no_telp' => 'required',
+        ]);
+
         $id = auth()->user()->id;
+        
         $user = User::findOrFail($id);
 
-        $user->update($request->all());
+        $user->name = $request->name;
+        $user->email = $request->email;
+        $user->password = Hash::make($request->password);
+        $user->alamat = $request->alamat;
+        $user->no_telp = $request->no_telp;
+        $user->save();
+
         return response([
             'message' => "Berhasil",
+            'data' => $user,
         ], 200);
     }
 
