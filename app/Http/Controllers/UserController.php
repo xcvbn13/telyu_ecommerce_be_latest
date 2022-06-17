@@ -19,7 +19,7 @@ class UserController extends Controller
         
         return response([
             'message' => "Berhasil",
-            'data' => $review->password,
+            'data' => $review,
         ], 200);
     }
 
