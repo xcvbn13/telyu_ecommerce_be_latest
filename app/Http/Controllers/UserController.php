@@ -16,10 +16,10 @@ class UserController extends Controller
     {
         $id = auth()->user()->id;
         $review = User::findOrFail($id);
-
+        
         return response([
             'message' => "Berhasil",
-            'data' => $review,
+            'data' => $review->password,
         ], 200);
     }
 
@@ -133,7 +133,7 @@ class UserController extends Controller
 
         $id = auth()->user()->id;
         $user = User::findOrFail($id);
-        $passwordUser = auth()->user()->password;
+        $passwordUser = $user->password;
         $checkpass = Hash::check($request->oldpassword,$passwordUser);
 
         if($request->oldpassword != null && $request->password != null && $request->password_confirmation != null){
