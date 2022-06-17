@@ -41,7 +41,7 @@ Route::middleware(['auth:sanctum'])->group(function () {
 
     // user page
     Route::get('/user',[UserController::class,'index']);
-    Route::put('/user/edit',[UserController::class,'update']);
+    Route::patch('/user/edit',[UserController::class,'update']);
 
     // product page
     Route::get('/products',[ProductsController::class,'index']);

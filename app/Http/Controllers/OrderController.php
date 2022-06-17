@@ -78,6 +78,12 @@ class OrderController extends Controller
     //  order -> status -> 1 
     public function store(Request $request)
     {
+        $request->validate([
+            'alamat' => 'required',
+            'opsikirim' => 'required',
+            'metode_pembayaran' => 'required'
+        ]);
+
         $date = Carbon::now()->format('Ymd');
 
         $orderController = new OrderController();
