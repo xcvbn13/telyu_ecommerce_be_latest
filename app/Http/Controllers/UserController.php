@@ -137,7 +137,7 @@ class UserController extends Controller
         $checkpass = Hash::check($request->oldpassword,$passwordUser);
 
         if($request->oldpassword != null && $request->password != null && $request->password_confirmation != null){
-            if(!Hash::check($request->oldpassword,auth()->user()->password)){
+            if(!checkpass){
                 return response([
                     'message' => "Old Password Tidak Cocok",
                 ], 400);
@@ -146,10 +146,11 @@ class UserController extends Controller
                 'oldpassword' => 'required',
                 'password' => 'required|confirmed',
             ]);
-            $user->password = Hash::make($request->password);
+            $user->password = Hash::make($request->password);    
             $user->save();
-            
         }
+
+
         return response([
             'message' => "Berhasil",
             'data' => $user
