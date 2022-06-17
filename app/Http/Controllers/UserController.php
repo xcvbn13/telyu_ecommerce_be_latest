@@ -75,28 +75,22 @@ class UserController extends Controller
      */
     public function update(Request $request)
     {
-        $request->validate([
-            'name' => 'required|string',
-            'email' => 'required|email|unique:users,email',
-            'password' => 'required|confirmed',
-        ]);
+        // $request->validate([
+        //     'name' => 'required|string',
+        //     'email' => 'required|email|unique:users,email',
+        //     'password' => 'required|confirmed',
+        // ]);
 
         $user = User::findOrFail(auth()->user()->id);
         
-        $user->name = $request->name;
-        $user->email = $request->email;
-        $user->alamat = $request->alamat;
-        $user->no_telp = $request->no_telp;
-        $user->password = Hash::make($request->password);
-        $user->save();
+        // $user->name = $request->name;
+        // $user->email = $request->email;
+        // $user->alamat = $request->alamat;
+        // $user->no_telp = $request->no_telp;
+        // $user->password = Hash::make($request->password);
+        // $user->save();
 
-        // $user->update([
-        //     'name' => $request->name,
-        //     'email' => $request->email,
-        //     'alamat' => $request->alamat,
-        //     'no_telp' => $request->no_telp,
-        //     'password' => Hash::make($request['password']),
-        // ]);
+        $user->update($request->all());
 
         return response([
             'message' => "Berhasil",
