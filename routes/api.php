@@ -32,7 +32,7 @@ Route::middleware(['auth:sanctum'])->group(function () {
     // order 
     Route::get('/order',[OrderController::class,'index']);
     Route::get('/order/detail/{id_order}',[OrderController::class,'show']);
-    Route::post('/order',[OrderController::class,'store']);
+    Route::post('/order/create',[OrderController::class,'store']);
     Route::post('/order/pembayaran/{id_order}',[OrderController::class,'store_pembayaran']);
     Route::post('/order/dibatalkan/{id_order}',[OrderController::class,'store_dibatalkan']);
     Route::post('/order/waktu_habis/{id_order}',[OrderController::class,'store_waktu_habis']);
