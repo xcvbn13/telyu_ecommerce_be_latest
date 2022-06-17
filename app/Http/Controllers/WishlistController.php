@@ -38,10 +38,10 @@ class WishlistController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store($id)
     {
         $wishlist = Wishlist::create([
-            'id_produk' => $request->id_produk,
+            'id_produk' => $id,
             'id_user' => auth()->user()->id,
         ]);
 
