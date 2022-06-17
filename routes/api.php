@@ -39,7 +39,7 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::post('/order/verifikasi_gagal/{id_order}',[OrderController::class,'store_verifikasi_gagal']);
     Route::post('/order/selesai/{id_order}',[OrderController::class,'store_selesai']);
 
-    // user page
+    // user page 
     Route::get('/user',[UserController::class,'index']);
     Route::put('/user/edit',[UserController::class,'update']);
     Route::put('/user/edit/password',[UserController::class,'updatePass']);

@@ -75,9 +75,7 @@ class UserController extends Controller
      */
     public function update(Request $request)
     {
-
         $id = auth()->user()->id;
-        
         $user = User::findOrFail($id);
         $emailUser = $user->email;
         $nameUser = $user->name;
@@ -133,10 +131,10 @@ class UserController extends Controller
 
     public function updatePass(Request $request){
 
-        // $id = auth()->user()->id;
-        // $user = User::findOrFail($id);
-        // $passwordUser = auth()->user()->password;
-        // $checkpass = Hash::check($request->oldpassword,$passwordUser);
+        $id = auth()->user()->id;
+        $user = User::findOrFail($id);
+        $passwordUser = auth()->user()->password;
+        $checkpass = Hash::check($request->oldpassword,$passwordUser);
 
         if($request->oldpassword != null && $request->password != null && $request->password_confirmation != null){
             if(!Hash::check($request->oldpassword,auth()->user()->password)){
