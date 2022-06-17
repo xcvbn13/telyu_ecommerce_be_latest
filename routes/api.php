@@ -42,7 +42,7 @@ Route::middleware(['auth:sanctum'])->group(function () {
     // user page 
     Route::get('/user',[UserController::class,'index']);
     Route::put('/user/edit',[UserController::class,'update']);
-    Route::put('/user/edit/password',[UserController::class,'updatePass']);
+    Route::put('/user/edit_password',[UserController::class,'update_pass']);
 
     // product page
     Route::get('/products',[ProductsController::class,'index']);

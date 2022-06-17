@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
 
 class UserController extends Controller
 {
@@ -75,11 +76,9 @@ class UserController extends Controller
      */
     public function update(Request $request)
     {
-        $id = auth()->user()->id;
-        $user = User::findOrFail($id);
+        $user = auth()->user();
         $emailUser = $user->email;
         $nameUser = $user->name;
-        $passwordUser = $user->password;
         $alamatUser = $user->alamat;
         $no_telpUser = $user->no_telp;
 
@@ -88,7 +87,7 @@ class UserController extends Controller
                 $request->validate([
                     'name' => 'required'
                 ]);
-                $user->name = $request->name;
+                $nameUser = $request->name;
             }
         }
         if($request->email != null){
@@ -96,7 +95,7 @@ class UserController extends Controller
                 $request->validate([
                     'email' => 'required|email|unique:users,email'
                 ]);
-                $user->email = $request->email;
+                $emailUser = $request->email;
             }
         }
 
@@ -105,7 +104,7 @@ class UserController extends Controller
                 $request->validate([
                     'alamat' => 'required'
                 ]);
-                $user->alamat = $request->alamat;
+                $alamatUser = $request->alamat;
             }
         }
         if($request->no_telp != null){
@@ -113,7 +112,7 @@ class UserController extends Controller
                 $request->validate([
                     'no_telp' => 'required|numeric'
                 ]);
-                $user->no_telp = $request->no_telp;
+                $no_telpUser = $request->no_telp;
             }
         }
         // $user->name = $request->name;
@@ -129,15 +128,15 @@ class UserController extends Controller
         ], 200);
     }
 
-    public function updatePass(Request $request){
+    public function update_pass(Request $request){
 
-        $id = auth()->user()->id;
-        $user = User::findOrFail($id);
+        $user = auth()->user();
         $passwordUser = $user->password;
         $checkpass = Hash::check($request->oldpassword,$passwordUser);
+        
 
         if($request->oldpassword != null && $request->password != null && $request->password_confirmation != null){
-            if(!checkpass){
+            if(!$checkpass){
                 return response([
                     'message' => "Old Password Tidak Cocok",
                 ], 400);
@@ -146,10 +145,9 @@ class UserController extends Controller
                 'oldpassword' => 'required',
                 'password' => 'required|confirmed',
             ]);
-            $user->password = Hash::make($request->password);    
+            $user->password = Hash::make($request->password);  
             $user->save();
         }
-
 
         return response([
             'message' => "Berhasil",
