@@ -81,7 +81,6 @@ class UserController extends Controller
         $user->update($request->all());
         return response([
             'message' => "Berhasil",
-            'data' => $user,
         ], 200);
     }
 
