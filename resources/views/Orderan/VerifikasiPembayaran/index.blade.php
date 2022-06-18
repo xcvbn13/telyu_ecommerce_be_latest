@@ -54,7 +54,7 @@
                         </div>
                         <label>Bukti Pembayaran</label>
                         <div class="form-group align-item-center">
-                            <img class="img-thumbnail" id="imgPembayaran" alt="bukti_pembayaran">
+                            <img class="rounded img-thumbnail mx-auto d-block" id="imgPembayaran" alt="bukti_pembayaran">
                         </div>
                     </div>
                     <div class="modal-footer">
