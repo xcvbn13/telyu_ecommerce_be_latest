@@ -53,7 +53,7 @@
                             <input type="text" id="metode" class="form-control" readonly/>
                         </div>
                         <label>Bukti Pembayaran</label>
-                        <div class="form-group">
+                        <div class="form-group align-item-center">
                             <img class="img-thumbnail" id="imgPembayaran" alt="bukti_pembayaran">
                         </div>
                     </div>
