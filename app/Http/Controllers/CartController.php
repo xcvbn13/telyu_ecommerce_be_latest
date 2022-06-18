@@ -45,6 +45,8 @@ class CartController extends Controller
 
         $cart = Cart::where('id_user',auth()->user()->id)->where('id_status_cart',1)->first();
 
+        $jumlah_product = Product::where('id',$request->id_product)->pluck('jumlah_product');
+
         $cartItem = CartItem::create([
             'jumlah_barang' => $request->jumlah_barang,
             'id_produk' => $request->id_produk,

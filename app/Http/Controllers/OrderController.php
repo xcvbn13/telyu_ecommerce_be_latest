@@ -100,7 +100,7 @@ class OrderController extends Controller
             $product = Products::where('id', $item['id_produk'])->first();
             if ($item->jumlah_barang > $product->jumlah_product){
                 return response([
-                    'message' => "Stok $product->product_name Kurang Banyak",
+                    'message' => "Permintaan Anda Untuk $product->product_name Melebihi Stok",
                 ], 400 );
                 break;
             }
