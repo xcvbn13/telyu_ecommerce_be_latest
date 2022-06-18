@@ -83,30 +83,37 @@ class UserController extends Controller
         $no_telpUser = $user->no_telp;
 
         if($request->name != null){
-            $request->validate([
-                'name' => 'required'
-            ]);
-            $nameUser = $request->name;
+            if(strcmp($request->name,$nameUser) != 0){
+                $request->validate([
+                    'name' => 'required'
+                ]);
+                $user->name = $request->name;
+            }
         }
         if($request->email != null){
-            $request->validate([
-                'email' => 'required|email|unique:users,email'
-            ]);
-            $emailUser = $request->email;
+            if(strcmp($request->email,$emailUser) != 0){
+                $request->validate([
+                    'email' => 'required|email|unique:users,email'
+                ]);
+                $user->email = $request->email;
+            }
         }
 
         if($request->alamat != null){
-            $request->validate([
-                'alamat' => 'required'
-            ]);
-            $alamatUser = $request->alamat;
+            if(strcmp($request->alamat,$alamatUser) != 0){
+                $request->validate([
+                    'alamat' => 'required'
+                ]);
+                $user->alamat = $request->alamat;
+            }
         }
         if($request->no_telp != null){
-            $request->validate([
-                'no_telp' => 'required|numeric'
-            ]);
-            $no_telpUser = $request->no_telp;
-            
+            if(strcmp($request->no_telp,$no_telpUser) != 0){
+                $request->validate([
+                    'no_telp' => 'required|numeric'
+                ]);
+                $user->no_telp = $request->no_telp;
+            }
         }
         // $user->name = $request->name;
         // $user->email = $request->email;
