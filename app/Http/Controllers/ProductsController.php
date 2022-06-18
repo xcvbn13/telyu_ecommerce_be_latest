@@ -15,7 +15,7 @@ class ProductsController extends Controller
 
     public function index()
     {
-        $products = Products::all();
+        $products = Products::where('jumlah_product','>',0)->get();
 
         if($products->isEmpty()){
             return response([

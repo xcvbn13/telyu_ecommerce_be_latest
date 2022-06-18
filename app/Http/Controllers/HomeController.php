@@ -26,13 +26,16 @@ class HomeController extends Controller
     public function index()
     {
         $order = Order::where('status_order_id',1)
-        ->where('status_order_id',1)
-        ->where('status_order_id',2)
-        ->where('status_order_id',3)
-        ->where('status_order_id',6)
-        ->where('status_order_id',7)
+        ->orWhere('status_order_id',2)
+        ->orWhere('status_order_id',3)
+        ->orWhere('status_order_id',6)
+        ->orWhere('status_order_id',7)
         ->with(['cart','status_order'])->get();
-        $countOrder = Order::where('status_order_id',1)->count();
+        $countOrder = Order::where('status_order_id',1)
+        ->orWhere('status_order_id',2)
+        ->orWhere('status_order_id',3)
+        ->orWhere('status_order_id',6)
+        ->orWhere('status_order_id',7)->count();
         $countVerifikasi = Order::where('status_order_id',2)->count();
         $countTerverifikasi = Order::where('status_order_id',3)->count();
         $countSelesai = Order::where('status_order_id',7)->count();
