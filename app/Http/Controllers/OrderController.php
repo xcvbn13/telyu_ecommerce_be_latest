@@ -96,6 +96,12 @@ class OrderController extends Controller
         $cartItem = CartItem::where('id_cart',$cart->id)->get();
         $jumlah_harga = 0;
 
+        if(sizeof($cartItem) == 0){
+            return response([
+                'message' => "Tambah Produk Ke Cart Terlebih Dahulu",
+            ], 400);
+        }
+
         foreach ($cartItem as $key => $item) {
             $product = Products::where('id', $item['id_produk'])->first();
             if ($item->jumlah_barang > $product->jumlah_product){
@@ -115,12 +121,6 @@ class OrderController extends Controller
         // $cartItem = CartItem::where('id_cart',$idCart)->get();
         $cartItem = CartItem::where('id_cart',$cart->id)->get();
         $jumlah_barang = 0;
-
-        if(count($cartItem) > 0){
-            return response([
-                'message' => "Tambah Produk Ke Cart Terlebih Dahulu",
-            ], 400);
-        }
 
         foreach ($cartItem as $key => $item) {
             $product = Products::where('id', $item['id_produk'])->first();
