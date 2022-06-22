@@ -116,18 +116,18 @@ class OrderController extends Controller
         $cartItem = CartItem::where('id_cart',$cart->id)->get();
         $jumlah_barang = 0;
 
+        if(empty($cartItem)){
+            return response([
+                'message' => "Tambah Produk Ke Cart Terlebih Dahulu",
+            ], 400);
+        }
+
         foreach ($cartItem as $key => $item) {
             $product = Products::where('id', $item['id_produk'])->first();
             $jumlah_barang = CartItem::where('id_produk',$product->id)->first();
 
             $product->jumlah_product = $product->jumlah_product - $jumlah_barang->jumlah_barang;
             $product->save();
-        }
-
-        if($cartItem == null){
-            return response([
-                'message' => "Tambah Produk Ke Cart Terlebih Dahulu",
-            ], 400);
         }
 
         $order = Order::create([
