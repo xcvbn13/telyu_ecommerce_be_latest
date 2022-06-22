@@ -116,7 +116,7 @@ class OrderController extends Controller
         $cartItem = CartItem::where('id_cart',$cart->id)->get();
         $jumlah_barang = 0;
 
-        if(empty($cartItem)){
+        if(count($cartItem) > 0){
             return response([
                 'message' => "Tambah Produk Ke Cart Terlebih Dahulu",
             ], 400);
