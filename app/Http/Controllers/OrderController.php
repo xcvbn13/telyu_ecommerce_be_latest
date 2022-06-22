@@ -111,8 +111,9 @@ class OrderController extends Controller
         }
 
         // pengurangan jumlah produk 
-        $idCart = Order::findOrFail($order->id)->pluck('id_cart');
-        $cartItem = CartItem::where('id_cart',$idCart)->get();
+        // $idCart = Order::findOrFail($order->id)->pluck('id_cart');
+        // $cartItem = CartItem::where('id_cart',$idCart)->get();
+        $cartItem = CartItem::where('id_cart',$cart->id)->get();
         $jumlah_barang = 0;
 
         foreach ($cartItem as $key => $item) {
