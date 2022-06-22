@@ -117,8 +117,8 @@ class OrderController extends Controller
         $jumlah_barang = 0;
 
         foreach ($cartItem as $key => $item) {
-            $product = Products::where('id', $item['id_produk'])->firstOrFail();
-            $jumlah_barang = CartItem::where('id_produk',$product->id)->firstOrFail();
+            $product = Products::where('id', $item['id_produk'])->first();
+            $jumlah_barang = CartItem::where('id_produk',$product->id)->first();
 
             $product->jumlah_product = $product->jumlah_product - $jumlah_barang->jumlah_barang;
             $product->save();
