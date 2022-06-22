@@ -124,6 +124,12 @@ class OrderController extends Controller
             $product->save();
         }
 
+        if($cartItem == null){
+            return response([
+                'message' => "Tambah Produk Ke Cart Terlebih Dahulu",
+            ], 400);
+        }
+
         $order = Order::create([
             'no_resi' => $no_resi,
             'jumlah_harga' => $jumlah_harga,
