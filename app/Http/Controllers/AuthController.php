@@ -14,8 +14,14 @@ class AuthController extends Controller
     public function login(Request $request){
         $request->validate([
             'email' => 'required|email|exists:users',
-            'password' => 'required|exists:users',
         ]);
+
+        $user = User::where('email',$request->email)->firstOrFail();
+        if(!Hash::check($request->password, $user->password)){
+            $request->validate([
+                'password' => 'required|password',
+            ]);
+        }
 
         // $remember_me = true;
 
