@@ -56,7 +56,7 @@ class AuthController extends Controller
             'email' => 'required|email|unique:users,email',
             'password' => 'required|confirmed',
         ],[
-            'email.required' => 'Email sudah terpakai',
+            'email.required.email.unique' => 'Email sudah terpakai',
         ]);
 
         $user = User::create([
