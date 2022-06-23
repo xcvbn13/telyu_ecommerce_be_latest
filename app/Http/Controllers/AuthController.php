@@ -14,7 +14,7 @@ class AuthController extends Controller
     public function login(Request $request){
         $request->validate([
             'email' => 'required|email|exists:users',
-            'password' => 'required|password:users',
+            'password' => 'required|current_password:users',
         ]);
 
         // $remember_me = true;
