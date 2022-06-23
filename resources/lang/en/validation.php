@@ -150,7 +150,7 @@ return [
     'custom' => [
         'email' => [
             'required' => 'Masukan Email Terlebih Dahulu',
-            'email' => 'Masukan Email Yang Benar',
+            'email' => 'Masukan Format Email Yang Benar',
             'unique' => 'Email Telah Tersedia',
             'exists' => 'Email Tidak Terdaftar',
         ],
