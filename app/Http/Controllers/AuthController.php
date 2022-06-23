@@ -14,27 +14,28 @@ class AuthController extends Controller
     public function login(Request $request){
         $request->validate([
             'email' => 'required|email',
-            'password' => 'required',
+            'password' => 'required|current_password:users',
         ]);
 
         // $remember_me = true;
 
         $check = $request->only('email', 'password');
+        Auth::attempt($check);
 
-        $user = User::where('email', request('email'))->first();
+        // $user = User::where('email', request('email'))->first();
 
-        if(!Auth::attempt($check)){
-            if(!isset($user)){
-                return response([
-                    'message' => 'Invalid Email'
-                ],401);
-            }
-            if (!Hash::check(request('password'), $user->password)) {
-                return response([
-                    'message' => 'Invalid Password'
-                ],401);
-            }
-        }
+        // if(!Auth::attempt($check)){
+        //     if(!isset($user)){
+        //         return response([
+        //             'message' => 'Invalid Email'
+        //         ],401);
+        //     }
+        //     if (!Hash::check(request('password'), $user->password)) {
+        //         return response([
+        //             'message' => 'Invalid Password'
+        //         ],401);
+        //     }
+        // }
     
         if(auth()->user()->user_type_id == 2){
             return response([
