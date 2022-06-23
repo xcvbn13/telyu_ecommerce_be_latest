@@ -147,6 +147,14 @@ return [
         ],
     ],
 
+    'custom' => [
+        'email' => [
+            'required' => 'Masukan Email Terlebih Dahulu',
+            'email' => 'Masukan Email Yang Benar',
+            'unique' => 'Email Telah Tersedia',
+        ],
+    ],
+
     /*
     |--------------------------------------------------------------------------
     | Custom Validation Attributes
