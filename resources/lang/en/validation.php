@@ -153,6 +153,11 @@ return [
             'email' => 'Masukan Email Yang Benar',
             'unique' => 'Email Telah Tersedia',
         ],
+
+        'password' => [
+            'required' => 'Masukan Password Terlebih Dahulu',
+            'password' => 'Password Anda Salah',
+        ],
     ],
 
     /*
