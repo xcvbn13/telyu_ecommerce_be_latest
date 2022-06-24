@@ -8,6 +8,7 @@ use App\Http\Controllers\UserController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\ProductsController;
 use App\Http\Controllers\WishlistController;
+use App\Http\Controllers\CategoryMerchandiseController;
 
 /*
 |--------------------------------------------------------------------------
@@ -45,6 +46,7 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::put('/user/edit_password',[UserController::class,'update_pass']);
 
     // product page
+    Route::get('/products/category',[CategoryMerchandiseController::class,'index_api']);
     Route::get('/products',[ProductsController::class,'index']);
     Route::get('/products/{id}',[ProductsController::class,'product_detail']);
 

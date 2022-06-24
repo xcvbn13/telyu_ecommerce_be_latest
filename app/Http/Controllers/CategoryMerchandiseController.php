@@ -20,6 +20,16 @@ class CategoryMerchandiseController extends Controller
         return view('Merchandise.Kategori.index',compact('category'));
     }
 
+    public function index_api()
+    {
+        $category = Category::all();
+
+        return response([
+            'message' => "Berhasil",
+            'data' => $category,
+        ], 200);
+    }
+
     /**
      * Show the form for creating a new resource.
      *
