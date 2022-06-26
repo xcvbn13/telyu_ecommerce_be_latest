@@ -63,7 +63,7 @@ class CartController extends Controller
 
         return response([
             'message' => "Berhasil menambah data cart",
-            'data' => $review,
+            'data' => $cekProduk,
         ], 200);
     }
 
