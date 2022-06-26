@@ -59,7 +59,7 @@ class CartController extends Controller
             'id_cart' => $cart->id,
         ]);
 
-        $review = Cart::where('id', $cart->id)->where('id_status_cart',1)->with(['user','cart_item'])->get();
+        $review = Cart::where('id', $cartItem->id)->with(['user','cart_item'])->get();
 
         return response([
             'message' => "Berhasil menambah data cart",
