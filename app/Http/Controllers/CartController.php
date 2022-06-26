@@ -45,6 +45,13 @@ class CartController extends Controller
 
         $cart = Cart::where('id_user',auth()->user()->id)->where('id_status_cart',1)->first();
 
+        $cekProduk = Products::where('id',$request->id_produk)->pluck('jumlah_product');
+        if ($cekProduk < $request->jumlah_barang){
+            return response([
+                'message' => "Jumlah Barang Terbatas",
+            ], 400);
+        }
+
         $cartItem = CartItem::create([
             'jumlah_barang' => $request->jumlah_barang,
             'id_produk' => $request->id_produk,

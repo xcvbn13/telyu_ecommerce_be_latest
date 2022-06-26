@@ -66,7 +66,7 @@ class AuthController extends Controller
         ]);
 
         return response([
-            'user' => $user,
+            'user' => auth()->user(),
             'token' => $user->createToken('secret')->plainTextToken
         ], 201);
     }
