@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Cart;
 use App\Models\CartItem;
+use App\Models\Products;
 use App\Models\Opsikirim;
 use Illuminate\Http\Request;
 
@@ -42,10 +43,10 @@ class CartController extends Controller
      */
     public function store(Request $request)
     {
-
         $cart = Cart::where('id_user',auth()->user()->id)->where('id_status_cart',1)->first();
 
         $cekProduk = Products::where('id',$request->id_produk)->pluck('jumlah_product');
+
         if ($cekProduk < $request->jumlah_barang){
             return response([
                 'message' => "Jumlah Barang Terbatas",
