@@ -45,7 +45,7 @@ class CartController extends Controller
     {
         $cart = Cart::where('id_user',auth()->user()->id)->where('id_status_cart',1)->first();
 
-        $cekProduk = Products::where('id',$request->id_produk)->pluck('jumlah_product');
+        $cekProduk = Products::where('id',$request->id_produk)->pluck('jumlah_product')->first();
 
         if ($cekProduk < $request->jumlah_barang){
             return response([
