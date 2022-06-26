@@ -19,6 +19,7 @@ use App\Http\Controllers\CategoryMerchandiseController;
 | contains the "web" middleware group. Now create something great!
 |
 */
+Auth::routes();
 
 Route::get('/', function () {
     if (Auth::check()){
@@ -28,7 +29,14 @@ Route::get('/', function () {
     }
 });
 
-Auth::routes();
+Route::get('register', function() {
+    return redirect()->route('login');
+});
+
+Route::post('register', function() {
+    return redirect()->route('login');
+});
+
 
 // admin
 Route::middleware(['is_admin','auth'])->group(function () {
