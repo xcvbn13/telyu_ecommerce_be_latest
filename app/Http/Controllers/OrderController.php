@@ -28,7 +28,7 @@ class OrderController extends Controller
         //     $query->where('id_user',auth()->user()->id)->where('id_status_cart',2);
         // }])->get();
 
-        $cart = Cart::where('id_user',auth()->user()->id)->where('id_status_cart',2)->with(['order'])->get();  
+        $cart = Cart::where('id_user',auth()->user()->id)->where('id_status_cart',2)->without(['cart_item','user','status'])->with(['order'])->get();  
 
         // $cart = Cart::where('id_user',auth()->user()->id)->where('id_status_cart',2)->get();
         // $review = array();
