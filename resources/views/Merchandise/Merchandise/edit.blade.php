@@ -65,7 +65,7 @@
                           <span class="input-group-text" id="inputGroupFileAddon01">Upload</span>
                         </div>
                         <div class="custom-file">
-                          <input type="file" class="custom-file-input @error('gambar_product') is-invalid @enderror" name="gambar_product" id="inputGroupFile01" accept=".jpg,.jpeg,.png" aria-describedby="inputGroupFileAddon01">
+                          <input type="file" class="custom-file-input @error('gambar_product') is-invalid @enderror" name="gambar_product" id="inputGroupFile01" accept=".jpg,.jpeg,.png,.webp" aria-describedby="inputGroupFileAddon01">
                           <label id="file_name" class="custom-file-label" for="inputGroupFile01">{{ $product->gambar_product }}</label>
                         </div>
                     </div>

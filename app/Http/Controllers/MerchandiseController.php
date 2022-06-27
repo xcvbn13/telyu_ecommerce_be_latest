@@ -65,7 +65,7 @@ class MerchandiseController extends Controller
     {
         $validator = Validator::make($request->all(), [
             'product_name'=> 'required|string',
-            'gambar_product' => 'required|image:jpg, jpeg, png',
+            'gambar_product' => 'required|image',
             'jumlah_produk'=> 'required|numeric',
             'product_description'=> 'required|string',
             'harga_produk'=> 'required|numeric',
@@ -150,7 +150,7 @@ class MerchandiseController extends Controller
     {
         $validator = Validator::make($request->all(), [
             'product_name'=> 'required|string',
-            'gambar_product'=> 'image:jpg, jpeg, png',
+            'gambar_product'=> 'image',
             'jumlah_produk'=> 'required|numeric',
             'product_description'=> 'required|string',
             'harga_produk'=> 'required|numeric',
