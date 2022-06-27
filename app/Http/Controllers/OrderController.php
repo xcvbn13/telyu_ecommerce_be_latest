@@ -24,9 +24,11 @@ class OrderController extends Controller
      */
     public function index()
     {
-        $order = Order::with(['cart' => function($query) {
-            $query->where('id_user',auth()->user()->id)->where('id_status_cart',2);
-        }])->get();
+        // $order = Order::with(['cart' => function($query) {
+        //     $query->where('id_user',auth()->user()->id)->where('id_status_cart',2);
+        // }])->get();
+
+        $cart = Cart::where('id_user',auth()->user()->id)->where('id_status_cart',2)->with(['order'])->get();  
 
         // $cart = Cart::where('id_user',auth()->user()->id)->where('id_status_cart',2)->get();
         // $review = array();
@@ -38,7 +40,7 @@ class OrderController extends Controller
         // }
 
         return response([
-            'data' => $order,
+            'data' => $cart,
         ], 200);
     }
 
