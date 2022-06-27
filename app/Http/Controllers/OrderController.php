@@ -25,16 +25,16 @@ class OrderController extends Controller
     public function index()
     {
         $cart = Cart::where('id_user',auth()->user()->id)->where('id_status_cart',2)->get();
-        // $review = array();
-        $order = Order::where('id_cart',$cart->id)->get();
+        $review = array();
+        // $order = Order::where('id_cart',$cart->id)->get();
 
-        // foreach ($cart as $key => $value) {
-        //     $order = Order::where('id_cart',$value['id'])->first();
-        //     $review[] = [$order];
-        // }
+        foreach ($cart as $key => $value) {
+            $order = Order::where('id_cart',$value['id'])->first();
+            $review[] = [$order];
+        }
 
         return response([
-            'data' => $order,
+            'data' => $review,
         ], 200);
     }
 
