@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Models\Category;
-use App\Models\Products;
 use Illuminate\Http\Request;
 
 class CategoryMerchandiseController extends Controller
@@ -15,7 +14,7 @@ class CategoryMerchandiseController extends Controller
      */
     public function index()
     {
-        $category = Category::orderBy('name_category', 'asc')->get();
+        $category = Category::with('products')->get();
 
         return view('Merchandise.Kategori.index',compact('category'));
     }

@@ -52,6 +52,9 @@
                                         Login
                                     </button>
                                     <hr>
+                                    {{-- <div class="text-center">
+                                        <a class="small" href="{{ route('password.request') }}">Forgot Password?</a>
+                                    </div>     --}}
                                 </form>
                             </div>
                         </div>

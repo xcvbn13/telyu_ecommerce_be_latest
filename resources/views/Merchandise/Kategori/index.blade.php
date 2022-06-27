@@ -98,7 +98,8 @@
                 <table class="table" id="dataTable" width="100%" cellspacing="0">
                     <thead>
                         <tr>
-                            <th>Kategori Barang</th>
+                            <th>Kategori Produk</th>
+                            <th>Jumlah Produk</th>
                             <th style="padding-left: 1.7rem">Aksi</th>
                         </tr>
                     </thead>
@@ -106,6 +107,7 @@
                         @foreach ($category as $item)
                             <tr>
                                 <td>{{ $item->name_category }}</td>
+                                <td>{{ $item->products->count() }}</td>
                                 <td>
                                     <button href="#" class="btn btn-success btn-circle btn-sm mr-1" data-id="{{ $item->id }}" onclick="edit_kategori($(this))">
                                         <i class="fa-solid fa-pen-to-square"></i>
