@@ -21,17 +21,17 @@ class KalkulasiController extends Controller
         }
 
         foreach ($cartItem as $key => $item) {
-            $product = Products::where('id', $item['id_produk'])->first();
+            $product = Products::where('id', $item->id_produk)->first();
             if ($item->jumlah_barang > $product->jumlah_product){
                 return response([
                     'message' => "Permintaan Anda Untuk $product->product_name Melebihi Stok",
                 ], 400 );
                 break;
             }
-            $jumlah_barang = CartItem::where('id_produk',$product->id)->first();
-            $hargaperproduk = $product->harga * $jumlah_barang->jumlah_barang;
+            $jumlah_barang = CartItem::where('id_produk',$product->id)->pluck('jumlah_barang');
+            $hargaperproduk = $product->harga * $jumlah_barang;
 
-            $jumlah_harga = $jumlah_harga + $hargaperproduk;
+            $jumlah_harga += $hargaperproduk;
         }
         
         return $jumlah_harga;

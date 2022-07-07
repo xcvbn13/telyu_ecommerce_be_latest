@@ -93,7 +93,7 @@ class OrderController extends Controller
         $totalHargaOnOrder = $kalkulasi->totalHargaOnOrder($cart->id);
 
         // pengurangan jumlah barang di table 
-        $penguranganJumlahProductOnOrder = $kalkulasi->penguranganJumlahProductOnOrder($cart->id);
+        $kalkulasi->penguranganJumlahProductOnOrder($cart->id);
         
         $order = Order::create([
             'no_resi' => $no_resi,
