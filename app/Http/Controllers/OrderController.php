@@ -14,6 +14,7 @@ use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use App\Models\MetodePembayaran;
 use Illuminate\Support\Facades\Auth;
+use App\Http\Controllers\KalkulasiController;
 
 class OrderController extends Controller
 {
@@ -24,20 +25,7 @@ class OrderController extends Controller
      */
     public function index()
     {
-        // $order = Order::with(['cart' => function($query) {
-        //     $query->where('id_user',auth()->user()->id)->where('id_status_cart',2);
-        // }])->get();
-
         $cart = Cart::where('id_user',auth()->user()->id)->where('id_status_cart',2)->without(['cart_item','user','status'])->with(['order'])->get();  
-
-        // $cart = Cart::where('id_user',auth()->user()->id)->where('id_status_cart',2)->get();
-        // $review = array();
-        // $order = Order::where('id_cart',$cart->id)->get();
-
-        // foreach ($cart as $key => $value) {
-        //     $order = Order::where('id_cart',$value['id'])->first();
-        //     $review[] = [$order];
-        // }
 
         return response([
             'data' => $cart,
@@ -98,48 +86,18 @@ class OrderController extends Controller
 
         $no_resi = 'INV/'.$date.'/'.$uniqid;
 
-        // sum total harga 
+        $kalkulasi = new KalkulasiController();
         $cart = Cart::where('id_user',auth()->user()->id)->where('id_status_cart',1)->first();
-        $cartItem = CartItem::where('id_cart',$cart->id)->get();
-        $jumlah_harga = 0;
+        
+        // total harga -> create order
+        $totalHargaOnOrder = $kalkulasi->totalHargaOnOrder($cart->id);
 
-        if(sizeof($cartItem) == 0){
-            return response([
-                'message' => "Tambah Produk Ke Cart Terlebih Dahulu",
-            ], 400);
-        }
-
-        foreach ($cartItem as $key => $item) {
-            $product = Products::where('id', $item['id_produk'])->first();
-            if ($item->jumlah_barang > $product->jumlah_product){
-                return response([
-                    'message' => "Permintaan Anda Untuk $product->product_name Melebihi Stok",
-                ], 400 );
-                break;
-            }
-            $jumlah_barang = CartItem::where('id_produk',$product->id)->first();
-            $hargaperproduk = $product->harga * $jumlah_barang->jumlah_barang;
-
-            $jumlah_harga = $jumlah_harga + $hargaperproduk;
-        }
-
-        // pengurangan jumlah produk 
-        // $idCart = Order::findOrFail($order->id)->pluck('id_cart');
-        // $cartItem = CartItem::where('id_cart',$idCart)->get();
-        $cartItem = CartItem::where('id_cart',$cart->id)->get();
-        $jumlah_barang = 0;
-
-        foreach ($cartItem as $key => $item) {
-            $product = Products::where('id', $item['id_produk'])->first();
-            $jumlah_barang = CartItem::where('id_produk',$product->id)->first();
-
-            $product->jumlah_product = $product->jumlah_product - $jumlah_barang->jumlah_barang;
-            $product->save();
-        }
-
+        // pengurangan jumlah barang di table 
+        $penguranganJumlahProductOnOrder = $kalkulasi->penguranganJumlahProductOnOrder($cart->id);
+        
         $order = Order::create([
             'no_resi' => $no_resi,
-            'jumlah_harga' => $jumlah_harga,
+            'jumlah_harga' => $totalHargaOnOrder,
             'alamat' => $request->alamat,
             'status_order_id' => 1,
             'id_cart' => $cart->id,
@@ -222,20 +180,10 @@ class OrderController extends Controller
 
     public function store_dibatalkan($id){
 
-        $updateOrder = Order::where('id',$id)->first();
+        $updateOrder = Order::findOrFail($id);
 
-        // penambahan jumlah produk 
-        $cart = Cart::where('id',$updateOrder->id_cart)->first();
-        $cartItem = CartItem::where('id_cart',$cart->id)->get();
-        $jumlah_barang = 0;
-
-        foreach ($cartItem as $key => $item) {
-            $product = Products::where('id', $item['id_produk'])->first();
-            $jumlah_barang = CartItem::where('id_produk',$product->id)->first();
-
-            $product->jumlah_product = $product->jumlah_product + $jumlah_barang->jumlah_barang;
-            $product->save();
-        }
+        $kalkulasi = new KalkulasiController();
+        $kalkulasi->penambahanJumlahProductOnOrder($updateOrder->id_cart);
 
         $updateOrder->status_order_id = 4;
         $updateOrder->save();
@@ -252,20 +200,10 @@ class OrderController extends Controller
 
     public function store_waktu_habis($id){
 
-        $updateOrder = Order::where('id',$id)->first();
+        $updateOrder = Order::findOrFail($id);
 
-        // penambahan jumlah produk 
-        $cart = Cart::where('id',$updateOrder->id_cart)->first();
-        $cartItem = CartItem::where('id_cart',$cart->id)->get();
-        $jumlah_barang = 0;
-
-        foreach ($cartItem as $key => $item) {
-            $product = Products::where('id', $item['id_produk'])->first();
-            $jumlah_barang = CartItem::where('id_produk',$product->id)->first();
-
-            $product->jumlah_product = $product->jumlah_product + $jumlah_barang->jumlah_barang;
-            $product->save();
-        }
+        $kalkulasi = new KalkulasiController();
+        $kalkulasi->penambahanJumlahProductOnOrder($updateOrder->id_cart);
 
         $updateOrder->status_order_id = 5;
         $updateOrder->save();
@@ -304,7 +242,7 @@ class OrderController extends Controller
      */
     public function show($id)
     {
-        $review = Order::where('id',$id)->with(['status_order','cart','opsikirim','metodepembayaran','pembayaran'])->get();
+        $review = Order::findOrFail($id)->with(['status_order','cart','opsikirim','metodepembayaran','pembayaran'])->get();
 
         return response([
             'data' => $review,

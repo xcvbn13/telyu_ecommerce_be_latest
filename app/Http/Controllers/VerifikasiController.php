@@ -7,6 +7,7 @@ use App\Models\Order;
 use App\Models\CartItem;
 use App\Models\Products;
 use Illuminate\Http\Request;
+use App\Http\Controllers\KalkulasiController;
 
 class VerifikasiController extends Controller
 {
@@ -76,28 +77,6 @@ class VerifikasiController extends Controller
 
         return $order_verifikasi ;
     }
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
-    {
-        //
-    }
-
     // order -> status -> 6
     // untuk admin 
     public function store_verifikasi_gagal($id){
@@ -107,18 +86,8 @@ class VerifikasiController extends Controller
         $updateOrder->save();
 
         // penambahan jumlah produk 
-
-        $cart = Cart::where('id',$updateOrder->id_cart)->first();
-        $cartItem = CartItem::where('id_cart',$cart->id)->get();
-        $jumlah_barang = 0;
-
-        foreach ($cartItem as $key => $item) {
-            $product = Products::where('id', $item['id_produk'])->first();
-            $jumlah_barang = CartItem::where('id_produk',$product->id)->first();
-
-            $product->jumlah_product = $product->jumlah_product + $jumlah_barang->jumlah_barang;
-            $product->save();
-        }
+        $kalkulasi = new KalkulasiController();
+        $kalkulasi->penambahanJumlahProductOnOrder($updateOrder->id_cart);
 
         return 'success';
     }
@@ -139,52 +108,5 @@ class VerifikasiController extends Controller
         $updateOrder->save();
 
         return 'success';
-    }
-
-    
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
-    {
-        //
     }
 }
