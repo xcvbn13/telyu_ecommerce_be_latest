@@ -96,6 +96,9 @@ class MerchandiseController extends Controller
             'id_category' => $request->kategori
         ]);
 
+        $categoryMerch = new CategoryMerchandiseController();
+        $categoryMerch->jumlahProductKategori($request->kategori);
+
         Alert::success('Berhasil', 'Produk Berhasil Ditambahkan');
         
         return redirect('admin/merchandise/product');

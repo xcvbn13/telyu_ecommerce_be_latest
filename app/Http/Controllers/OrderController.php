@@ -10,11 +10,14 @@ use App\Models\CartItem;
 use App\Models\Products;
 use App\Models\Opsikirim;
 use App\Models\Pembayaran;
+use App\Models\StatusOrder;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use App\Models\MetodePembayaran;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\KalkulasiController;
+use App\Http\Controllers\MetodePembayaranController;
+use App\Http\Controllers\UpdateStatusOrderController;
 
 class OrderController extends Controller
 {
@@ -25,10 +28,20 @@ class OrderController extends Controller
      */
     public function index()
     {
-        $cart = Cart::where('id_user',auth()->user()->id)->where('id_status_cart',2)->without(['cart_item','user','status'])->with(['order'])->get();  
+        $cart = Cart::where('id_user',auth()->user()->id)->where('id_status_cart',2)->get();
+        $idCartArray = [];
+        $data = [];
+        foreach ($cart as $value) {
+            $idCartArray[] = $value->id;
+        }
+
+        foreach ($idCartArray as $value){
+            $order = Order::where('id_cart',$value)->first();
+            $data[] = $order;
+        }
 
         return response([
-            'data' => $cart,
+            'data' => $data,
         ], 200);
     }
 
@@ -36,7 +49,7 @@ class OrderController extends Controller
         
         $opsiKirim = Opsikirim::all();
 
-        $metode_pembayaran = MetodePembayaran::where('id_status_metode',1)->get();
+        $metode_pembayaran = MetodePembayaran::where('status_metode','Aktif')->get();
 
         $user = User::where('id',auth()->user()->id)->pluck('alamat');
 
@@ -52,33 +65,16 @@ class OrderController extends Controller
         ], 200);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-
-
     //  order -> status -> 1 
     public function store(Request $request)
     {
         $request->validate([
             'alamat' => 'required',
             'opsikirim' => 'required',
-            'metode_pembayaran' => 'required'
+            'metode_pembayaran' => 'required',
         ]);
 
+        // create INV uniq
         $date = Carbon::now()->format('Ymd');
 
         $orderController = new OrderController();
@@ -86,60 +82,62 @@ class OrderController extends Controller
 
         $no_resi = 'INV/'.$date.'/'.$uniqid;
 
+        // kalkulasi Controller 
         $kalkulasi = new KalkulasiController();
-        $cart = Cart::where('id_user',auth()->user()->id)->where('id_status_cart',1)->first();
+        $cart = Cart::where('id_user',auth()->user()->id)->where('id_status_cart',1)->first(); //Cart yang digunakan oleh user
         
         // total harga -> create order
-        $totalHargaOnOrder = $kalkulasi->totalHargaOnOrder($cart->id);
+        $cartItem = CartItem::where('id_cart',$cart->id)->get();
+        if(sizeof($cartItem) == 0){
+            return response([
+                'message' => "Tambah Produk Ke Cart Terlebih Dahulu",
+            ], 400);
+        }
+        $totalHargaOnOrder = $kalkulasi->totalHargaOnOrder($cart->id , $cartItem);
 
         // pengurangan jumlah barang di table 
         $kalkulasi->penguranganJumlahProductOnOrder($cart->id);
+
+        // status order create
+        $status_order = StatusOrder::where('id',1)->first();
+
+        // pilih opsi kirim
+        $opsi_kirim_order = Opsikirim::where('id', $request->opsikirim)->first();
         
         $order = Order::create([
             'no_resi' => $no_resi,
             'jumlah_harga' => $totalHargaOnOrder,
+            'name_user' => auth()->user()->name,
             'alamat' => $request->alamat,
-            'status_order_id' => 1,
+            'status_order' => $status_order->status,
             'id_cart' => $cart->id,
-            'id_opsikirim' => $request->opsikirim,
-            'id_metode_pembayaran' => $request->metode_pembayaran
+            'opsikirim' => $opsi_kirim_order->opsi,
+            'id_metode_pembayaran' => $request->metode_pembayaran,
         ]);
 
+        // update jumlah order di metode pembayaran
+        $metode_pembayaran_count = new MetodePembayaranController();
+        $metode_pembayaran_count->jumlahOrder($request->metode_pembayaran);
         
-        // non aktif cart 
+        // non aktif cart
         $cart->id_status_cart = 2;
         $cart->save();
-
+        // ---------
+        // Pembuatan Cart baru untuk user 
         $cartCreate = Cart::create([
             'id_user' => auth()->user()->id,
             'id_status_cart' => 1
         ]);
-
-        $review = Order::where('id',$order->id)->with(['status_order','cart','opsikirim','metodepembayaran'])->get();
+        // -----------------------
 
         return response([
-            'message' => "Berhasil",
-            'data' => $review,
+            'message' => "Berhasil"
         ], 200);
     }
-    
+
     public function generateUniqueId() {
-        $uniqid = mt_rand(1000000000, 9999999999);
-
-        $orderController = new OrderController();
-
-        if($orderController->checkUniqueId($uniqid) == true){
-            $orderController->generateUniqueId();
-        }
-
+        $uniqid = time().mt_rand(111,999);
         return $uniqid;
-    }
-    public function checkUniqueId($uniqid) {
-        $check = Order::where('no_resi','LIKE','%'.$uniqid.'%')->get();
-        if($check->count() > 0){
-            return true;
-        }
-        return false;
     }
 
     //  order -> status -> 2 
@@ -164,15 +162,15 @@ class OrderController extends Controller
         $idPembayaran = $pembayaran->id;
 
         $updateOrder = Order::findOrFail($id);
-        $updateOrder->status_order_id = 2;
         $updateOrder->pembayaran_id = $idPembayaran;
         $updateOrder->save();
 
-        $review = Order::where('id',$updateOrder->id)->with(['status_order','cart','opsikirim','metodepembayaran','pembayaran'])->get();
+        // update status order 
+        $updateStatusOrder = new UpdateStatusOrderController();
+        $updateStatusOrder->updateStatusOrder(2,$id);
 
         return response([
             'message' => "Berhasil",
-            'data' => $review,
         ], 200);
     }
 
@@ -185,14 +183,12 @@ class OrderController extends Controller
         $kalkulasi = new KalkulasiController();
         $kalkulasi->penambahanJumlahProductOnOrder($updateOrder->id_cart);
 
-        $updateOrder->status_order_id = 4;
-        $updateOrder->save();
-
-        $review = Order::where('id',$updateOrder->id)->with(['status_order','cart','opsikirim','metodepembayaran','pembayaran'])->get();
+        // update status order 
+        $updateStatusOrder = new UpdateStatusOrderController();
+        $updateStatusOrder->updateStatusOrder(4,$id);
 
         return response([
             'message' => "Berhasil",
-            'data' => $review,
         ], 200);
     }
 
@@ -205,14 +201,12 @@ class OrderController extends Controller
         $kalkulasi = new KalkulasiController();
         $kalkulasi->penambahanJumlahProductOnOrder($updateOrder->id_cart);
 
-        $updateOrder->status_order_id = 5;
-        $updateOrder->save();
-
-        $review = Order::where('id',$updateOrder->id)->with(['status_order','cart','opsikirim','metodepembayaran','pembayaran'])->get();
+        // update status order 
+        $updateStatusOrder = new UpdateStatusOrderController();
+        $updateStatusOrder->updateStatusOrder(5,$id);
 
         return response([
             'message' => "Berhasil",
-            'data' => $review,
         ], 200);
     }
 
@@ -222,15 +216,12 @@ class OrderController extends Controller
 
     public function store_selesai(Request $request, $id){
 
-        $updateOrder = Order::findOrFail($id);
-        $updateOrder->status_order_id = 7;
-        $updateOrder->save();
-
-        $review = Order::where('id',$updateOrder->id)->with(['status_order','cart','opsikirim','metodepembayaran','pembayaran'])->get();
+        // update status order 
+        $updateStatusOrder = new UpdateStatusOrderController();
+        $updateStatusOrder->updateStatusOrder(7,$id);
 
         return response([
             'message' => "Berhasil",
-            'data' => $review,
         ], 200);
     }
 
@@ -247,39 +238,5 @@ class OrderController extends Controller
         return response([
             'data' => $review,
         ], 200);
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
-    {
-        //
     }
 }

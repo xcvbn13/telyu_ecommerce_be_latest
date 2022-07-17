@@ -17,6 +17,10 @@ class CreateMetodePembayaransTable extends Migration
             $table->id();
             $table->string('metode');
             $table->string('no_rek');
+            $table->string('jumlah_order');
+
+            $table->string('status_metode');
+
             $table->timestamps();
         });
     }

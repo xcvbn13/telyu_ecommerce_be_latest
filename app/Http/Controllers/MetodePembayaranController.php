@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Order;
 use Illuminate\Http\Request;
 use App\Models\MetodePembayaran;
+use App\Models\StatusMetodePembayaran;
 
 class MetodePembayaranController extends Controller
 {
@@ -15,7 +16,7 @@ class MetodePembayaranController extends Controller
      */
     public function index()
     {
-        $metodepembayaran = MetodePembayaran::where('id_status_metode',1)->get();
+        $metodepembayaran = MetodePembayaran::where('status_metode','Aktif')->get();
 
         $data = ['metodepembayaran'=>$metodepembayaran];
         return view('MetodePembayaran.index',$data);
@@ -23,9 +24,7 @@ class MetodePembayaranController extends Controller
 
     public function index_informasi()
     {
-        $metodepembayaran = MetodePembayaran::with(['order' => function($query) {
-            $query->where('status_order_id', 1)->orWhere('status_order_id', 2)->orWhere('status_order_id', 3);
-        },'status_metode'])->get();
+        $metodepembayaran = MetodePembayaran::all();
 
         $data = [
             'metodepembayaran'=>$metodepembayaran
@@ -33,22 +32,7 @@ class MetodePembayaranController extends Controller
         return view('MetodePembayaran.detail',$data);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
+    
     public function store(Request $request)
     {
         $request->validate([
@@ -56,32 +40,19 @@ class MetodePembayaranController extends Controller
             'no_rek'=> 'required|numeric',
         ]);
 
+        $statusMetode = StatusMetodePembayaran::where('id',1)->first();
+
         $metodepembayaran = MetodePembayaran::create([
             'metode' => $request->metode_pembayaran,
             'no_rek' => $request->no_rek,
-            'id_status_metode' => 1
+            'status_metode' => $statusMetode->status,
+            'jumlah_order'=> 0
         ]);
 
         return 'success';
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
+   
     public function edit($id)
     {
         $metodepembayaran = MetodePembayaran::findOrFail($id);
@@ -106,6 +77,15 @@ class MetodePembayaranController extends Controller
         return 'success';
     }
 
+    public function jumlahOrder($idMetode){
+        $order = Order::where('id_metode_pembayaran',$idMetode)->count();
+        
+        $metodepembayaran = MetodePembayaran::findOrFail($idMetode);
+        $metodepembayaran->jumlah_order = $order;
+        $metodepembayaran->save();
+    }
+    
+
     /**
      * Remove the specified resource from storage.
      *
@@ -114,8 +94,10 @@ class MetodePembayaranController extends Controller
      */
     public function destroy($id)
     {
+        $statusMetode = StatusMetodePembayaran::findOrFail(2)->pluck('status');
+
         $metodepembayaran = MetodePembayaran::findOrFail($id);
-        $metodepembayaran->id_status_metode = 2;
+        $metodepembayaran->status_metode = $statusMetode;
         $metodepembayaran->save();
 
         return 'success';

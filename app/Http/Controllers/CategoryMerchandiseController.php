@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Category;
+use App\Models\Products;
 use Illuminate\Http\Request;
 
 class CategoryMerchandiseController extends Controller
@@ -52,10 +53,18 @@ class CategoryMerchandiseController extends Controller
         ]);
 
         $category = Category::create([
-            'name_category' => $request->kategori
+            'name_category' => $request->kategori,
+            'jumlah_product' => 0
         ]);
 
         return 'success';
+    }
+
+    public function jumlahProductKategori($id){
+        $category = Category::findOrFail($id);
+        $product = Products::where('id_category',$id)->count();
+        $category->jumlah_product = $product;
+        $category->save();
     }
 
     /**

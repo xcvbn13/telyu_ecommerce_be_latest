@@ -13,7 +13,6 @@ class CartItem extends Model
 
     protected $table = 'cart_items';
     protected $fillable = ['jumlah_barang','id_produk','id_cart'];
-    protected $with = ['produk'];
 
     public function cart(){
         return $this->belongsTo(Cart::class,'id_cart');

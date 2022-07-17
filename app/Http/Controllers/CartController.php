@@ -17,11 +17,12 @@ class CartController extends Controller
      */
     public function index()
     {
-        $cart = Cart::where('id_user',auth()->user()->id)->where('id_status_cart',1)->with(['user','cart_item'])->get();
+        $cart = Cart::where('id_user',auth()->user()->id)->where('id_status_cart',1)->firstOrFail();
+        $cartItem = CartItem::where('id_cart',$cart->id)->get();
 
         return response([
             'message' => "Berhasil mengambil data cart",
-            'data' => $cart,
+            'data' => $cartItem,
         ], 200);
     }
 
@@ -51,11 +52,8 @@ class CartController extends Controller
             'id_cart' => $cart->id,
         ]);
 
-        $review = Cart::where('id', $cartItem->id_cart)->with(['user','cart_item'])->get();
-
         return response([
             'message' => "Berhasil menambah data cart",
-            'data' => $review,
         ], 200);
     }
 

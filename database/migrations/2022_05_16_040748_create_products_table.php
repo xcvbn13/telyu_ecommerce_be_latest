@@ -19,7 +19,9 @@ class CreateProductsTable extends Migration
             $table->string('gambar_product');
             $table->string('jumlah_product');
             $table->text('deskripsi_product');
-            $table->integer('harga');
+            $table->string('harga');
+
+            $table->string('id_category');
 
             $table->timestamps();
         });

@@ -53,15 +53,15 @@
                             <tr>
                                 <td>{{ $item->metode }}</td>
                                 <td>{{ $item->no_rek }}</td>
-                                <td>{{ $item->order->count() }}</td>
+                                <td>{{ $item->jumlah_order }}</td>
                                 <td>
                                     <span class="
-                                    @if ($item->id_status_metode == 1)
+                                    @if ($item->status_metode == 'Aktif')
                                     badge badge-pill badge-success p-2
-                                    @elseif ($item->id_status_metode == 2)
+                                    @elseif ($item->status_metode == 'Nonaktif')
                                     badge badge-pill badge-danger p-2
                                     @endif
-                                    ">{{ $item->status_metode->status }}</span>
+                                    ">{{ $item->status_metode_pembayaran->status }}</span>
                                 </td>
                             </tr>
                         @endforeach

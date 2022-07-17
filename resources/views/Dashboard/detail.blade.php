@@ -46,7 +46,7 @@
                             <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
                                 Customer
                             </div>
-                            <div class="h5 mb-0 font-weight-bold text-gray-800">{{ $order->cart->user->name }}</div>
+                            <div class="h5 mb-0 font-weight-bold text-gray-800">{{ $order->name_user }}</div>
                             <div class="font-italic text-uppercase text-gray-800" style="font-size: 10pt">{{ $order->no_resi }}</div>
                         </div>
                         <div class="col-auto">
@@ -67,7 +67,7 @@
                             <div class="text-xs font-weight-bold text-success text-uppercase mb-1">
                                 Status Pesanan
                             </div>
-                            <div class="h5 mb-0 font-weight-bold text-gray-800">{{ $order->status_order->status }}</div>
+                            <div class="h5 mb-0 font-weight-bold text-gray-800">{{ $order->status_order }}</div>
                         </div>
                         <div class="col-auto">
                             <i class="fa-solid fa-boxes-stacked fa-2x text-gray-300"></i>
@@ -89,7 +89,7 @@
                             </div>
                             <div class="row no-gutters align-items-center">
                                 <div class="col-auto">
-                                    <div class="h5 mb-0 mr-3 font-weight-bold text-gray-800">Rp {{ $order->jumlah_harga }} </div>
+                                    <div id="moneyFormat2" class="h5 mb-0 mr-3 font-weight-bold text-gray-800">@money($order->jumlah_harga, 'IDR')</div>
                                 </div>
                             </div>
                         </div>
@@ -129,7 +129,7 @@
                 </div>
                 <!-- Card Body -->
                 <div class="card-body">
-                    <div class="mb-0 mr-3 font-weight-bold text-gray-800"> {{ $order->opsikirim->opsi }} </div>
+                    <div class="mb-0 mr-3 font-weight-bold text-gray-800"> {{ $order->opsikirim }} </div>
                 </div>
             </div>
         </div>
@@ -143,11 +143,10 @@
                 </div>
                 <!-- Card Body -->
                 <div class="card-body">
-                    <div class="mb-0 mr-3 font-weight-bold text-gray-800"> {{ $order->cart->user->no_telp }} </div>
+                    <div class="mb-0 mr-3 font-weight-bold text-gray-800"> {{ $cart->user->no_telp }} </div>  
                 </div>
             </div>
         </div>
-
     </div>
 
     <!-- Content Row -->
@@ -171,7 +170,7 @@
                        @foreach ($product as $item)
                         <tr>
                             <td> {{ $item->produk->product_name }} </td>
-                            <td> Rp {{ $item->produk->harga }}</td>
+                            <td> @money($item->produk->harga, 'IDR')</td>
                             <td> {{ $item->jumlah_barang }} </td>
                         </tr>
                        @endforeach

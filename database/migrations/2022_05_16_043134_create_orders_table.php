@@ -17,7 +17,16 @@ class CreateOrdersTable extends Migration
             $table->id();
             $table->string('no_resi');
             $table->string('jumlah_harga');
+
+            $table->string('name_user');
             $table->text('alamat');
+
+            $table->string('status_order');
+            $table->string('pembayaran_id')->nullable();
+            $table->string('id_cart');
+            $table->string('opsikirim');
+            $table->string('id_metode_pembayaran');
+
             $table->timestamp('order_date')->useCurrent();
             $table->timestamps();
 

@@ -14,7 +14,7 @@ class WishlistController extends Controller
      */
     public function index()
     {
-        $wishlist = Wishlist::where('id_user',auth()->user()->id)->with(['user','product'])->get();
+        $wishlist = Wishlist::where('id_user',auth()->user()->id)->get();
 
         return response([
             'message' => "Berhasil mengambil data wishlist",
@@ -37,11 +37,8 @@ class WishlistController extends Controller
             'id_user' => auth()->user()->id,
         ]);
 
-        $review = Wishlist::where('id', $wishlist->id)->with(['user','product'])->get();
-
         return response([
             'message' => "Berhasil",
-            'data' => $review,
         ], 200);
     }
 

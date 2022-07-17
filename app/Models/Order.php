@@ -15,24 +15,33 @@ class Order extends Model
     use HasFactory;
 
     protected $table = 'orders';
-    protected $fillable = ['no_resi','jumlah_harga','alamat','status_order_id','pembayaran_id','id_cart','id_opsikirim','id_metode_pembayaran'];
+    protected $fillable = [
+        'no_resi',
+        'jumlah_harga',
+        'name_user',
+        'alamat',
+        'status_order',
+        'pembayaran_id',
+        'id_cart',
+        'opsikirim',
+        'id_metode_pembayaran'
+    ];
     protected $dates = ['order_date'];
-    protected $with = ['status_order'];
     
     public function cart(){
         return $this->belongsTo(Cart::class,'id_cart');
     }
 
-    public function opsikirim(){
-        return $this->belongsTo(Opsikirim::class,'id_opsikirim');
+    public function opsiKirim(){
+        return $this->belongsTo(Opsikirim::class,'opsikirim','opsi');
     }
 
     public function metodepembayaran(){
         return $this->belongsTo(MetodePembayaran::class,'id_metode_pembayaran');
     }
 
-    public function status_order(){
-        return $this->belongsTo(StatusOrder::class,'status_order_id');
+    public function statusnya_order(){
+        return $this->belongsTo(StatusOrder::class,'status_order','status');
     }
 
     public function pembayaran(){

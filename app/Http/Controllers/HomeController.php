@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Cart;
 use App\Models\Order;
 use App\Models\CartItem;
 use Illuminate\Http\Request;
@@ -25,16 +26,16 @@ class HomeController extends Controller
      */
     public function index()
     {
-        $order = Order::where('status_order_id',1)
-        ->orWhere('status_order_id',2)
-        ->orWhere('status_order_id',3)
-        ->orWhere('status_order_id',6)
-        ->orWhere('status_order_id',7)
-        ->with(['cart','status_order'])->get();
-        $countOrder = Order::where('status_order_id',1)->count();
-        $countVerifikasi = Order::where('status_order_id',2)->count();
-        $countTerverifikasi = Order::where('status_order_id',3)->count();
-        $countSelesai = Order::where('status_order_id',7)->count();
+        $order = Order::where('status_order','Menunggu Pembayaran')
+        ->orWhere('status_order','Menunggu Verifikasi')
+        ->orWhere('status_order','Terverifikasi')
+        ->orWhere('status_order','Verifikasi Gagal')
+        ->orWhere('status_order','Selesai')
+        ->with(['cart','statusnya_order'])->get();
+        $countOrder = Order::where('status_order','Menunggu Pembayaran')->count();
+        $countVerifikasi = Order::where('status_order','Menunggu Verifikasi')->count();
+        $countTerverifikasi = Order::where('status_order','Terverifikasi')->count();
+        $countSelesai = Order::where('status_order','Selesai')->count();
         // dd($countOrder);
 
         $data = [
@@ -50,14 +51,15 @@ class HomeController extends Controller
 
     public function index_detail($id)
     {
-        $order = Order::where('id',$id)->with(['cart','status_order'])->first();
+        $order = Order::where('id',$id)->first();
 
-        $cartId = Order::where('id',$id)->pluck('id_cart');
-        $product = CartItem::where('id_cart',$cartId)->get();
+        $cart = Cart::findOrFail($order->id_cart)->with(['user'])->first();
+        $product = CartItem::where('id_cart',$cart->id)->get();
         // dd($cartId);
         $data = [
             'order' => $order,
             'product' => $product,
+            'cart' => $cart,
         ];
 
         return view('Dashboard.detail',$data);

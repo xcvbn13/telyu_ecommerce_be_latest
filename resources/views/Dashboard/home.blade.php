@@ -141,7 +141,7 @@
                             <tr>
                                 <td>
                                     <div class="font-weight-bold text-uppercase">
-                                        {{ $item->cart->user->name }}    
+                                        {{ $item->name_user }}    
                                     </div>
                                     <div class="font-italic" style="font-size: 11pt">
                                         {{ $item->no_resi }}    
@@ -149,18 +149,18 @@
                                 </td>
                                 <td class="align-middle">{{ $item->created_at->format('d-m-Y H:i') }}</td>
                                 <td class="align-middle"><span class="
-                                    @if ($item->status_order_id == 3)
+                                    @if ($item->status_order == 'Terverifikasi')
                                     badge badge-pill badge-success p-2
-                                    @elseif ($item->status_order_id == 2)
+                                    @elseif ($item->status_order == 'Menunggu Verifikasi')
                                     badge badge-pill badge-warning p-2
-                                    @elseif ($item->status_order_id == 6)
+                                    @elseif ($item->status_order == 'Verifikasi Gagal')
                                     badge badge-pill badge-danger p-2
-                                    @elseif ($item->status_order_id == 7)
+                                    @elseif ($item->status_order == 'Selesai')
                                     badge badge-pill badge-info p-2
-                                    @elseif ($item->status_order_id == 1)
+                                    @elseif ($item->status_order == 'Menunggu Pembayaran')
                                     badge badge-pill badge-secondary p-2
                                     @endif
-                                    ">{{ $item->status_order->status }}</span></td>
+                                    ">{{ $item->status_order }}</span></td>
                                 <td class="align-middle">
                                     <a href="{{ url('admin/dashboard/detail',$item->id) }}" class="btn btn-warning btn-circle btn-sm mr-1">
                                         <i class="fas fa-info-circle"></i>

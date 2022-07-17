@@ -15,14 +15,13 @@ class Cart extends Model
 
     protected $table = 'carts';
     protected $fillable = ['id_user','id_status_cart'];
-    protected $with = ['cart_item','user','status'];
 
     public function user(){
         return $this->belongsTo(User::class,'id_user');
     }
 
     public function cart_item(){
-        return $this->hasMany(CartItem::class,'id_cart');
+        return $this->hasMany(CartItem::class);
     }
 
     public function order(){
