@@ -107,7 +107,7 @@
                         @foreach ($category as $item)
                             <tr>
                                 <td>{{ $item->name_category }}</td>
-                                <td>{{ $item->products->count() }}</td>
+                                <td>{{ $item->jumlah_product }}</td>
                                 <td>
                                     <button href="#" class="btn btn-success btn-circle btn-sm mr-1" data-id="{{ $item->id }}" onclick="edit_kategori($(this))">
                                         <i class="fa-solid fa-pen-to-square"></i>

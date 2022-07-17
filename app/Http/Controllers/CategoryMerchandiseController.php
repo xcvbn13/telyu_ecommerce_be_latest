@@ -15,7 +15,7 @@ class CategoryMerchandiseController extends Controller
      */
     public function index()
     {
-        $category = Category::with('products')->get();
+        $category = Category::all();
 
         return view('Merchandise.Kategori.index',compact('category'));
     }
